@@ -1,0 +1,15 @@
+X:\Repos\QUT_IFN584_2025_Object_Oriented_Design_Development\A1\bin\Debug\net9.0\A1.exe
+X:\Repos\QUT_IFN584_2025_Object_Oriented_Design_Development\A1\bin\Debug\net9.0\A1.deps.json
+X:\Repos\QUT_IFN584_2025_Object_Oriented_Design_Development\A1\bin\Debug\net9.0\A1.runtimeconfig.json
+X:\Repos\QUT_IFN584_2025_Object_Oriented_Design_Development\A1\bin\Debug\net9.0\A1.dll
+X:\Repos\QUT_IFN584_2025_Object_Oriented_Design_Development\A1\bin\Debug\net9.0\A1.pdb
+X:\Repos\QUT_IFN584_2025_Object_Oriented_Design_Development\A1\obj\Debug\net9.0\A1.GeneratedMSBuildEditorConfig.editorconfig
+X:\Repos\QUT_IFN584_2025_Object_Oriented_Design_Development\A1\obj\Debug\net9.0\A1.AssemblyInfoInputs.cache
+X:\Repos\QUT_IFN584_2025_Object_Oriented_Design_Development\A1\obj\Debug\net9.0\A1.AssemblyInfo.cs
+X:\Repos\QUT_IFN584_2025_Object_Oriented_Design_Development\A1\obj\Debug\net9.0\A1.csproj.CoreCompileInputs.cache
+X:\Repos\QUT_IFN584_2025_Object_Oriented_Design_Development\A1\obj\Debug\net9.0\A1.sourcelink.json
+X:\Repos\QUT_IFN584_2025_Object_Oriented_Design_Development\A1\obj\Debug\net9.0\A1.dll
+X:\Repos\QUT_IFN584_2025_Object_Oriented_Design_Development\A1\obj\Debug\net9.0\refint\A1.dll
+X:\Repos\QUT_IFN584_2025_Object_Oriented_Design_Development\A1\obj\Debug\net9.0\A1.pdb
+X:\Repos\QUT_IFN584_2025_Object_Oriented_Design_Development\A1\obj\Debug\net9.0\A1.genruntimeconfig.cache
+X:\Repos\QUT_IFN584_2025_Object_Oriented_Design_Development\A1\obj\Debug\net9.0\ref\A1.dll
