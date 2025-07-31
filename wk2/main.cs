@@ -14,7 +14,7 @@ class Program
         point1.Set(10, 15);
         Console.WriteLine($"Point 1 after setting: ({point1.GetX()}, {point1.GetY()})");
 
-        // ###### Exercise B
+        // ###### Exercise B / C
         // Create a new bank account
         BankAccount account = new BankAccount("123456", "John Doe");
 
@@ -36,5 +36,20 @@ class Program
         BankAccount recipient = new BankAccount("654321", "Jason Momoa");
         Console.WriteLine(account.Transfer(recipient, 10) ? "Transfer successful." : "Transfer failed.");
         Console.WriteLine($"After transfer, Balances: John Doe: {account.Balance:C}. Jason Momoa: {recipient.Balance:C}");
+
+        // ###### Exercise D
+        Console.WriteLine("#### Die ####\n\n");
+        Die d6 = new Die(1);
+        Console.WriteLine($"Value before rolling: {d6.Value}");
+        d6.Roll();
+        Console.WriteLine($"Value after rolling: {d6.Value}");
+
+        Console.WriteLine("#### FiveDice ####\n\n");
+
+        FiveDice gameMaster = new FiveDice();
+
+
+
+
     }
 }
