@@ -1,0 +1,15 @@
+/Users/matt/Documents/LocalRepos/QUT_IFN584_2025_Object_Oriented_Design_Development/DOTNET_8_0/bin/Debug/net8.0/DOTNET_8_0
+/Users/matt/Documents/LocalRepos/QUT_IFN584_2025_Object_Oriented_Design_Development/DOTNET_8_0/bin/Debug/net8.0/DOTNET_8_0.deps.json
+/Users/matt/Documents/LocalRepos/QUT_IFN584_2025_Object_Oriented_Design_Development/DOTNET_8_0/bin/Debug/net8.0/DOTNET_8_0.runtimeconfig.json
+/Users/matt/Documents/LocalRepos/QUT_IFN584_2025_Object_Oriented_Design_Development/DOTNET_8_0/bin/Debug/net8.0/DOTNET_8_0.dll
+/Users/matt/Documents/LocalRepos/QUT_IFN584_2025_Object_Oriented_Design_Development/DOTNET_8_0/bin/Debug/net8.0/DOTNET_8_0.pdb
+/Users/matt/Documents/LocalRepos/QUT_IFN584_2025_Object_Oriented_Design_Development/DOTNET_8_0/obj/Debug/net8.0/DOTNET_8_0.GeneratedMSBuildEditorConfig.editorconfig
+/Users/matt/Documents/LocalRepos/QUT_IFN584_2025_Object_Oriented_Design_Development/DOTNET_8_0/obj/Debug/net8.0/DOTNET_8_0.AssemblyInfoInputs.cache
+/Users/matt/Documents/LocalRepos/QUT_IFN584_2025_Object_Oriented_Design_Development/DOTNET_8_0/obj/Debug/net8.0/DOTNET_8_0.AssemblyInfo.cs
+/Users/matt/Documents/LocalRepos/QUT_IFN584_2025_Object_Oriented_Design_Development/DOTNET_8_0/obj/Debug/net8.0/DOTNET_8_0.csproj.CoreCompileInputs.cache
+/Users/matt/Documents/LocalRepos/QUT_IFN584_2025_Object_Oriented_Design_Development/DOTNET_8_0/obj/Debug/net8.0/DOTNET_8_0.sourcelink.json
+/Users/matt/Documents/LocalRepos/QUT_IFN584_2025_Object_Oriented_Design_Development/DOTNET_8_0/obj/Debug/net8.0/DOTNET_8_0.dll
+/Users/matt/Documents/LocalRepos/QUT_IFN584_2025_Object_Oriented_Design_Development/DOTNET_8_0/obj/Debug/net8.0/refint/DOTNET_8_0.dll
+/Users/matt/Documents/LocalRepos/QUT_IFN584_2025_Object_Oriented_Design_Development/DOTNET_8_0/obj/Debug/net8.0/DOTNET_8_0.pdb
+/Users/matt/Documents/LocalRepos/QUT_IFN584_2025_Object_Oriented_Design_Development/DOTNET_8_0/obj/Debug/net8.0/DOTNET_8_0.genruntimeconfig.cache
+/Users/matt/Documents/LocalRepos/QUT_IFN584_2025_Object_Oriented_Design_Development/DOTNET_8_0/obj/Debug/net8.0/ref/DOTNET_8_0.dll
