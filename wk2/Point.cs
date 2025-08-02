@@ -1,7 +1,7 @@
 ﻿public class Point
 {
-    // Two field properties
-    private double x, y; // Do we need this?
+    // Two fields
+    private double x, y;
     public double X { get { return x; } set { x = value; } }
     public double Y { get { return y; } set { y = value; } }
 

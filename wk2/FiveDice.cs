@@ -27,6 +27,9 @@ public class FiveDice
             diceComputer[i].Roll();
         }
 
+        // Uncomment for debugging:
+        // PrintBags();
+
         // Determine Scores
         string playerScore = DetermineHand(dicePlayer);
         string computerScore = DetermineHand(diceComputer);

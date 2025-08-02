@@ -2,6 +2,50 @@ using System;
 
 class Program
 {
+    // DisplayTwoCards
+    static void DisplayTwoCards() {
+        Console.WriteLine("\nNew Game!");
+        // Generate random values
+        Random rnd = new Random();
+        int val = rnd.Next(1,14);
+        int suit = rnd.Next(1,5);
+
+        Card card1 = new Card(val, suit);
+
+        // Generate new, unique random values
+        while(val == card1.GetValue()) {
+            val = rnd.Next(1,14);
+        }
+        while(suit == card1.GetSuit()) {
+            suit = rnd.Next(1,5);
+        }
+
+        Card card2 = new Card(val, suit);
+
+        if (card1.GetValue() > card2.GetValue()) {
+            Console.WriteLine($"{card1.GetString()} wins over {card2.GetString()}");
+        } else {
+            Console.WriteLine($"{card2.GetString()} wins over {card1.GetString()}");
+        }
+
+    }
+    
+    // WarCardGame
+    static void WarCardGame() {
+        // Generate a new deck
+        Card[] deck = new Card[52];
+        bool[] grave = new bool[52]; // Defaults to false
+        for(int i = 0; i < 13; i++) {
+            deck[i] = new Card(i+1, 1);
+            deck[i+13] = new Card(i+1, 2);
+            deck[i+26] = new Card(i+1, 3);
+            deck[i+39] = new Card(i+1, 4);
+        }
+
+        
+        
+    }
+
     static void Main(string[] args)
     {
         // ###### Exercise A
@@ -47,7 +91,12 @@ class Program
         Console.WriteLine("#### FiveDice ####\n\n");
 
         FiveDice gameMaster = new FiveDice();
+        gameMaster.GameRound();
 
+        // ###### Exercise E
+        DisplayTwoCards();
+
+        WarCardGame();
 
 
 
