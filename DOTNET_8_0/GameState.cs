@@ -15,6 +15,13 @@ public class GameState
     }
 
     // Methods
+    public void ConsoleTesting()
+    {
+        Console.BackgroundColor = ConsoleColor.White;
+        Console.ForegroundColor = ConsoleColor.Black;
+        Console.WriteLine("I am different coloured text!");
+    }
+
     public void GameLoop()
     {
         // Print the Grid
@@ -30,9 +37,11 @@ public class GameState
 
     public void GameStart()
     {
+        Console.Clear();
+        ConsoleTesting();
         while (!GameActive)
         {
-            Console.WriteLine("Welcome to LineUp");
+            Console.WriteLine("### Welcome to LineUp ###");
             Console.WriteLine("1 > new game\n2 > load game\n3 > help");
             Console.Write("> ");
             string input = Console.ReadLine();
