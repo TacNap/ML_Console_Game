@@ -1,0 +1,15 @@
+/Users/matt/Documents/LocalRepos/QUT_IFN584_2025_Object_Oriented_Design_Development/A1/bin/Debug/net8.0/x
+/Users/matt/Documents/LocalRepos/QUT_IFN584_2025_Object_Oriented_Design_Development/A1/bin/Debug/net8.0/x.deps.json
+/Users/matt/Documents/LocalRepos/QUT_IFN584_2025_Object_Oriented_Design_Development/A1/bin/Debug/net8.0/x.runtimeconfig.json
+/Users/matt/Documents/LocalRepos/QUT_IFN584_2025_Object_Oriented_Design_Development/A1/bin/Debug/net8.0/x.dll
+/Users/matt/Documents/LocalRepos/QUT_IFN584_2025_Object_Oriented_Design_Development/A1/bin/Debug/net8.0/x.pdb
+/Users/matt/Documents/LocalRepos/QUT_IFN584_2025_Object_Oriented_Design_Development/A1/obj/Debug/net8.0/x.GeneratedMSBuildEditorConfig.editorconfig
+/Users/matt/Documents/LocalRepos/QUT_IFN584_2025_Object_Oriented_Design_Development/A1/obj/Debug/net8.0/x.AssemblyInfoInputs.cache
+/Users/matt/Documents/LocalRepos/QUT_IFN584_2025_Object_Oriented_Design_Development/A1/obj/Debug/net8.0/x.AssemblyInfo.cs
+/Users/matt/Documents/LocalRepos/QUT_IFN584_2025_Object_Oriented_Design_Development/A1/obj/Debug/net8.0/x.csproj.CoreCompileInputs.cache
+/Users/matt/Documents/LocalRepos/QUT_IFN584_2025_Object_Oriented_Design_Development/A1/obj/Debug/net8.0/x.sourcelink.json
+/Users/matt/Documents/LocalRepos/QUT_IFN584_2025_Object_Oriented_Design_Development/A1/obj/Debug/net8.0/x.dll
+/Users/matt/Documents/LocalRepos/QUT_IFN584_2025_Object_Oriented_Design_Development/A1/obj/Debug/net8.0/refint/x.dll
+/Users/matt/Documents/LocalRepos/QUT_IFN584_2025_Object_Oriented_Design_Development/A1/obj/Debug/net8.0/x.pdb
+/Users/matt/Documents/LocalRepos/QUT_IFN584_2025_Object_Oriented_Design_Development/A1/obj/Debug/net8.0/x.genruntimeconfig.cache
+/Users/matt/Documents/LocalRepos/QUT_IFN584_2025_Object_Oriented_Design_Development/A1/obj/Debug/net8.0/ref/x.dll

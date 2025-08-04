@@ -13,9 +13,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/matt/Documents/LocalRepos/QUT_IFN584_2025_Object_Oriented_Design_Development/A1/DOTNET_8_0.csproj",
-      "projectName": "DOTNET_8_0",
-      "projectPath": "/Users/matt/Documents/LocalRepos/QUT_IFN584_2025_Object_Oriented_Design_Development/A1/DOTNET_8_0.csproj",
+      "projectUniqueName": "/Users/matt/Documents/LocalRepos/QUT_IFN584_2025_Object_Oriented_Design_Development/A1/A1.csproj",
+      "projectName": "A1",
+      "projectPath": "/Users/matt/Documents/LocalRepos/QUT_IFN584_2025_Object_Oriented_Design_Development/A1/A1.csproj",
       "packagesPath": "/Users/matt/.nuget/packages/",
       "outputPath": "/Users/matt/Documents/LocalRepos/QUT_IFN584_2025_Object_Oriented_Design_Development/A1/obj/",
       "projectStyle": "PackageReference",
