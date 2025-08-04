@@ -16,7 +16,24 @@ public class GameState
 
     public void GameLoop()
     {
+        Console.Clear();
+        PrintHeading("LineUp\n\n");
         Grid.DrawGrid();
+
+        // Get player input
+        // This will be moved to an InputHandler method later
+
+        Console.WriteLine("> ");
+        string input = Console.ReadLine();
+
+
+
+
+        // split the input into two parts
+
+        // if [0].ToLower() in _datastructure_
+        // and [1].IsInt() and (>0, <7)
+        // AddDisc(input)
     }
 
     public void PrintHeading(string text)
