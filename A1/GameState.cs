@@ -4,36 +4,19 @@ public class GameState
     private bool GameActive { get; set; } // true if game is currently in progress
     private bool Computer { get; set; } // true if game will be between player and AI
 
-    private int GRID_WIDTH { get; }
-    private int GRID_HEIGHT { get; }
+    private Grid Grid { get; set; }
 
     // Constructor
     public GameState()
     {
-        this.GRID_WIDTH = 7;
-        this.GRID_HEIGHT = 6;
+        Grid = new Grid();
     }
 
     // Methods
-    public void ConsoleTesting()
-    {
-        Console.BackgroundColor = ConsoleColor.White;
-        Console.ForegroundColor = ConsoleColor.Black;
-        Console.WriteLine("I am different coloured text!");
-    }
 
     public void GameLoop()
     {
-        // Print the Grid
-        Console.WriteLine(" 1 2 3 4 5 6");
-        for (int y = 0; y < GRID_HEIGHT; y++)
-        {
-            for (int x = 0; x < GRID_WIDTH; x++)
-            {
-                Console.Write("| ");
-            }
-            Console.WriteLine();
-        }
+        Grid.DrawGrid();
     }
 
     public void PrintHeading(string text)
