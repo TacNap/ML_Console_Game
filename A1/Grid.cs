@@ -20,23 +20,32 @@ public class Grid
 
     // Add Disc to a chosen column.
     // Successful if top row of chosen column is empty
-    public void AddDisc(int col, bool isPlayerOne)
+    public void AddDisc(int col, int type = 1, bool isPlayerOne = true)
     {
+        col -= 1; // Adjust for indexing
+        if (Board[0, col] != null)
+        {
+            Console.WriteLine("Column is full!");
+            return;
+        }
         // This loops through each row in the column to find a disc
         // Then creates a new disc above it
+
         for (int i = 0; i < GRID_HEIGHT; i++)
         {
-            if (Board[i, col-1] == null)
+            if (Board[i, col] == null)
             {
                 continue;
             }
             else
             {
-                Board[i - 1, col-1] = new Disc(1, isPlayerOne);
+                Board[i - 1, col] = new Disc(type, isPlayerOne);
                 return;
             }
         }
-        Board[GRID_HEIGHT - 1, col - 1] = new Disc(1, isPlayerOne);
+
+        // If column is empty, add disc to the bottom
+        Board[GRID_HEIGHT - 1, col] = new Disc(type, isPlayerOne);
     }
     public void DrawGrid()
     {
@@ -58,5 +67,10 @@ public class Grid
             }
             Console.WriteLine("");
         }
+    }
+
+    public void ClearGrid()
+    {
+        Board = new Disc[GRID_HEIGHT, GRID_WIDTH];
     }
 }

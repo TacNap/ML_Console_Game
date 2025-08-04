@@ -113,12 +113,32 @@ public class GameState
     public void GameTest()
     {
         Grid.DrawGrid();
-        Grid.AddDisc(1, true);
+
+        Grid.AddDisc(1, 1, true);
+        Grid.AddDisc(1, 1, false);
+        Grid.AddDisc(1, 1, true);
+        Grid.AddDisc(1, 1, false);
+        Grid.AddDisc(1, 1, true);
+        Grid.AddDisc(1, 1, false);
+        Grid.AddDisc(1, 1, true); // Column is full
         Grid.DrawGrid();
-        Grid.AddDisc(2, false);
+
         Grid.DrawGrid();
-        Grid.AddDisc(1, true);
+
+        // Clear Grid
+        Grid.ClearGrid();
+        Grid.AddDisc(1, 1, true);
+        Grid.AddDisc(1, 2, true);
+        Grid.AddDisc(1, 3, true);
+        Grid.AddDisc(1, 4, true);
+
+        Grid.AddDisc(2, 1, false);
+        Grid.AddDisc(2, 2, false);
+        Grid.AddDisc(2, 3, false);
+        Grid.AddDisc(2, 4, false);
         Grid.DrawGrid();
-        //Console.WriteLine(Grid.Board[6, 0])
+        
+
+        
     }
 }
