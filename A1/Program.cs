@@ -5,6 +5,6 @@ class Program
     static void Main(string[] args)
     {
         GameState gameState = new GameState();
-        gameState.GameStart();
+        gameState.GameTest();
     }
 }

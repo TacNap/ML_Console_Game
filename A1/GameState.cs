@@ -4,7 +4,7 @@ public class GameState
     private bool GameActive { get; set; } // true if game is currently in progress
     private bool Computer { get; set; } // true if game will be between player and AI
 
-    private Grid Grid { get; set; }
+    private Grid Grid { get; set; } // Holds game pieces
 
     // Constructor
     public GameState()
@@ -23,8 +23,7 @@ public class GameState
         // Get player input
         // This will be moved to an InputHandler method later
 
-        Console.WriteLine("> ");
-        string input = Console.ReadLine();
+        
 
 
 
@@ -61,8 +60,8 @@ public class GameState
             Console.Write(" game\n");
             Console.Write("> ");
             PrintHeading("help\n");
-            
-            
+
+
             Console.Write("> ");
         }
         else if (opt == 2)
@@ -109,5 +108,17 @@ public class GameState
 
         }
 
+    }
+
+    public void GameTest()
+    {
+        Grid.DrawGrid();
+        Grid.AddDisc(1, true);
+        Grid.DrawGrid();
+        Grid.AddDisc(2, false);
+        Grid.DrawGrid();
+        Grid.AddDisc(1, true);
+        Grid.DrawGrid();
+        //Console.WriteLine(Grid.Board[6, 0])
     }
 }
