@@ -25,6 +25,7 @@ public class GameState
     public void GameLoop()
     {
         // Print the Grid
+        Console.WriteLine(" 1 2 3 4 5 6");
         for (int y = 0; y < GRID_HEIGHT; y++)
         {
             for (int x = 0; x < GRID_WIDTH; x++)
@@ -35,37 +36,75 @@ public class GameState
         }
     }
 
+    public void PrintHeading(string text)
+    {
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.Write(text);
+        Console.ResetColor();
+    }
+    public void PrintError(string text)
+    {
+        Console.BackgroundColor = ConsoleColor.Red;
+        Console.ForegroundColor = ConsoleColor.Black;
+        Console.Write(text);
+        Console.ResetColor();
+    }
+    public string InputHandler(int opt)
+    {
+        if (opt == 1)
+        {
+            Console.Write("> ");
+            PrintHeading("new");
+            Console.Write(" game\n");
+            Console.Write("> ");
+            PrintHeading("load");
+            Console.Write(" game\n");
+            Console.Write("> ");
+            PrintHeading("help\n");
+            
+            
+            Console.Write("> ");
+        }
+        else if (opt == 2)
+        {
+            Console.Write("Against AI? {");
+            PrintHeading("Y");
+            Console.Write("/");
+            PrintHeading("N");
+            Console.Write("}\n");
+            Console.Write("> ");
+        }
+
+        string input = Console.ReadLine();
+        return input.ToLower();
+    }
     public void GameStart()
     {
         Console.Clear();
-        ConsoleTesting();
         while (!GameActive)
         {
-            Console.WriteLine("### Welcome to LineUp ###");
-            Console.WriteLine("1 > new game\n2 > load game\n3 > help");
-            Console.Write("> ");
-            string input = Console.ReadLine();
+            PrintHeading("### Welcome to LineUp ###\n");
+            string input = InputHandler(1);
 
-            if (input.ToLower() == "new") // Start new game
+            if (input == "new") // Start new game
             {
                 // Determine number of players
-                Console.WriteLine("Against AI? {Y/N}\n> ");
-                input = Console.ReadLine();
-                Computer = input.ToLower() == "y" ? true : false;
+                input = InputHandler(2);
+                Computer = input == "y" ? true : false;
                 GameActive = true;
                 GameLoop();
             }
-            else if (input.ToLower() == "load")
+            else if (input == "load")
             {
                 Console.WriteLine("To be implemented...\n");
             }
-            else if (input.ToLower() == "help")
+            else if (input == "help")
             {
-                Console.WriteLine("Help information would go here...\n");
+                Console.WriteLine("To be implemented...\n");
             }
             else
             {
-                Console.WriteLine("Unrecognised command. Try again...\n");
+                PrintError("Unrecognised command. Try again...\n");
             }
 
         }
