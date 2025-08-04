@@ -1,27 +1,59 @@
 public class GameState
 {
     // Fields
-    private bool State { get; set; } // true if game is currently in progress
+    private bool GameActive { get; set; } // true if game is currently in progress
+    private bool Computer { get; set; } // true if game will be between player and AI
+
+    private int GRID_WIDTH { get; }
+    private int GRID_HEIGHT { get; }
 
     // Constructor
     public GameState()
     {
-        this.State = false;
+        this.GRID_WIDTH = 7;
+        this.GRID_HEIGHT = 6;
     }
 
     // Methods
+    public void ConsoleTesting()
+    {
+        Console.BackgroundColor = ConsoleColor.White;
+        Console.ForegroundColor = ConsoleColor.Black;
+        Console.WriteLine("I am different coloured text!");
+    }
+
+    public void GameLoop()
+    {
+        // Print the Grid
+        for (int y = 0; y < GRID_HEIGHT; y++)
+        {
+            for (int x = 0; x < GRID_WIDTH; x++)
+            {
+                Console.Write("| ");
+            }
+            Console.WriteLine();
+        }
+    }
+
     public void GameStart()
     {
-        while (!State)
+        Console.Clear();
+        ConsoleTesting();
+        while (!GameActive)
         {
-            Console.WriteLine("Welcome to LineUp");
+            Console.WriteLine("### Welcome to LineUp ###");
             Console.WriteLine("1 > new game\n2 > load game\n3 > help");
             Console.Write("> ");
             string input = Console.ReadLine();
-            // input to lower
-            if (input.ToLower() == "new")
+
+            if (input.ToLower() == "new") // Start new game
             {
-                State = true;
+                // Determine number of players
+                Console.WriteLine("Against AI? {Y/N}\n> ");
+                input = Console.ReadLine();
+                Computer = input.ToLower() == "y" ? true : false;
+                GameActive = true;
+                GameLoop();
             }
             else if (input.ToLower() == "load")
             {
@@ -35,14 +67,8 @@ public class GameState
             {
                 Console.WriteLine("Unrecognised command. Try again...\n");
             }
-            
+
         }
 
-        while (State)
-        {
-            Console.WriteLine("Game Start!");
-            Console.ReadLine();
-            break;
-        }
     }
 }
