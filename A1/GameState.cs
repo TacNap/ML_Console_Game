@@ -22,7 +22,9 @@ public class GameState
         Console.Clear();
         InputHandler.PrintHeading("LineUp\n\n");
         Grid.DrawGrid();
-        string input = InputHandler.GetInputGame();
+        (int col, int type) = InputHandler.GetInputGame();
+        Grid.AddDisc(col, type, true);
+        Grid.DrawGrid();
 
         // Get player input
         // This will be moved to an InputHandler method later
@@ -102,8 +104,17 @@ public class GameState
         Grid.DrawGrid();
 
         // Get Input
-        InputHandler.GetInputMenu();
-        InputHandler.GetInputGame();
+        // InputHandler.GetInputMenu();
+
+        // Get Move Input
+        Grid.ClearGrid();
+        for (int i = 0; i < 5; i++)
+        {
+            (int col, int type) = InputHandler.GetInputGame();
+            Grid.AddDisc(col, type, (i % 2 == 0? true : false));
+        }
+        Grid.DrawGrid();
+
 
         
 
