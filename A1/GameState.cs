@@ -6,10 +6,13 @@ public class GameState
 
     private Grid Grid { get; set; } // Holds game pieces
 
+    private InputHandler InputHandler { get; set; } // Handles input
+
     // Constructor
     public GameState()
     {
         Grid = new Grid();
+        InputHandler = new InputHandler();
     }
 
     // Methods
@@ -17,7 +20,7 @@ public class GameState
     public void GameLoop()
     {
         Console.Clear();
-        PrintHeading("LineUp\n\n");
+        InputHandler.PrintHeading("LineUp\n\n");
         Grid.DrawGrid();
 
         // Get player input
@@ -35,60 +38,19 @@ public class GameState
         // AddDisc(input)
     }
 
-    public void PrintHeading(string text)
-    {
-        Console.ForegroundColor = ConsoleColor.Green;
-        Console.Write(text);
-        Console.ResetColor();
-    }
-    public void PrintError(string text)
-    {
-        Console.BackgroundColor = ConsoleColor.Red;
-        Console.ForegroundColor = ConsoleColor.Black;
-        Console.Write(text);
-        Console.ResetColor();
-    }
-    public string InputHandler(int opt)
-    {
-        if (opt == 1)
-        {
-            Console.Write("> ");
-            PrintHeading("new");
-            Console.Write(" game\n");
-            Console.Write("> ");
-            PrintHeading("load");
-            Console.Write(" game\n");
-            Console.Write("> ");
-            PrintHeading("help\n");
-
-
-            Console.Write("> ");
-        }
-        else if (opt == 2)
-        {
-            Console.Write("Against AI? {");
-            PrintHeading("Y");
-            Console.Write("/");
-            PrintHeading("N");
-            Console.Write("}\n");
-            Console.Write("> ");
-        }
-
-        string input = Console.ReadLine();
-        return input.ToLower();
-    }
+    
     public void GameStart()
     {
         Console.Clear();
         while (!GameActive)
         {
-            PrintHeading("### Welcome to LineUp ###\n");
-            string input = InputHandler(1);
+            InputHandler.PrintHeading("### Welcome to LineUp ###\n");
+            string input = InputHandler.ListCommands(1);
 
             if (input == "new") // Start new game
             {
                 // Determine number of players
-                input = InputHandler(2);
+                input = InputHandler.ListCommands(2);
                 Computer = input == "y" ? true : false;
                 GameActive = true;
                 GameLoop();
@@ -103,7 +65,7 @@ public class GameState
             }
             else
             {
-                PrintError("Unrecognised command. Try again...\n");
+                InputHandler.PrintError("Unrecognised command. Try again...\n");
             }
 
         }
