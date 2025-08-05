@@ -22,11 +22,12 @@ public class GameState
         Console.Clear();
         InputHandler.PrintHeading("LineUp\n\n");
         Grid.DrawGrid();
+        string input = InputHandler.GetInputGame();
 
         // Get player input
         // This will be moved to an InputHandler method later
 
-        
+
 
 
 
@@ -45,12 +46,12 @@ public class GameState
         while (!GameActive)
         {
             InputHandler.PrintHeading("### Welcome to LineUp ###\n");
-            string input = InputHandler.ListCommands(1);
+            string input = InputHandler.GetInputMenu();
 
             if (input == "new") // Start new game
             {
                 // Determine number of players
-                input = InputHandler.ListCommands(2);
+                input = InputHandler.GetInputPlayers();
                 Computer = input == "y" ? true : false;
                 GameActive = true;
                 GameLoop();
@@ -99,6 +100,11 @@ public class GameState
         Grid.AddDisc(2, 3, false);
         Grid.AddDisc(2, 4, false);
         Grid.DrawGrid();
+
+        // Get Input
+        InputHandler.GetInputMenu();
+        InputHandler.GetInputGame();
+
         
 
         
