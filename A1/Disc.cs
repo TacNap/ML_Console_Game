@@ -1,21 +1,21 @@
 public class Disc
 {
     // Fields
-    public char Symbol { get; set; }
-    public int Type { get; set; } // {1: O, 2: B, 3: Mag, 4: E}
+    public string Symbol { get; set; }
+    public int Type { get; set; }
 
     public bool IsPlayerOne { get; set; }
-    private char[] DiscsP1 = {
-        '@',
-        'B',
-        'M',
-        'E'
+
+    // These need to be strings, otherwise it gets messy with conversions mid-method
+    private string[] DiscsP1 = {
+        "@",
+        "B",
+        "E"
     };
-    private char[] DiscsP2 = {
-        '#',
-        'b',
-        'm',
-        'e'
+    private string[] DiscsP2 = {
+        "#",
+        "b",
+        "e"
     };
 
     // Constructor

@@ -49,23 +49,23 @@ public class Grid
     }
     public void DrawGrid()
     {
-        // Print the Grid
-        Console.WriteLine(" 1 2 3 4 5 6");
+        // Print Column Numbers
+        for (int col = 1; col <= GRID_WIDTH; col++)
+        {
+            Console.Write($"  {col} ");
+        }
+        Console.WriteLine();
+
+        // Print grid barriers and discs
         for (int y = 0; y < GRID_HEIGHT; y++)
         {
             for (int x = 0; x < GRID_WIDTH; x++)
             {
-                Console.Write("|");
-                if (Board[y, x] == null)
-                {
-                    Console.Write(" ");
-                }
-                else
-                {
-                    Console.Write(Board[y, x].Symbol);
-                }
+                // If there's no disc here, print whitespace
+                string render = Board[y, x] == null ? " " : Board[y, x].Symbol; 
+                Console.Write($"| {render} ");
             }
-            Console.WriteLine("");
+            Console.WriteLine("|");
         }
     }
 

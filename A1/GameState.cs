@@ -4,15 +4,17 @@ public class GameState
     private bool GameActive { get; set; } // true if game is currently in progress
     private bool Computer { get; set; } // true if game will be between player and AI
 
+    private bool Turn { get; set; } // used to alternate player turns
+
     private Grid Grid { get; set; } // Holds game pieces
 
-    private InputHandler InputHandler { get; set; } // Handles input
+    private IOHandler IOHandler { get; set; } // Handles input
 
     // Constructor
     public GameState()
     {
         Grid = new Grid();
-        InputHandler = new InputHandler();
+        IOHandler = new IOHandler();
     }
 
     // Methods
@@ -20,25 +22,25 @@ public class GameState
     public void GameLoop()
     {
         Console.Clear();
-        InputHandler.PrintHeading("LineUp\n\n");
+        Grid.ClearGrid();
+        IOHandler.PrintHeading("LineUp\n\n");
         Grid.DrawGrid();
-        (int col, int type) = InputHandler.GetInputGame();
-        Grid.AddDisc(col, type, true);
-        Grid.DrawGrid();
+        
+        // While GameActive() - win condition will set to false
+        for (int i = 0; i < 5; i++)
+        {
+            // Get and validate input from terminal
+            (int col, int type) = IOHandler.GetInputGame();
+            Grid.AddDisc(col, type, Turn);
 
-        // Get player input
-        // This will be moved to an InputHandler method later
+            // Render Grid
+            Console.Clear();
+            Grid.DrawGrid();
 
-
-
-
-
-
-        // split the input into two parts
-
-        // if [0].ToLower() in _datastructure_
-        // and [1].IsInt() and (>0, <7)
-        // AddDisc(input)
+            // Switch Player Turn
+            Turn = !Turn;
+        }
+        IOHandler.PrintHeading("Game Over!");
     }
 
     
@@ -47,13 +49,13 @@ public class GameState
         Console.Clear();
         while (!GameActive)
         {
-            InputHandler.PrintHeading("### Welcome to LineUp ###\n");
-            string input = InputHandler.GetInputMenu();
+            IOHandler.PrintHeading("### Welcome to LineUp ###\n");
+            string input = IOHandler.GetInputMenu();
 
             if (input == "new") // Start new game
             {
                 // Determine number of players
-                input = InputHandler.GetInputPlayers();
+                input = IOHandler.GetInputPlayers();
                 Computer = input == "y" ? true : false;
                 GameActive = true;
                 GameLoop();
@@ -68,7 +70,7 @@ public class GameState
             }
             else
             {
-                InputHandler.PrintError("Unrecognised command. Try again...\n");
+                IOHandler.PrintError("Unrecognised command. Try again...\n");
             }
 
         }
@@ -77,43 +79,54 @@ public class GameState
 
     public void GameTest()
     {
-        Grid.DrawGrid();
-
-        Grid.AddDisc(1, 1, true);
-        Grid.AddDisc(1, 1, false);
-        Grid.AddDisc(1, 1, true);
-        Grid.AddDisc(1, 1, false);
-        Grid.AddDisc(1, 1, true);
-        Grid.AddDisc(1, 1, false);
-        Grid.AddDisc(1, 1, true); // Column is full
-        Grid.DrawGrid();
-
-        Grid.DrawGrid();
-
-        // Clear Grid
-        Grid.ClearGrid();
-        Grid.AddDisc(1, 1, true);
-        Grid.AddDisc(1, 2, true);
-        Grid.AddDisc(1, 3, true);
-        Grid.AddDisc(1, 4, true);
-
-        Grid.AddDisc(2, 1, false);
-        Grid.AddDisc(2, 2, false);
-        Grid.AddDisc(2, 3, false);
-        Grid.AddDisc(2, 4, false);
-        Grid.DrawGrid();
-
-        // Get Input
-        // InputHandler.GetInputMenu();
-
-        // Get Move Input
-        Grid.ClearGrid();
-        for (int i = 0; i < 5; i++)
+        // Add Disc testing
+        if (false)
         {
-            (int col, int type) = InputHandler.GetInputGame();
-            Grid.AddDisc(col, type, (i % 2 == 0? true : false));
+            Grid.DrawGrid();
+
+            Grid.AddDisc(1, 1, true);
+            Grid.AddDisc(1, 1, false);
+            Grid.AddDisc(1, 1, true);
+            Grid.AddDisc(1, 1, false);
+            Grid.AddDisc(1, 1, true);
+            Grid.AddDisc(1, 1, false);
+            Grid.AddDisc(1, 1, true); // Column is full
+            Grid.DrawGrid();
+
+            Grid.DrawGrid();
+
+            // Clear Grid
+            Grid.ClearGrid();
+            Grid.AddDisc(1, 1, true);
+            Grid.AddDisc(1, 2, true);
+            Grid.AddDisc(1, 3, true);
+            Grid.AddDisc(1, 4, true);
+
+            Grid.AddDisc(2, 1, false);
+            Grid.AddDisc(2, 2, false);
+            Grid.AddDisc(2, 3, false);
+            Grid.AddDisc(2, 4, false);
+            Grid.DrawGrid();
         }
-        Grid.DrawGrid();
+
+        // Get Move Input Testing
+        if (false)
+        {
+            Grid.ClearGrid();
+            for (int i = 0; i < 5; i++)
+            {
+                (int col, int type) = IOHandler.GetInputGame();
+                Grid.AddDisc(col, type, (i % 2 == 0 ? true : false));
+            }
+            Grid.DrawGrid();
+        }
+
+        // Game Loop Testing
+        if (false)
+        {
+            GameLoop();
+        }
+        
 
 
         

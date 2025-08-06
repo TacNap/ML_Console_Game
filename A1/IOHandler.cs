@@ -1,24 +1,27 @@
-public class InputHandler
+/// <summary>
+/// Responsible for parsing input and sending output to the terminal
+/// </summary>
+public class IOHandler
 {
     // Fields
     public string[] Commands { get; }
 
     public string[] Discs { get; }
-    // Constructor
 
-    public InputHandler()
+    // Constructor
+    public IOHandler()
     {
         this.Commands = [
             "/new",
             "/load",
             "/help",
-            "/quit"
+            "/quit",
+            "/grid"
         ];
 
         this.Discs = [
             "o",
             "b",
-            "m",
             "e"
         ];
     }
@@ -86,7 +89,7 @@ public class InputHandler
         int col;
         string discStr;
         int discInt;
-        
+
         // Repeatedly get input until it's valid
         while (true)
         {
@@ -131,13 +134,9 @@ public class InputHandler
         {
             discInt = 2;
         }
-        else if (discStr == "m")
-        {
-            discInt = 3;
-        }
         else if (discStr == "e")
         {
-            discInt = 4;
+            discInt = 3;
         }
         else
         {
@@ -145,6 +144,6 @@ public class InputHandler
         }
         return (col, discInt);
     }
-    
-    
+
+
 }
