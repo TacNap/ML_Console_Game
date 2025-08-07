@@ -15,8 +15,8 @@ public class IOHandler
             "/new",
             "/load",
             "/help",
-            "/quit",
-            "/grid"
+            "/grid",
+            "/quit"
         ];
 
         this.Discs = [
@@ -53,17 +53,23 @@ public class IOHandler
 
     // List commands available from the main menu
     // This could be re-factored to use a dictionary, so each command has a matching desc?
-    public string GetInputMenu()
+    public void PrintMenuCommands()
     {
+        PrintHeading("### Welcome to LineUp ###\n");
         PrintHeading("Options:\n");
         foreach (string cmd in Commands)
         {
             PrintHeading($"{cmd}\n");
         }
+    }
+
+    public string GetInputMenu()
+    {
         Console.Write("> ");
         string input = Console.ReadLine();
         return input.ToLower();
     }
+
 
     public string GetInputPlayers()
     {
@@ -81,6 +87,7 @@ public class IOHandler
     // Later, this will list the discs available, the commands, and an example input for move
     // Get input from player while mid game
     // Currently only accepts Move input
+    // Might switch this back later to just return a valid input string
     public (int col, int type) GetInputGame()
     {
         Console.WriteLine("Enter a move: ");

@@ -18,6 +18,43 @@ public class GameState
     }
 
     // Methods
+    public void ParseMenuInput(string input)
+    {
+        if (input == "/new") // Start new game
+            {
+                // Determine number of players
+                input = IOHandler.GetInputPlayers();
+                Computer = input == "y" ? true : false;
+                GameActive = true;
+                GameLoop();
+            }
+            else if (input == "/load") // Load game from file
+            {
+                Console.Clear();
+                Console.WriteLine("To be implemented...\n");
+            }
+            else if (input == "/help") // Print game information
+            {
+                Console.Clear();
+                Console.WriteLine("To be implemented...\n");
+            }
+            else if (input == "/grid") // Change grid size
+            {
+                Console.Clear();
+                Console.WriteLine("Not implemented yet!\n");
+            }
+            else if (input == "/quit") // Quit program
+            {
+                Console.WriteLine("Bye bye!");
+                GameActive = true; // required to break loop
+                return;
+            }
+            else // Error
+            {
+                Console.Clear();
+                IOHandler.PrintError("Unrecognised command. Try again...\n");
+            }
+    }
 
     public void GameLoop()
     {
@@ -25,7 +62,7 @@ public class GameState
         Grid.ClearGrid();
         IOHandler.PrintHeading("LineUp\n\n");
         Grid.DrawGrid();
-        
+
         // While GameActive() - win condition will set to false
         for (int i = 0; i < 5; i++)
         {
@@ -49,30 +86,8 @@ public class GameState
         Console.Clear();
         while (!GameActive)
         {
-            IOHandler.PrintHeading("### Welcome to LineUp ###\n");
-            string input = IOHandler.GetInputMenu();
-
-            if (input == "new") // Start new game
-            {
-                // Determine number of players
-                input = IOHandler.GetInputPlayers();
-                Computer = input == "y" ? true : false;
-                GameActive = true;
-                GameLoop();
-            }
-            else if (input == "load")
-            {
-                Console.WriteLine("To be implemented...\n");
-            }
-            else if (input == "help")
-            {
-                Console.WriteLine("To be implemented...\n");
-            }
-            else
-            {
-                IOHandler.PrintError("Unrecognised command. Try again...\n");
-            }
-
+            IOHandler.PrintMenuCommands();
+            ParseMenuInput(IOHandler.GetInputMenu());
         }
 
     }
@@ -125,6 +140,12 @@ public class GameState
         if (false)
         {
             GameLoop();
+        }
+
+        // Menu Commands Testing
+        if (true)
+        {
+            GameStart();
         }
         
 

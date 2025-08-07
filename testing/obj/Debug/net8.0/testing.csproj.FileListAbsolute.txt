@@ -1,0 +1,15 @@
+/Users/matt/Documents/LocalRepos/QUT_IFN584_2025_Object_Oriented_Design_Development/testing/bin/Debug/net8.0/testing
+/Users/matt/Documents/LocalRepos/QUT_IFN584_2025_Object_Oriented_Design_Development/testing/bin/Debug/net8.0/testing.deps.json
+/Users/matt/Documents/LocalRepos/QUT_IFN584_2025_Object_Oriented_Design_Development/testing/bin/Debug/net8.0/testing.runtimeconfig.json
+/Users/matt/Documents/LocalRepos/QUT_IFN584_2025_Object_Oriented_Design_Development/testing/bin/Debug/net8.0/testing.dll
+/Users/matt/Documents/LocalRepos/QUT_IFN584_2025_Object_Oriented_Design_Development/testing/bin/Debug/net8.0/testing.pdb
+/Users/matt/Documents/LocalRepos/QUT_IFN584_2025_Object_Oriented_Design_Development/testing/obj/Debug/net8.0/testing.GeneratedMSBuildEditorConfig.editorconfig
+/Users/matt/Documents/LocalRepos/QUT_IFN584_2025_Object_Oriented_Design_Development/testing/obj/Debug/net8.0/testing.AssemblyInfoInputs.cache
+/Users/matt/Documents/LocalRepos/QUT_IFN584_2025_Object_Oriented_Design_Development/testing/obj/Debug/net8.0/testing.AssemblyInfo.cs
+/Users/matt/Documents/LocalRepos/QUT_IFN584_2025_Object_Oriented_Design_Development/testing/obj/Debug/net8.0/testing.csproj.CoreCompileInputs.cache
+/Users/matt/Documents/LocalRepos/QUT_IFN584_2025_Object_Oriented_Design_Development/testing/obj/Debug/net8.0/testing.sourcelink.json
+/Users/matt/Documents/LocalRepos/QUT_IFN584_2025_Object_Oriented_Design_Development/testing/obj/Debug/net8.0/testing.dll
+/Users/matt/Documents/LocalRepos/QUT_IFN584_2025_Object_Oriented_Design_Development/testing/obj/Debug/net8.0/refint/testing.dll
+/Users/matt/Documents/LocalRepos/QUT_IFN584_2025_Object_Oriented_Design_Development/testing/obj/Debug/net8.0/testing.pdb
+/Users/matt/Documents/LocalRepos/QUT_IFN584_2025_Object_Oriented_Design_Development/testing/obj/Debug/net8.0/testing.genruntimeconfig.cache
+/Users/matt/Documents/LocalRepos/QUT_IFN584_2025_Object_Oriented_Design_Development/testing/obj/Debug/net8.0/ref/testing.dll
