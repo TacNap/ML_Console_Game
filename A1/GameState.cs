@@ -56,6 +56,24 @@ public class GameState
             }
     }
 
+    public Disc SelectDisc(int type, bool turn)
+    {
+        if (type == 1)
+        {
+            return new OrdinaryDisc(turn);
+        }
+        else if (type == 2)
+        {
+            return new BoringDisc(turn);
+        }
+        else if (type == 3)
+        {
+            return new ExplosiveDisc(turn);
+        }
+        return new OrdinaryDisc(turn);
+        // Throw error here 
+    }
+
     public void GameLoop()
     {
         Console.Clear();
@@ -64,15 +82,16 @@ public class GameState
         Grid.DrawGrid();
 
         // While GameActive() - win condition will set to false
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 10; i++)
         {
             // Get and validate input from terminal
             (int col, int type) = IOHandler.GetInputGame();
-            Grid.AddDisc(col, type, Turn);
+            Disc disc = SelectDisc(type, Turn);
+            Grid.AddDisc(col, disc);
 
             // Render Grid
             Console.Clear();
-            Grid.DrawGrid();
+            Grid.RenderGrid(col, disc);
 
             // Switch Player Turn
             Turn = !Turn;
@@ -99,51 +118,44 @@ public class GameState
         {
             Grid.DrawGrid();
 
-            Grid.AddDisc(1, 1, true);
-            Grid.AddDisc(1, 1, false);
-            Grid.AddDisc(1, 1, true);
-            Grid.AddDisc(1, 1, false);
-            Grid.AddDisc(1, 1, true);
-            Grid.AddDisc(1, 1, false);
-            Grid.AddDisc(1, 1, true); // Column is full
-            Grid.DrawGrid();
+            //Grid.AddDisc(1, 1, true);
+            // Grid.AddDisc(1, 1, false);
+            // Grid.AddDisc(1, 1, true);
+            // Grid.AddDisc(1, 1, false);
+            // Grid.AddDisc(1, 1, true);
+            // Grid.AddDisc(1, 1, false);
+            // Grid.AddDisc(1, 1, true); // Column is full
+            // Grid.DrawGrid();
 
-            Grid.DrawGrid();
+            // Grid.DrawGrid();
 
-            // Clear Grid
-            Grid.ClearGrid();
-            Grid.AddDisc(1, 1, true);
-            Grid.AddDisc(1, 2, true);
-            Grid.AddDisc(1, 3, true);
-            Grid.AddDisc(1, 4, true);
+            // // Clear Grid
+            // Grid.ClearGrid();
+            // Grid.AddDisc(1, 1, true);
+            // Grid.AddDisc(1, 2, true);
+            // Grid.AddDisc(1, 3, true);
+            // Grid.AddDisc(1, 4, true);
 
-            Grid.AddDisc(2, 1, false);
-            Grid.AddDisc(2, 2, false);
-            Grid.AddDisc(2, 3, false);
-            Grid.AddDisc(2, 4, false);
-            Grid.DrawGrid();
+            // Grid.AddDisc(2, 1, false);
+            // Grid.AddDisc(2, 2, false);
+            // Grid.AddDisc(2, 3, false);
+            // Grid.AddDisc(2, 4, false);
+            // Grid.DrawGrid();
         }
 
         // Get Move Input Testing
         if (false)
         {
-            Grid.ClearGrid();
-            for (int i = 0; i < 5; i++)
-            {
-                (int col, int type) = IOHandler.GetInputGame();
-                Grid.AddDisc(col, type, (i % 2 == 0 ? true : false));
-            }
-            Grid.DrawGrid();
         }
 
         // Game Loop Testing
-        if (false)
+        if (true)
         {
             GameLoop();
         }
 
         // Menu Commands Testing
-        if (true)
+        if (false)
         {
             GameStart();
         }

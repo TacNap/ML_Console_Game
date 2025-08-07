@@ -6,6 +6,8 @@ public class Grid
 
     public Disc[,] Board { get; private set; }
 
+    private IOHandler IOHandler;
+
 
 
     // Constructor
@@ -14,15 +16,15 @@ public class Grid
         this.GRID_WIDTH = 7;
         this.GRID_HEIGHT = 6;
         Board = new Disc[GRID_HEIGHT, GRID_WIDTH];
+        this.IOHandler = new IOHandler();
     }
 
     // Methods
 
     // Add Disc to a chosen column.
     // Successful if top row of chosen column is empty
-    public void AddDisc(int col, int type = 1, bool isPlayerOne = true)
+    public void AddDisc(int col, Disc disc)
     {
-        col -= 1; // Adjust for indexing
         if (Board[0, col] != null)
         {
             Console.WriteLine("Column is full!");
@@ -39,14 +41,52 @@ public class Grid
             }
             else
             {
-                Board[i - 1, col] = new Disc(type, isPlayerOne);
+                Board[i - 1, col] = disc;
                 return;
             }
         }
 
         // If column is empty, add disc to the bottom
-        Board[GRID_HEIGHT - 1, col] = new Disc(type, isPlayerOne);
+        Board[GRID_HEIGHT - 1, col] = disc;
     }
+
+
+
+    public void ApplyEffects(int col, ExplosiveDisc disc)
+    {
+        for (int row = 0; row < GRID_HEIGHT - 1; row++)
+        {
+            // loop a 3x3 grid from this point with double pointers
+            // "try" for boundaries
+            // otherwise set it to null            
+        }
+
+        // then, you'll need to check if there's any discs above the 3x3 radius that were affected
+        // and pull them down accordingly.
+        // might be easier to keep tabs on them in an array
+        // then set to null and just add them in order?
+
+        // THIS WOULD BE WAY EASIER TO IMPLEMENT IF EVERY COLUMN WAS A STACK, NOT JUST AN ARRAY. 
+    }
+
+    public void ApplyEffects(int col, BoringDisc disc)
+    {
+        int killCount = 0;
+
+        for (int row = 0; row < GRID_HEIGHT - 1; row++)
+        {
+            if (Board[row, col] != null)
+            {
+                killCount++;
+                Board[row, col] = null;
+            }
+            
+        }
+        Board[GRID_HEIGHT - 1, col] = new BoringDisc(disc.IsPlayerOne);
+        IOHandler.PrintHeading($"Boring disc destroyed {killCount} disc/s!\n");
+    }
+
+    // Simply draws the grid in its current state
     public void DrawGrid()
     {
         // Print Column Numbers
@@ -62,11 +102,31 @@ public class Grid
             for (int x = 0; x < GRID_WIDTH; x++)
             {
                 // If there's no disc here, print whitespace
-                string render = Board[y, x] == null ? " " : Board[y, x].Symbol; 
-                Console.Write($"| {render} ");
+                string symbol = Board[y, x] == null ? " " : Board[y, x].Symbol;
+                Console.Write($"| {symbol} ");
             }
             Console.WriteLine("|");
         }
+    }
+
+    // Renders the grid based on the last disc placed.
+    // Applies effects and draws multiple times if the disc is special
+    public void RenderGrid(int col, Disc disc)
+    {
+        DrawGrid();
+        if (disc is ExplosiveDisc e)
+        {
+            ApplyEffects(col, e);
+            DrawGrid();
+        }
+        else if (disc is BoringDisc b)
+        {
+            ApplyEffects(col, b);
+            DrawGrid();
+        }
+        // if disc is special
+        // apply effects
+        // and draw grid
     }
 
     public void ClearGrid()

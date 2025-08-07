@@ -149,7 +149,7 @@ public class IOHandler
         {
             discInt = 1;
         }
-        return (col, discInt);
+        return (col-1, discInt); // -1 for indexing
     }
 
 
