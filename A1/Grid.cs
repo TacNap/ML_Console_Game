@@ -52,6 +52,7 @@ public class Grid
 
 
 
+    // Explosive Disc Behaviour Logic
     public void ApplyEffects(int col, ExplosiveDisc disc)
     {
         for (int row = 0; row < GRID_HEIGHT - 1; row++)
@@ -69,6 +70,7 @@ public class Grid
         // THIS WOULD BE WAY EASIER TO IMPLEMENT IF EVERY COLUMN WAS A STACK, NOT JUST AN ARRAY. 
     }
 
+    // Boring Disc Behaviour Logic
     public void ApplyEffects(int col, BoringDisc disc)
     {
         int killCount = 0;
@@ -80,7 +82,7 @@ public class Grid
                 killCount++;
                 Board[row, col] = null;
             }
-            
+
         }
         Board[GRID_HEIGHT - 1, col] = new BoringDisc(disc.IsPlayerOne);
         IOHandler.PrintHeading($"Boring disc destroyed {killCount} disc/s!\n");
@@ -109,8 +111,8 @@ public class Grid
         }
     }
 
-    // Renders the grid based on the last disc placed.
-    // Applies effects and draws multiple times if the disc is special
+    // Applies disc effects and draws grid respectively
+    // Takes the last-placed disc as reference
     public void RenderGrid(int col, Disc disc)
     {
         DrawGrid();

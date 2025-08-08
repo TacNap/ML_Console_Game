@@ -55,8 +55,10 @@ public class IOHandler
     // This could be re-factored to use a dictionary, so each command has a matching desc?
     public void PrintMenuCommands()
     {
-        PrintHeading("### Welcome to LineUp ###\n");
-        PrintHeading("Options:\n");
+        PrintHeading("┌───────────────────────────┐\n");
+        PrintHeading("|     Welcome to LineUp     |\n");
+        PrintHeading("└───────────────────────────┘\n");
+        PrintHeading("Please enter one of the following commands:\n");
         foreach (string cmd in Commands)
         {
             PrintHeading($"{cmd}\n");

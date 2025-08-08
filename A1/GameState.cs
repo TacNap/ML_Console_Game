@@ -149,13 +149,13 @@ public class GameState
         }
 
         // Game Loop Testing
-        if (true)
+        if (false)
         {
             GameLoop();
         }
 
         // Menu Commands Testing
-        if (false)
+        if (true)
         {
             GameStart();
         }

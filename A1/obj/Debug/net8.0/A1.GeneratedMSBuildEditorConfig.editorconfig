@@ -8,6 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = A1
-build_property.ProjectDir = X:\Repos\QUT_IFN584_2025_Object_Oriented_Design_Development\a1\
+build_property.ProjectDir = /Users/matt/Documents/LocalRepos/QUT_IFN584_2025_Object_Oriented_Design_Development/A1/
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
