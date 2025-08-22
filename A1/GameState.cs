@@ -74,28 +74,102 @@ public class GameState
         // Throw error here 
     }
 
+    private void ParseCommand(string input)
+    {
+        Console.WriteLine("Command gets processed here :)");
+    }
+
+    private bool TryParseMove(string input)
+    {
+        int col, type, discInt;
+        Console.WriteLine("Move gets processed here");
+
+        if (input.Length != 2)
+        {
+            IOHandler.PrintError("Invalid Move");
+            return false;
+        }
+
+        string discStr = input[0];
+        if (!Discs.Contains(discStr)) // Discs exists in IOHandler atm. Needs to move
+        {
+            IOHandler.PrintError("Invalid Move - Invalid Disc");
+            return false;
+        }
+
+        if (int.TryParse(input[1], out col))
+        {
+            if (col < 1 || col > 7) //  Currently hard-coded. Should reference Grid object dimensions.
+            {
+                IOHandler.PrintError("Invalid Move - Invalid Column");
+                return false;
+            }
+        }
+        else
+        {
+            IOHandler.PrintError("Invalid Move - Invalid Column");
+            return false;
+        }
+
+        if (discStr == "b")
+        {
+            discInt = 2;
+        }
+        else if (discStr == "e")
+        {
+            discInt = 3;
+        }
+        else
+        {
+            discInt = 1;
+        }
+        col -= 1;
+
+
+        
+        
+    }
+
     public void GameLoop()
     {
         Console.Clear();
         Grid.ClearGrid();
         IOHandler.PrintHeading("LineUp\n\n");
         Grid.DrawGrid();
+        string input;
 
-        // While GameActive() - win condition will set to false
         for (int i = 0; i < 10; i++)
         {
-            // Get and validate input from terminal
-            (int col, int type) = IOHandler.GetInputGame();
-            Disc disc = SelectDisc(type, Turn);
-            Grid.AddDisc(col, disc);
+            input = IOHandler.GetPlayerInput();
+            if (input.StartsWith("/"))
+            {
+                HandleCommand(input);
+            }
+            else
+            {
+                if (TryParseMove(input))
+                {
+                    Turn = !Turn;
+                }
+            }
 
-            // Render Grid
-            Console.Clear();
-            Grid.RenderGrid(col, disc);
-
-            // Switch Player Turn
-            Turn = !Turn;
         }
+
+        // While GameActive() - win condition will set to false
+        // for (int i = 0; i < 10; i++)
+        // {
+        //     // Get and validate input from terminal
+        //     (int col, int type) = IOHandler.GetInputGame();
+        //     Disc disc = SelectDisc(type, Turn);
+        //     Grid.AddDisc(col, disc);
+
+        //     // Render Grid
+        //     Console.Clear();
+        //     Grid.RenderGrid(col, disc);
+
+        //     // Switch Player Turn
+        //     Turn = !Turn;
+        // }
         IOHandler.PrintHeading("Game Over!");
     }
 

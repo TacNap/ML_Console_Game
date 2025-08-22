@@ -72,7 +72,7 @@ public class IOHandler
         return input.ToLower();
     }
 
-
+    // Rename this bc it's confusing
     public string GetInputPlayers()
     {
         Console.Write("Against AI? {");
@@ -84,6 +84,15 @@ public class IOHandler
 
         string input = Console.ReadLine();
         return input.ToLower();
+    }
+
+    // Basic get and validating of terminal input
+    // Returns input string, lowercase and trimmed
+    public string GetPlayerInput()
+    {
+        Console.WriteLine("Enter a move or command:\n > ");
+        return Console.ReadLine().ToLower().Trim();
+        
     }
 
     // Later, this will list the discs available, the commands, and an example input for move
@@ -151,7 +160,7 @@ public class IOHandler
         {
             discInt = 1;
         }
-        return (col-1, discInt); // -1 for indexing
+        return (col - 1, discInt); // -1 for indexing
     }
 
 
