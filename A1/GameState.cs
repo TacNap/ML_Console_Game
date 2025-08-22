@@ -136,19 +136,25 @@ public class GameState
 
         // Create the Disc
         Disc disc = SelectDisc(discInt, Turn);
-        Grid.AddDisc(col, disc);
-
-        // Render Grid
-        Console.Clear();
-        Grid.RenderGrid(col, disc);
-        return true;
+        if (Grid.AddDisc(col, disc))
+        {
+            Console.Clear();
+            Grid.RenderGrid(col, disc);
+            return true;
+        }
+        else
+        {
+            Console.Clear();
+            Grid.RenderGrid(); // Call without parameters, so effects are rendered
+            IOHandler.PrintError("Invalid Move - Column is full");
+            return false;
+        }
     }
 
     public void GameLoop()
     {
         Console.Clear();
         Grid.ClearGrid();
-        //IOHandler.PrintHeading("LineUp\n\n");
         Grid.DrawGrid();
         string input;
 
@@ -187,31 +193,26 @@ public class GameState
         // Add Disc testing
         if (false)
         {
+            Disc pDisc = SelectDisc(1, true);
+            Disc cDisc = SelectDisc(1, false);
+            Disc sDisc = SelectDisc(2, true);
+
+            Console.WriteLine("Initial Grid");
+            Grid.DrawGrid();
+            Console.WriteLine("Fill Column 2");
+            Grid.AddDisc(1, pDisc);
+            Grid.AddDisc(1, cDisc);
+            Grid.AddDisc(1, pDisc);
+            Grid.AddDisc(1, cDisc);
+            Grid.AddDisc(1, pDisc);
+            Grid.AddDisc(1, cDisc);
             Grid.DrawGrid();
 
-            //Grid.AddDisc(1, 1, true);
-            // Grid.AddDisc(1, 1, false);
-            // Grid.AddDisc(1, 1, true);
-            // Grid.AddDisc(1, 1, false);
-            // Grid.AddDisc(1, 1, true);
-            // Grid.AddDisc(1, 1, false);
-            // Grid.AddDisc(1, 1, true); // Column is full
-            // Grid.DrawGrid();
+            Console.WriteLine($"Add to full column [False] : {Grid.AddDisc(1, pDisc)}");
+            Grid.DrawGrid();
 
-            // Grid.DrawGrid();
-
-            // // Clear Grid
-            // Grid.ClearGrid();
-            // Grid.AddDisc(1, 1, true);
-            // Grid.AddDisc(1, 2, true);
-            // Grid.AddDisc(1, 3, true);
-            // Grid.AddDisc(1, 4, true);
-
-            // Grid.AddDisc(2, 1, false);
-            // Grid.AddDisc(2, 2, false);
-            // Grid.AddDisc(2, 3, false);
-            // Grid.AddDisc(2, 4, false);
-            // Grid.DrawGrid();
+            Console.WriteLine($"Add special to full column [False] : {Grid.AddDisc(1, sDisc)}");
+            Grid.DrawGrid();
         }
 
         // Get Move Input Testing
@@ -220,13 +221,13 @@ public class GameState
         }
 
         // Game Loop Testing
-        if (false)
+        if (true)
         {
             GameLoop();
         }
 
         // Menu Commands Testing
-        if (true)
+        if (false)
         {
             GameStart();
         }
