@@ -23,16 +23,15 @@ public class Grid
 
     // Add Disc to a chosen column.
     // Successful if top row of chosen column is empty
-    public void AddDisc(int col, Disc disc)
+    public bool AddDisc(int col, Disc disc)
     {
-        if (Board[0, col] != null)
+        if (Board[0, col] != null) // if collumn is full
         {
-            Console.WriteLine("Column is full!");
-            return;
+            return false;
         }
+
         // This loops through each row in the column to find a disc
         // Then creates a new disc above it
-
         for (int i = 0; i < GRID_HEIGHT; i++)
         {
             if (Board[i, col] == null)
@@ -41,13 +40,14 @@ public class Grid
             }
             else
             {
-                Board[i - 1, col] = disc;
-                return;
+                Board[i - 1, col] = disc; // place a disc above the lowest disc
+                return true;
             }
         }
 
         // If column is empty, add disc to the bottom
         Board[GRID_HEIGHT - 1, col] = disc;
+        return true;
     }
 
 
@@ -55,11 +55,34 @@ public class Grid
     // Explosive Disc Behaviour Logic
     public void ApplyEffects(int col, ExplosiveDisc disc)
     {
-        for (int row = 0; row < GRID_HEIGHT - 1; row++)
+        // Find the row number of the explosive disc
+        int depth = -1;
+        for (int row = 0; row < GRID_HEIGHT; row++)
         {
-            // loop a 3x3 grid from this point with double pointers
-            // "try" for boundaries
-            // otherwise set it to null            
+            if (Board[row, col] != null)
+            {
+                depth = row;
+                break;
+            }
+        }
+
+
+        // Iterate a 3x3 radius and remove discs from the board
+        for (int rrow = -1; rrow < 2; rrow++)
+        {
+            if (depth + rrow < 0 || depth + rrow > GRID_HEIGHT)
+            {
+                continue; // Out of bounds
+            }
+            for (int rcol = -1; rcol < 2; rcol++)
+            {
+                if (col + rcol < 0 || col + rcol > GRID_WIDTH)
+                {
+                    continue; // Out of bounds
+                }
+                Board[depth + rrow, col + rcol] = null;
+            }
+
         }
 
         // then, you'll need to check if there's any discs above the 3x3 radius that were affected
@@ -113,9 +136,13 @@ public class Grid
 
     // Applies disc effects and draws grid respectively
     // Takes the last-placed disc as reference
-    public void RenderGrid(int col, Disc disc)
+    // I provide defaults here in case "AddDisc" fails, in which case we don't want to render any effects.
+    public void RenderGrid(int col = 1, Disc disc = null)
     {
         DrawGrid();
+        // if disc is special
+        // apply effects
+        // and draw grid again
         if (disc is ExplosiveDisc e)
         {
             ApplyEffects(col, e);
@@ -126,9 +153,7 @@ public class Grid
             ApplyEffects(col, b);
             DrawGrid();
         }
-        // if disc is special
-        // apply effects
-        // and draw grid
+
     }
 
     public void ClearGrid()

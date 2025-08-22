@@ -2,9 +2,11 @@ public class GameState
 {
     // Fields
     private bool GameActive { get; set; } // true if game is currently in progress
-    private bool Computer { get; set; } // true if game will be between player and AI
+    private bool IsAgainstAI { get; set; } // true if game will be between player and AI
 
-    private bool Turn { get; set; } // used to alternate player turns
+    private bool IsPlayerTurn { get; set; } // used to alternate player turns
+
+    private static readonly string[] DiscTypes = { "o", "b", "e" }; // defines which characters can be used in the terminal
 
     private Grid Grid { get; set; } // Holds game pieces
 
@@ -18,45 +20,56 @@ public class GameState
     }
 
     // Methods
+
+    // Handles the input provided from the menu
     public void ParseMenuInput(string input)
     {
         if (input == "/new") // Start new game
-            {
-                // Determine number of players
-                input = IOHandler.GetInputPlayers();
-                Computer = input == "y" ? true : false;
-                GameActive = true;
-                GameLoop();
-            }
-            else if (input == "/load") // Load game from file
-            {
-                Console.Clear();
-                Console.WriteLine("To be implemented...\n");
-            }
-            else if (input == "/help") // Print game information
-            {
-                Console.Clear();
-                Console.WriteLine("To be implemented...\n");
-            }
-            else if (input == "/grid") // Change grid size
-            {
-                Console.Clear();
-                Console.WriteLine("Not implemented yet!\n");
-            }
-            else if (input == "/quit") // Quit program
-            {
-                Console.WriteLine("Bye bye!");
-                GameActive = true; // required to break loop
-                return;
-            }
-            else // Error
-            {
-                Console.Clear();
-                IOHandler.PrintError("Unrecognised command. Try again...\n");
-            }
+        {
+            // Determine number of players
+            input = IOHandler.GetPlayerCount();
+            IsAgainstAI = input == "y" ? true : false;
+            GameActive = true;
+            GameLoop();
+        }
+        else if (input == "/load") // Load game from file
+        {
+            Console.Clear();
+            Console.WriteLine("To be implemented...\n");
+        }
+        else if (input == "/help") // Print game information
+        {
+            Console.Clear();
+            Console.WriteLine("To be implemented...\n");
+        }
+        else if (input == "/grid") // Change grid size
+        {
+            Console.Clear();
+            Console.WriteLine("Not implemented yet!\n");
+        }
+        else if (input == "/quit") // Quit program
+        {
+            Console.WriteLine("Bye bye!");
+            GameActive = true; // required to break loop
+            return;
+        }
+        else // Error
+        {
+            Console.Clear();
+            IOHandler.PrintError("Unrecognised command. Try again...\n");
+        }
     }
 
-    public Disc SelectDisc(int type, bool turn)
+    // Handles the input provided during a game
+    // Assumes input begins with "/"
+    // Can be similar in functionality to ParseMenuInput
+    private void ParseCommand(string input)
+    {
+        Console.WriteLine("Command gets processed here :)");
+    }
+
+    // Used to create a Disc, depending on which turn is active
+    public Disc CreateDisc(int type, bool turn)
     {
         if (type == 1)
         {
@@ -70,37 +83,112 @@ public class GameState
         {
             return new ExplosiveDisc(turn);
         }
-        return new OrdinaryDisc(turn);
-        // Throw error here 
+        return new OrdinaryDisc(turn); // Throw error here 
     }
 
+
+    // Responsible for validating input,
+    // adding discs,
+    // rendering their effects,
+    // and drawing the grid
+    // so.. a bit too much at the moment 
+    private bool TryParseMove(string input)
+    {
+
+        int col, discType;
+
+        // Validate Input
+        // Must be 2 characters
+        if (input.Length != 2)
+        {
+            IOHandler.PrintError("Invalid Move");
+            return false;
+        }
+
+        // Extract disc Type 
+        string discStr = input[0].ToString();
+        if (!DiscTypes.Contains(discStr))
+        {
+            IOHandler.PrintError("Invalid Move - Invalid Disc");
+            return false;
+        }
+
+        // Extract disc Column 
+        if (int.TryParse(input[1].ToString(), out col))
+        {
+            if (col < 1 || col > Grid.GRID_WIDTH)
+            {
+                IOHandler.PrintError("Invalid Move - Invalid Column");
+                return false;
+            }
+        }
+        else
+        {
+            IOHandler.PrintError("Invalid Move - Invalid Column");
+            return false;
+        }
+
+        // Convert for SelectDisc parameters
+        if (discStr == "b")
+        {
+            discType = 2;
+        }
+        else if (discStr == "e")
+        {
+            discType = 3;
+        }
+        else
+        {
+            discType = 1;
+        }
+        col -= 1;
+
+        // Create the Disc
+        Disc disc = CreateDisc(discType, IsPlayerTurn);
+        if (Grid.AddDisc(col, disc))
+        {
+            Console.Clear();
+            Grid.RenderGrid(col, disc);
+            return true;
+        }
+        else
+        {
+            Console.Clear();
+            Grid.RenderGrid(); // Call without parameters, so effects aren't rendered
+            IOHandler.PrintError("Invalid Move - Column is full");
+            return false;
+        }
+    }
+
+    // The main loop that runs during a game
     public void GameLoop()
     {
         Console.Clear();
         Grid.ClearGrid();
-        IOHandler.PrintHeading("LineUp\n\n");
         Grid.DrawGrid();
+        string input;
 
-        // While GameActive() - win condition will set to false
         for (int i = 0; i < 10; i++)
         {
-            // Get and validate input from terminal
-            (int col, int type) = IOHandler.GetInputGame();
-            Disc disc = SelectDisc(type, Turn);
-            Grid.AddDisc(col, disc);
-
-            // Render Grid
-            Console.Clear();
-            Grid.RenderGrid(col, disc);
-
-            // Switch Player Turn
-            Turn = !Turn;
+            input = IOHandler.GetPlayerInput();
+            if (input.StartsWith("/"))
+            {
+                ParseCommand(input);
+            }
+            else
+            {
+                if (TryParseMove(input))
+                {
+                    IsPlayerTurn = !IsPlayerTurn;
+                }
+            }
         }
         IOHandler.PrintHeading("Game Over!");
     }
 
-    
-    public void GameStart()
+    // Main entry point.
+    // Provides initial menu before launching into a game 
+    public void MenuStart()
     {
         Console.Clear();
         while (!GameActive)
@@ -111,36 +199,69 @@ public class GameState
 
     }
 
+    // Only used to test parts of the program.
+    // Not intended to be examined 
     public void GameTest()
     {
         // Add Disc testing
         if (false)
         {
+            Disc pDisc = CreateDisc(1, true);
+            Disc cDisc = CreateDisc(1, false);
+            Disc sDisc = CreateDisc(2, true);
+
+            Console.WriteLine("Initial Grid");
+            Grid.DrawGrid();
+            Console.WriteLine("Fill Column 2");
+            Grid.AddDisc(1, pDisc);
+            Grid.AddDisc(1, cDisc);
+            Grid.AddDisc(1, pDisc);
+            Grid.AddDisc(1, cDisc);
+            Grid.AddDisc(1, pDisc);
+            Grid.AddDisc(1, cDisc);
             Grid.DrawGrid();
 
-            //Grid.AddDisc(1, 1, true);
-            // Grid.AddDisc(1, 1, false);
-            // Grid.AddDisc(1, 1, true);
-            // Grid.AddDisc(1, 1, false);
-            // Grid.AddDisc(1, 1, true);
-            // Grid.AddDisc(1, 1, false);
-            // Grid.AddDisc(1, 1, true); // Column is full
-            // Grid.DrawGrid();
+            Console.WriteLine($"Add to full column [False] : {Grid.AddDisc(1, pDisc)}");
+            Grid.DrawGrid();
 
-            // Grid.DrawGrid();
+            Console.WriteLine($"Add special to full column [False] : {Grid.AddDisc(1, sDisc)}");
+            Grid.DrawGrid();
+        }
 
-            // // Clear Grid
-            // Grid.ClearGrid();
-            // Grid.AddDisc(1, 1, true);
-            // Grid.AddDisc(1, 2, true);
-            // Grid.AddDisc(1, 3, true);
-            // Grid.AddDisc(1, 4, true);
+        // Explosive Disc Testing
+        if (true)
+        {
+            Disc oDisc = CreateDisc(1, true);
+            Disc eDisc = CreateDisc(3, true);
 
-            // Grid.AddDisc(2, 1, false);
-            // Grid.AddDisc(2, 2, false);
-            // Grid.AddDisc(2, 3, false);
-            // Grid.AddDisc(2, 4, false);
-            // Grid.DrawGrid();
+            Console.WriteLine("Fill will Ordinary Discs");
+            Grid.AddDisc(0, oDisc);
+            Grid.AddDisc(0, oDisc);
+            Grid.AddDisc(0, oDisc);
+            Grid.AddDisc(0, oDisc);
+            Grid.AddDisc(0, oDisc);
+
+            
+            
+            Grid.AddDisc(1, oDisc);
+            Grid.AddDisc(1, oDisc);
+            Grid.AddDisc(1, oDisc);
+            Grid.AddDisc(1, oDisc);
+            Grid.AddDisc(1, oDisc);
+            Grid.AddDisc(1, oDisc);
+
+            Grid.AddDisc(2, oDisc);
+            Grid.AddDisc(2, oDisc);
+            Grid.AddDisc(2, oDisc);
+            Grid.AddDisc(2, oDisc);
+            Grid.AddDisc(2, oDisc);
+
+            
+            Grid.DrawGrid();
+
+            Console.WriteLine($"Add explosive disc to column 3 [True] : {Grid.AddDisc(0, eDisc)}");
+            Console.WriteLine("Render Effects");
+            Grid.RenderGrid(0, eDisc);
         }
 
         // Get Move Input Testing
@@ -155,15 +276,9 @@ public class GameState
         }
 
         // Menu Commands Testing
-        if (true)
+        if (false)
         {
-            GameStart();
+            MenuStart();
         }
-        
-
-
-        
-
-        
     }
 }
