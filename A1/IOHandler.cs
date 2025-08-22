@@ -90,7 +90,8 @@ public class IOHandler
     // Returns input string, lowercase and trimmed
     public string GetPlayerInput()
     {
-        Console.WriteLine("Enter a move or command:\n > ");
+        Console.WriteLine("Enter a move or command:");
+        Console.Write("> ");
         return Console.ReadLine().ToLower().Trim();
         
     }
