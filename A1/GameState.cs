@@ -168,7 +168,7 @@ public class GameState
         Grid.DrawGrid();
         string input;
 
-        for (int i = 0; i < 10; i++)
+        while(true)
         {
             input = IOHandler.GetPlayerInput();
             if (input.StartsWith("/"))
@@ -229,17 +229,12 @@ public class GameState
         }
 
         // Explosive Disc Testing
-        if (true)
+        if (false)
         {
             Disc oDisc = CreateDisc(1, true);
             Disc eDisc = CreateDisc(3, true);
 
             Console.WriteLine("Fill will Ordinary Discs");
-            Grid.AddDisc(0, oDisc);
-            Grid.AddDisc(0, oDisc);
-            Grid.AddDisc(0, oDisc);
-            Grid.AddDisc(0, oDisc);
-            Grid.AddDisc(0, oDisc);
 
             
             
@@ -270,7 +265,7 @@ public class GameState
         }
 
         // Game Loop Testing
-        if (false)
+        if (true)
         {
             GameLoop();
         }

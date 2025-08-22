@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 public class Grid
 {
     // Fields
@@ -50,6 +52,31 @@ public class Grid
         return true;
     }
 
+    // Applies gravity to a column.
+    // Collects all discs in the column and places into a List
+    // Then re-places the discs from bottom up.
+    // Intended for use with Explosive Discs.
+    public void ApplyGravity(int col)
+    {
+        // Make a list of all discs in the column
+        List<Disc> discs = new List<Disc>();
+
+        for (int row = GRID_HEIGHT - 1; row >= 0; row--)
+        {
+            if (Board[row, col] != null)
+            {
+                discs.Add(Board[row, col]);
+                Board[row, col] = null;
+            }
+        }
+
+        // Re-place discs, bottom up
+        for (int i = 0; i < discs.Count; i++)
+        {
+            Board[GRID_HEIGHT - 1 - i, col] = discs[i];
+        }
+    }
+
 
 
     // Explosive Disc Behaviour Logic
@@ -70,19 +97,27 @@ public class Grid
         // Iterate a 3x3 radius and remove discs from the board
         for (int rrow = -1; rrow < 2; rrow++)
         {
-            if (depth + rrow < 0 || depth + rrow > GRID_HEIGHT)
+            if (depth + rrow < 0 || depth + rrow >= GRID_HEIGHT)
             {
                 continue; // Out of bounds
             }
             for (int rcol = -1; rcol < 2; rcol++)
             {
-                if (col + rcol < 0 || col + rcol > GRID_WIDTH)
+                if (col + rcol < 0 || col + rcol >= GRID_WIDTH)
                 {
                     continue; // Out of bounds
                 }
+
                 Board[depth + rrow, col + rcol] = null;
             }
+        }
 
+        for (int rcol = -1; rcol < 2; rcol++)
+        {
+            if (col + rcol >= 0 && col + rcol < GRID_WIDTH)
+            {
+                ApplyGravity(col + rcol);
+            }
         }
 
         // then, you'll need to check if there's any discs above the 3x3 radius that were affected
