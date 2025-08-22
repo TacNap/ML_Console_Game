@@ -228,6 +228,42 @@ public class GameState
             Grid.DrawGrid();
         }
 
+        // Explosive Disc Testing
+        if (true)
+        {
+            Disc oDisc = CreateDisc(1, true);
+            Disc eDisc = CreateDisc(3, true);
+
+            Console.WriteLine("Fill will Ordinary Discs");
+            Grid.AddDisc(0, oDisc);
+            Grid.AddDisc(0, oDisc);
+            Grid.AddDisc(0, oDisc);
+            Grid.AddDisc(0, oDisc);
+            Grid.AddDisc(0, oDisc);
+
+            
+            
+            Grid.AddDisc(1, oDisc);
+            Grid.AddDisc(1, oDisc);
+            Grid.AddDisc(1, oDisc);
+            Grid.AddDisc(1, oDisc);
+            Grid.AddDisc(1, oDisc);
+            Grid.AddDisc(1, oDisc);
+
+            Grid.AddDisc(2, oDisc);
+            Grid.AddDisc(2, oDisc);
+            Grid.AddDisc(2, oDisc);
+            Grid.AddDisc(2, oDisc);
+            Grid.AddDisc(2, oDisc);
+
+            
+            Grid.DrawGrid();
+
+            Console.WriteLine($"Add explosive disc to column 3 [True] : {Grid.AddDisc(0, eDisc)}");
+            Console.WriteLine("Render Effects");
+            Grid.RenderGrid(0, eDisc);
+        }
+
         // Get Move Input Testing
         if (false)
         {
@@ -240,7 +276,7 @@ public class GameState
         }
 
         // Menu Commands Testing
-        if (true)
+        if (false)
         {
             MenuStart();
         }
