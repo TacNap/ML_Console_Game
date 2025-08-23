@@ -10,7 +10,7 @@ public class IOHandler
     // Constructor
     public IOHandler()
     {
-        this.Commands = [ // This can probably go later.
+        this.Commands = [ // This can probably be deleted later .
             "/new",
             "/load",
             "/help",
@@ -35,6 +35,15 @@ public class IOHandler
         Console.WriteLine();
     }
 
+    public void PrintGreen(string text)
+    {
+        Console.BackgroundColor = ConsoleColor.Green;
+        Console.ForegroundColor = ConsoleColor.Black;
+        Console.Write(text);
+        Console.ResetColor();
+        Console.WriteLine();
+    }
+
     // List commands available from the main menu
     // This could be re-factored to use a dictionary, so each command has a matching desc?
     public void PrintMenuCommands()
@@ -49,6 +58,17 @@ public class IOHandler
         }
     }
 
+    // Prints help information to the terminal - relevant to menu commands
+    public void PrintMenuHelp()
+    {
+        PrintGreen("To be implemented...\n");
+    }
+
+    // Prints help information to the terminal - relevant to core game loop
+    public void PrintGameHelp()
+    {
+        PrintGreen("To be implemented...\n");
+    }
     public string GetInputMenu()
     {
         Console.Write("> ");

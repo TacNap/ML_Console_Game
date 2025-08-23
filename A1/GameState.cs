@@ -35,17 +35,17 @@ public class GameState
         else if (input == "/load") // Load game from file
         {
             Console.Clear();
-            Console.WriteLine("To be implemented...\n");
+            Load();
         }
         else if (input == "/help") // Print game information
         {
             Console.Clear();
-            Console.WriteLine("To be implemented...\n");
+            IOHandler.PrintMenuHelp();
         }
         else if (input == "/grid") // Change grid size
         {
             Console.Clear();
-            Console.WriteLine("Not implemented yet!\n");
+            GridSize();
         }
         else if (input == "/quit") // Quit program
         {
@@ -65,7 +65,23 @@ public class GameState
     // Can be similar in functionality to ParseMenuInput
     private void ParseCommand(string input)
     {
-        Console.WriteLine("Command gets processed here :)");
+        if (input == "/save") // Save to file
+        {
+            Save();
+        }
+        else if (input == "/help") // Print game information
+        {
+            IOHandler.PrintGreen("To be implemented...\n");
+        }
+        else if (input == "/quit") // Return to menu
+        {
+            IOHandler.PrintGreen("I don't work yet!");
+            return;
+        }
+        else // Error
+        {
+            IOHandler.PrintError("Unrecognised command. Try again...\n");
+        }
     }
 
     // Used to create a Disc, depending on which turn is active
@@ -160,6 +176,25 @@ public class GameState
         }
     }
 
+    // Load game state from file
+    private void Load()
+    {
+        IOHandler.PrintGreen("To be implemented...\n");
+    }
+
+    // Save gamestate to file
+    private void Save()
+    {
+        IOHandler.PrintGreen("To be implemented...\n");
+    }
+
+    // Alters the size of the playable grid
+    private void GridSize()
+    {
+        IOHandler.PrintGreen("To be implemented...\n");
+    }
+
+
     // The main loop that runs during a game
     public void GameLoop()
     {
@@ -168,7 +203,7 @@ public class GameState
         Grid.DrawGrid();
         string input;
 
-        while(true)
+        while (true)
         {
             input = IOHandler.GetPlayerInput();
             if (input.StartsWith("/"))
