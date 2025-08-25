@@ -45,7 +45,7 @@ public class GameController
         else if (input == "/grid") // Change grid size
         {
             Console.Clear();
-            GridSize();
+            ChangeGridSize();
         }
         else if (input == "/quit") // Quit program
         {
@@ -189,9 +189,11 @@ public class GameController
     }
 
     // Alters the size of the playable grid
-    private void GridSize()
+    private void ChangeGridSize()
     {
         IOHandler.PrintGreen("To be implemented...\n");
+        (int height, int width) = IOHandler.GetInputGridSize();
+        Grid.SetGridSize(height, width);
     }
 
 
@@ -300,13 +302,13 @@ public class GameController
         }
 
         // Game Loop Testing
-        if (true)
+        if (false)
         {
             GameLoop();
         }
 
         // Menu Commands Testing
-        if (false)
+        if (true)
         {
             MenuStart();
         }

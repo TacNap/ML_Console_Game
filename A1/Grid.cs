@@ -25,6 +25,12 @@ public class Grid
 
     // Add Disc to a chosen column.
     // Successful if top row of chosen column is empty
+    public void SetGridSize(int height, int width)
+    {
+        GRID_HEIGHT = height;
+        GRID_WIDTH = width;
+    }
+
     public bool AddDisc(int col, Disc disc)
     {
         if (Board[0, col] != null) // if collumn is full
@@ -76,7 +82,6 @@ public class Grid
             Board[GRID_HEIGHT - 1 - i, col] = discs[i];
         }
     }
-
 
 
     // Explosive Disc Behaviour Logic

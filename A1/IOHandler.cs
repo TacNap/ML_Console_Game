@@ -69,6 +69,69 @@ public class IOHandler
     {
         PrintGreen("To be implemented...\n");
     }
+
+    public (int width, int height) GetInputGridSize()
+    {
+        string input;
+        int rows, cols;
+        Console.WriteLine("You are now changing the size of the grid.");
+        Console.WriteLine("The grid may not be smaller than 6 rows by 7 columns,");
+        Console.WriteLine("and may not have more rows than columns");
+
+        // Determine the number of columns
+        while (true)
+        {
+            Console.WriteLine("Enter the number of columns [7+]:");
+            Console.Write("> ");
+            input = Console.ReadLine();
+            try
+            {
+                cols = Int32.Parse(input);
+                if (cols < 7)
+                {
+                    Console.WriteLine("Must have 7 or more columns");
+                    continue;
+                }
+                break;
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Must be a number between [..]");
+            }
+            catch (OverflowException)
+            {
+                Console.WriteLine("Must be a number between [..]");
+            }
+        }
+
+        // Determine the number of rows 
+        while (true)
+        {
+            Console.WriteLine($"Enter the number of rows [6..{cols}]:");
+            Console.Write("> ");
+            input = Console.ReadLine();
+            try
+            {
+                rows = Int32.Parse(input);
+                if (rows < 6 || rows > cols)
+                {
+                    Console.WriteLine($"Must have between 6 and {cols} rows");
+                    continue;
+                }
+                break;
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Must be a number between [..]");
+            }
+            catch (OverflowException)
+            {
+                Console.WriteLine("Must be a number between [..]");
+            }
+        }
+
+        return (rows, cols);
+    }
     public string GetInputMenu()
     {
         Console.Write("> ");
