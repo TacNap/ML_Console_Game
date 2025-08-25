@@ -171,7 +171,6 @@ public class IOHandler
         Console.WriteLine("Enter a move or command:");
         Console.Write("> ");
         return Console.ReadLine().ToLower().Trim();
-        
     }
 
     

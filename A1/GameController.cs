@@ -6,14 +6,14 @@ public class GameController
 
     private bool IsPlayerTurn { get; set; } = true; // used to alternate player turns
 
-    private Dictionary<string, int> P1Discs =
+   Dictionary<string, int> P1Discs = new Dictionary<string, int>
     {
         ["Ordinary"] = 17,
         ["Boring"] = 2,
         ["Explosive"] = 2
     };
 
-    private Dictionary<string, int> P2Discs =
+   Dictionary<string, int> P2Discs = new Dictionary<string, int>
     {
         ["Ordinary"] = 17,
         ["Boring"] = 2,
@@ -211,7 +211,6 @@ public class GameController
         // Change disc amount for each player 
         P1Discs["Ordinary"] = (height * width / 2) - 4;
         P2Discs["Ordinary"] = (height * width / 2) - 4;
-
     }
 
 
@@ -229,10 +228,16 @@ public class GameController
             if (IsPlayerTurn)
             {
                 Console.WriteLine("# Player 1 Turn #");
+                Console.WriteLine($"Orindary Discs: {P1Discs["Ordinary"]}");
+                Console.WriteLine($"Boring Discs: {P1Discs["Boring"]}");
+                Console.WriteLine($"Explosive Discs: {P1Discs["Explosive"]}");
             }
             else if (!IsAgainstAI)
             {
                 Console.WriteLine("# Player 2 Turn #");
+                Console.WriteLine($"Orindary Discs: {P2Discs["Ordinary"]}");
+                Console.WriteLine($"Boring Discs: {P2Discs["Boring"]}");
+                Console.WriteLine($"Explosive Discs: {P2Discs["Explosive"]}");                
             }
             else // This will be deleted later
             {
