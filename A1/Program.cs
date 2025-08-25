@@ -4,7 +4,7 @@ class Program
 {
     static void Main(string[] args)
     {
-        GameState gameState = new GameState();
-        gameState.GameTest();
+        GameController gameController = new GameController();
+        gameController.GameTest();
     }
 }

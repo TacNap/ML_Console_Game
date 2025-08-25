@@ -1,4 +1,4 @@
-public class GameState
+public class GameController
 {
     // Fields
     private bool GameActive { get; set; } // true if game is currently in progress
@@ -13,7 +13,7 @@ public class GameState
     private IOHandler IOHandler { get; set; } // Handles input
 
     // Constructor
-    public GameState()
+    public GameController()
     {
         Grid = new Grid();
         IOHandler = new IOHandler();
