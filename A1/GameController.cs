@@ -181,7 +181,7 @@ public class GameController
             {
                 Console.Clear();
                 Grid.RenderGrid(col, disc);
-                // WithdrawDisc();
+                WithdrawDisc(discType, IsPlayerTurn);
                 return true;
             }
             else
@@ -243,6 +243,46 @@ public class GameController
         }
         return false;
     }
+
+    // Reduces the players disc amount by 1
+    private void WithdrawDisc(int discType, bool IsPlayerTurn)
+    {
+        if (discType == 1)
+        {
+            if (IsPlayerTurn)
+            {
+                P1Discs["Ordinary"]--;
+            }
+            else
+            {
+                P2Discs["Ordinary"]--;
+            }
+
+        }
+        else if (discType == 2)
+        {
+            if (IsPlayerTurn)
+            {
+                P1Discs["Boring"]--;
+            }
+            else
+            {
+                P2Discs["Boring"]--;
+            }
+        }
+        else if (discType == 3)
+        {
+            if (IsPlayerTurn)
+            {
+                P1Discs["Explosive"]--;
+            }
+            else
+            {
+                P2Discs["Explosive"]--;
+            }
+        }
+    }
+
     // The main loop that runs during a game
     public void GameLoop()
     {
@@ -266,7 +306,7 @@ public class GameController
                 Console.WriteLine("# Player 2 Turn #");
                 Console.WriteLine($"Orindary Discs: {P2Discs["Ordinary"]}");
                 Console.WriteLine($"Boring Discs: {P2Discs["Boring"]}");
-                Console.WriteLine($"Explosive Discs: {P2Discs["Explosive"]}");                
+                Console.WriteLine($"Explosive Discs: {P2Discs["Explosive"]}");
             }
             else // This will be deleted later
             {
