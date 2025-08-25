@@ -206,9 +206,12 @@ public class GameController
     // Alters the size of the playable grid
     private void ChangeGridSize()
     {
-        IOHandler.PrintGreen("To be implemented...\n");
         (int height, int width) = IOHandler.GetInputGridSize();
         Grid.SetGridSize(height, width);
+        // Change disc amount for each player 
+        P1Discs["Ordinary"] = (height * width / 2) - 4;
+        P2Discs["Ordinary"] = (height * width / 2) - 4;
+
     }
 
 
