@@ -4,7 +4,22 @@ public class GameController
     private bool GameActive { get; set; } // true if game is currently in progress
     private bool IsAgainstAI { get; set; } // true if game will be between player and AI
 
-    private bool IsPlayerTurn { get; set; } // used to alternate player turns
+    private bool IsPlayerTurn { get; set; } = true; // used to alternate player turns
+
+    private Dictionary<string, int> P1Discs =
+    {
+        ["Ordinary"] = 17,
+        ["Boring"] = 2,
+        ["Explosive"] = 2
+    };
+
+    private Dictionary<string, int> P2Discs =
+    {
+        ["Ordinary"] = 17,
+        ["Boring"] = 2,
+        ["Explosive"] = 2
+    };
+
 
     private static readonly string[] DiscTypes = { "o", "b", "e" }; // defines which characters can be used in the terminal
 
@@ -207,6 +222,20 @@ public class GameController
 
         while (true)
         {
+            // Console Printing
+            if (IsPlayerTurn)
+            {
+                Console.WriteLine("# Player 1 Turn #");
+            }
+            else if (!IsAgainstAI)
+            {
+                Console.WriteLine("# Player 2 Turn #");
+            }
+            else // This will be deleted later
+            {
+                Console.WriteLine("! AI Turn - Testing !");
+            }
+
             input = IOHandler.GetPlayerInput();
             if (input.StartsWith("/"))
             {
