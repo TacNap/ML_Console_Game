@@ -117,7 +117,6 @@ public class GameController
         return new OrdinaryDisc(turn); // Throw error here 
     }
 
-
     // Responsible for validating input,
     // adding discs,
     // rendering their effects,
@@ -176,19 +175,32 @@ public class GameController
 
         // Create the Disc
         Disc disc = CreateDisc(discType, IsPlayerTurn);
-        if (Grid.AddDisc(col, disc))
+        if (HasDiscRemaining(discType, IsPlayerTurn))
         {
-            Console.Clear();
-            Grid.RenderGrid(col, disc);
-            return true;
+            if (Grid.AddDisc(col, disc))
+            {
+                Console.Clear();
+                Grid.RenderGrid(col, disc);
+                // WithdrawDisc();
+                return true;
+            }
+            else
+            {
+                Console.Clear();
+                Grid.RenderGrid(); // Call without parameters, so effects aren't rendered
+                IOHandler.PrintError("Invalid Move - Column is full");
+                return false;
+            }
         }
         else
         {
             Console.Clear();
             Grid.RenderGrid(); // Call without parameters, so effects aren't rendered
-            IOHandler.PrintError("Invalid Move - Column is full");
+            IOHandler.PrintError("Invalid Move - No discs of that type remaining");
             return false;
         }
+            
+        
     }
 
     // Load game state from file
@@ -213,7 +225,24 @@ public class GameController
         P2Discs["Ordinary"] = (height * width / 2) - 4;
     }
 
-
+    // Checks the player's disc balance for the given type.
+    // Returns true if they have atleast 1 disc of that type remaining
+    private bool HasDiscRemaining(int discType, bool IsPlayerTurn)
+    {
+        if (discType == 1)
+        {
+            return IsPlayerTurn ? P1Discs["Ordinary"] > 0 : P2Discs["Ordinary"] > 0;
+        }
+        else if (discType == 2)
+        {
+            return IsPlayerTurn ? P1Discs["Boring"] > 0 : P2Discs["Boring"] > 0;
+        }
+        else if (discType == 3)
+        {
+            return IsPlayerTurn ? P1Discs["Explosive"] > 0 : P2Discs["Explosive"] > 0;
+        }
+        return false;
+    }
     // The main loop that runs during a game
     public void GameLoop()
     {
