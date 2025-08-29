@@ -235,12 +235,12 @@ public class Grid
                 }
                 if (P1HorizontalCounter == WinLength)
                 {
-                    Console.WriteLine("P1 is a big winna!");
+                    IOHandler.PrintWinner(true);
                     return true;
                 }
                 if (P2HorizontalCounter == WinLength)
                 {
-                    Console.WriteLine("P2 is a big winna!");
+                    IOHandler.PrintWinner(false);
                     return true;
                 }
             }
@@ -270,12 +270,12 @@ public class Grid
                 }
                 if (P1VerticalCounter == WinLength)
                 {
-                    Console.WriteLine("P1 is a big winna!");
+                    IOHandler.PrintWinner(true);
                     return true;
                 }
                 if (P2VerticalCounter == WinLength)
                 {
-                    Console.WriteLine("P2 is a big winna!");
+                    IOHandler.PrintWinner(false);
                     return true;
                 }
             }

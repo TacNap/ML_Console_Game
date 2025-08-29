@@ -334,7 +334,6 @@ public class GameController
                 }
             }
         }
-        IOHandler.PrintHeading("Game Over!");
     }
 
     // Main entry point.

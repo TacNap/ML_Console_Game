@@ -70,6 +70,17 @@ public class IOHandler
         PrintGreen("To be implemented...\n");
     }
 
+    public void PrintWinner(bool IsPlayerOne)
+    {
+        string winner = IsPlayerOne ? "Player One" : "Player Two";
+        PrintHeading("┌───────────────────────────┐\n");
+        PrintHeading($"|      {winner} Wins !    |\n");
+        PrintHeading("└───────────────────────────┘\n");
+        PrintHeading("Press any key to exit...\n");
+        Console.Write("> ");
+        Console.Read();
+    }
+
     public (int width, int height) GetInputGridSize()
     {
         string input;
