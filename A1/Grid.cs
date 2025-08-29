@@ -201,9 +201,81 @@ public class Grid
     }
 
     // Determines if either player has won in the current grid state
+    // make me a bool later.
+    // print using IOHandler if there's a win
+    // Needs to account for ties, too 
     public void CheckWinCondition()
     {
-
+        int P1HorizontalCounter;
+        int P2HorizontalCounter;
+        int P1VerticalCounter;
+        int P2VerticalCounter;
+        
+        // Check Horizontal
+        for (int row = 0; row < GRID_HEIGHT; row++)
+        {
+            P1HorizontalCounter = 0;
+            P2HorizontalCounter = 0;
+            for (int col = 0; col < GRID_WIDTH; col++)
+            {
+                if (Board[row, col]?.IsPlayerOne == true) // If this disc belongs to Player One
+                {
+                    P1HorizontalCounter++;
+                    P2HorizontalCounter = 0;
+                }
+                else if (Board[row, col]?.IsPlayerOne == false)
+                {
+                    P1HorizontalCounter = 0;
+                    P2HorizontalCounter++;
+                }
+                else // If this space is empty, reset both counters
+                {
+                    P1HorizontalCounter = 0;
+                    P2HorizontalCounter = 0;
+                }
+                if (P1HorizontalCounter == WinLength)
+                {
+                    Console.WriteLine("P1 is a big winna!");
+                }
+                if (P2HorizontalCounter == WinLength)
+                {
+                    Console.WriteLine("P2 is a big winna!");
+                }
+            }
+        }
+        
+        // Check Vertical
+        for (int col = 0; col < GRID_WIDTH; col++)
+        {
+            P1VerticalCounter = 0;
+            P2VerticalCounter = 0;
+            for (int row = 0; row < GRID_HEIGHT; row++)
+            {
+                if (Board[row, col]?.IsPlayerOne == true)
+                {
+                    P1VerticalCounter++;
+                    P2VerticalCounter = 0;
+                }
+                else if (Board[row, col]?.IsPlayerOne == false)
+                {
+                    P1VerticalCounter = 0;
+                    P2VerticalCounter++;
+                }
+                else
+                {
+                    P1VerticalCounter = 0;
+                    P2VerticalCounter = 0;
+                }
+                if (P1VerticalCounter == WinLength)
+                {
+                    Console.WriteLine("P1 is a big winna!");
+                }
+                if (P2VerticalCounter == WinLength)
+                {
+                    Console.WriteLine("P2 is a big winna!");
+                }
+            }
+        }
     }
 
     public void ClearGrid()

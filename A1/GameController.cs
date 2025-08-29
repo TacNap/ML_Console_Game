@@ -286,10 +286,7 @@ public class GameController
         }
     }
 
-    private void CheckWinCondition()
-    {
-        
-    }
+    
     // The main loop that runs during a game
     public void GameLoop()
     {
@@ -416,13 +413,14 @@ public class GameController
         }
 
         // Game Loop Testing
-        if (false)
+        if (true)
         {
+            IsGameActive = true;
             GameLoop();
         }
 
         // Menu Commands Testing
-        if (true)
+        if (false)
         {
             MenuStart();
         }
