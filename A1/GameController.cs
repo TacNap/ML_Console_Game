@@ -286,6 +286,10 @@ public class GameController
         }
     }
 
+    private void CheckWinCondition()
+    {
+        
+    }
     // The main loop that runs during a game
     public void GameLoop()
     {
@@ -325,7 +329,7 @@ public class GameController
             {
                 if (TryParseMove(input))
                 {
-
+                    Grid.CheckWinCondition();
                     IsPlayerTurn = !IsPlayerTurn;
                 }
             }

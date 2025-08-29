@@ -8,6 +8,8 @@ public class Grid
 
     public Disc[,] Board { get; private set; }
 
+    public int WinLength { get; private set; }
+
     private IOHandler IOHandler;
 
 
@@ -17,6 +19,7 @@ public class Grid
     {
         this.GRID_WIDTH = 7;
         this.GRID_HEIGHT = 6;
+        this.WinLength = (int)Math.Floor(GRID_HEIGHT * GRID_WIDTH * 0.1);
         Board = new Disc[GRID_HEIGHT, GRID_WIDTH];
         this.IOHandler = new IOHandler();
     }
@@ -29,6 +32,7 @@ public class Grid
     {
         GRID_HEIGHT = height;
         GRID_WIDTH = width;
+        WinLength = (int)Math.Floor(GRID_HEIGHT * GRID_WIDTH * 0.1);
     }
 
     public bool AddDisc(int col, Disc disc)
@@ -193,6 +197,12 @@ public class Grid
             ApplyEffects(col, b);
             DrawGrid();
         }
+
+    }
+
+    // Determines if either player has won in the current grid state
+    public void CheckWinCondition()
+    {
 
     }
 
