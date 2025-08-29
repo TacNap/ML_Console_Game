@@ -326,7 +326,10 @@ public class GameController
             {
                 if (TryParseMove(input))
                 {
-                    Grid.CheckWinCondition();
+                    if (Grid.CheckWinCondition())
+                    {
+                        IsGameActive = false;
+                    }
                     IsPlayerTurn = !IsPlayerTurn;
                 }
             }

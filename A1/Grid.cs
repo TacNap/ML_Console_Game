@@ -204,13 +204,13 @@ public class Grid
     // make me a bool later.
     // print using IOHandler if there's a win
     // Needs to account for ties, too 
-    public void CheckWinCondition()
+    public bool CheckWinCondition()
     {
         int P1HorizontalCounter;
         int P2HorizontalCounter;
         int P1VerticalCounter;
         int P2VerticalCounter;
-        
+
         // Check Horizontal
         for (int row = 0; row < GRID_HEIGHT; row++)
         {
@@ -236,14 +236,16 @@ public class Grid
                 if (P1HorizontalCounter == WinLength)
                 {
                     Console.WriteLine("P1 is a big winna!");
+                    return true;
                 }
                 if (P2HorizontalCounter == WinLength)
                 {
                     Console.WriteLine("P2 is a big winna!");
+                    return true;
                 }
             }
         }
-        
+
         // Check Vertical
         for (int col = 0; col < GRID_WIDTH; col++)
         {
@@ -269,13 +271,16 @@ public class Grid
                 if (P1VerticalCounter == WinLength)
                 {
                     Console.WriteLine("P1 is a big winna!");
+                    return true;
                 }
                 if (P2VerticalCounter == WinLength)
                 {
                     Console.WriteLine("P2 is a big winna!");
+                    return true;
                 }
             }
         }
+        return false;
     }
 
     public void ClearGrid()
