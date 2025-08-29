@@ -1,7 +1,7 @@
 public class GameController
 {
     // Fields
-    private bool GameActive { get; set; } // true if game is currently in progress
+    private bool IsGameActive { get; set; } // true if game is currently in progress
     private bool IsAgainstAI { get; set; } // true if game will be between player and AI
 
     private bool IsPlayerTurn { get; set; } = true; // used to alternate player turns
@@ -44,7 +44,7 @@ public class GameController
             // Determine number of players
             input = IOHandler.GetPlayerCount();
             IsAgainstAI = input == "y" ? true : false;
-            GameActive = true;
+            IsGameActive = true;
             GameLoop();
         }
         else if (input == "/load") // Load game from file
@@ -65,7 +65,7 @@ public class GameController
         else if (input == "/quit") // Quit program
         {
             Console.WriteLine("Bye bye!");
-            GameActive = true; // required to break loop
+            IsGameActive = true; // required to break loop
             return;
         }
         else // Error
@@ -175,29 +175,32 @@ public class GameController
 
         // Create the Disc
         Disc disc = CreateDisc(discType, IsPlayerTurn);
-        if (HasDiscRemaining(discType, IsPlayerTurn))
+
+        if (!HasDiscRemaining(discType, IsPlayerTurn))
         {
-            if (Grid.AddDisc(col, disc))
-            {
-                Console.Clear();
-                Grid.RenderGrid(col, disc);
-                WithdrawDisc(discType, IsPlayerTurn);
-                return true;
-            }
-            else
+            Console.Clear();
+            Grid.RenderGrid(); // Call without parameters, so effects aren't rendered
+            IOHandler.PrintError("Invalid Move - No discs of that type remaining");
+            return false;
+        }
+        else
+        {
+            if (!Grid.AddDisc(col, disc))
             {
                 Console.Clear();
                 Grid.RenderGrid(); // Call without parameters, so effects aren't rendered
                 IOHandler.PrintError("Invalid Move - Column is full");
                 return false;
             }
-        }
-        else
-        {
-            Console.Clear();
-            Grid.RenderGrid(); // Call without parameters, so effects aren't rendered
-            IOHandler.PrintError("Invalid Move - No discs of that type remaining");
-            return false;
+            else
+            {
+                // Successful Placement
+                Console.Clear();
+                Grid.RenderGrid(col, disc);
+                WithdrawDisc(discType, IsPlayerTurn);
+                return true;
+            }
+            
         }
             
         
@@ -291,20 +294,20 @@ public class GameController
         Grid.DrawGrid();
         string input;
 
-        while (true)
+        while (IsGameActive)
         {
             // Console Printing
             if (IsPlayerTurn)
             {
                 Console.WriteLine("# Player 1 Turn #");
-                Console.WriteLine($"Orindary Discs: {P1Discs["Ordinary"]}");
+                Console.WriteLine($"Ordinary Discs: {P1Discs["Ordinary"]}");
                 Console.WriteLine($"Boring Discs: {P1Discs["Boring"]}");
                 Console.WriteLine($"Explosive Discs: {P1Discs["Explosive"]}");
             }
             else if (!IsAgainstAI)
             {
                 Console.WriteLine("# Player 2 Turn #");
-                Console.WriteLine($"Orindary Discs: {P2Discs["Ordinary"]}");
+                Console.WriteLine($"Ordinary Discs: {P2Discs["Ordinary"]}");
                 Console.WriteLine($"Boring Discs: {P2Discs["Boring"]}");
                 Console.WriteLine($"Explosive Discs: {P2Discs["Explosive"]}");
             }
@@ -322,6 +325,7 @@ public class GameController
             {
                 if (TryParseMove(input))
                 {
+
                     IsPlayerTurn = !IsPlayerTurn;
                 }
             }
@@ -334,7 +338,7 @@ public class GameController
     public void MenuStart()
     {
         Console.Clear();
-        while (!GameActive)
+        while (!IsGameActive)
         {
             IOHandler.PrintMenuCommands();
             ParseMenuInput(IOHandler.GetInputMenu());
