@@ -430,8 +430,10 @@ public class GameController
             OrdinaryDisc disc = new OrdinaryDisc(true);
             Grid grid = new Grid();
             Grid.AddDisc(1, disc);
-            FileController.DiscSerialization(disc);
             FileController.GridSerialization(grid);
+            Grid loadGrid = FileController.GridDeserialization("Objects/grid.json");
+            loadGrid.AddDisc(1, disc);
+            loadGrid.DrawGrid();
 
         }
 

@@ -6,7 +6,8 @@ public class Grid
     public int GRID_WIDTH { get; private set; }
     public int GRID_HEIGHT { get; private set; }
 
-    [JsonIgnore]
+
+    [JsonIgnore] // will be removed once Convert functions are implemented.
     public Disc[,] Board { get; private set; }
 
     public int WinLength { get; private set; }
