@@ -27,11 +27,14 @@ public class GameController
 
     private IOHandler IOHandler { get; set; } // Handles input
 
+    private FileController FileController { get; set; } // Handles file operations
+
     // Constructor
     public GameController()
     {
         Grid = new Grid();
         IOHandler = new IOHandler();
+        FileController = new FileController();
     }
 
     // Methods
@@ -415,16 +418,27 @@ public class GameController
         }
 
         // Game Loop Testing
-        if (true)
+        if (false)
         {
             IsGameActive = true;
             GameLoop();
         }
 
-        // Menu Commands Testing
-        if (false)
+        // File Serialization Testing
+        if (true)
         {
-            MenuStart();
+            OrdinaryDisc disc = new OrdinaryDisc(true);
+            Grid grid = new Grid();
+            Grid.AddDisc(1, disc);
+            FileController.DiscSerialization(disc);
+            FileController.GridSerialization(grid);
+
         }
+
+        // From start test
+            if (false)
+            {
+                MenuStart();
+            }
     }
 }

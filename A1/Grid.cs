@@ -1,15 +1,17 @@
 using System.Collections.Generic;
-
+using System.Text.Json.Serialization;
 public class Grid
 {
     // Fields
     public int GRID_WIDTH { get; private set; }
     public int GRID_HEIGHT { get; private set; }
 
+    [JsonIgnore]
     public Disc[,] Board { get; private set; }
 
     public int WinLength { get; private set; }
 
+    [JsonIgnore] // Looks like it ignores private fields anyway
     private IOHandler IOHandler;
 
 
