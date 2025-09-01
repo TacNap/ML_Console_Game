@@ -10,13 +10,6 @@ public class IOHandler
     // Constructor
     public IOHandler()
     {
-        this.Commands = [ // This can probably be deleted later .
-            "/new",
-            "/load",
-            "/help",
-            "/grid",
-            "/quit"
-        ];
     }
     // Methods
 
@@ -52,16 +45,30 @@ public class IOHandler
         PrintHeading("|     Welcome to LineUp     |\n");
         PrintHeading("└───────────────────────────┘\n");
         PrintHeading("Please enter one of the following commands:\n");
-        foreach (string cmd in Commands)
-        {
-            PrintHeading($"{cmd}\n");
-        }
+        PrintHeading("/new\n");
+        PrintHeading("/load\n");
+        PrintHeading("/help\n");
+        PrintHeading("/grid\n");
+        PrintHeading("/quit\n");
     }
 
     // Prints help information to the terminal - relevant to menu commands
     public void PrintMenuHelp()
     {
         PrintGreen("To be implemented...\n");
+        Console.WriteLine("Welcome to LineUp!");
+        Console.WriteLine("In this game, you'll place discs in an attempt to connect four (or more) consecutive discs, and win the game.");
+        Console.WriteLine("Discs can be consecutive vertically, horizontally, or diagonally.");
+        Console.WriteLine("You can use the following commands from the menu:");
+        PrintHeading("/new: ");
+        Console.WriteLine("start a new game");
+        PrintHeading("/load: ");
+        Console.WriteLine("continue a previous game");
+        PrintHeading("/grid: ");
+        Console.WriteLine("change the dimensions of the playable grid");
+        PrintHeading("/quit: ");
+        Console.WriteLine("guess!");
+
     }
 
     // Prints help information to the terminal - relevant to core game loop

@@ -425,7 +425,7 @@ public class GameController
         }
 
         // File Serialization Testing
-        if (true)
+        if (false)
         {
             OrdinaryDisc disc = new OrdinaryDisc(true);
             Grid grid = new Grid();
@@ -438,8 +438,8 @@ public class GameController
         }
 
         // From start test
-            if (false)
-            {
+        if (true)
+        {
                 MenuStart();
             }
     }
