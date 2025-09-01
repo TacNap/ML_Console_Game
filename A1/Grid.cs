@@ -47,7 +47,7 @@ public class Grid
         SerializableBoard = new Disc[GRID_HEIGHT][];
         for (int row = 0; row < GRID_HEIGHT; row++)
         {
-            SerializableBoard[i] = new Disc[GRID_WIDTH];
+            SerializableBoard[row] = new Disc[GRID_WIDTH];
             for (int col = 0; col < GRID_WIDTH; col++)
             {
                 SerializableBoard[row][col] = Board[row, col];
