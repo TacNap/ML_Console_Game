@@ -8,6 +8,7 @@ public class FileController
 
     public void GridSerialization(Grid data)
     {
+        data.ConvertToJaggedArray();
         string jsonString = JsonSerializer.Serialize(data);
         File.WriteAllText("Objects/grid.json", jsonString);
         Console.WriteLine(jsonString);

@@ -42,9 +42,18 @@ public class Grid
 
     // JSON Serializer doesn't support 2D arrays,
     // This method sets BoardSerializable before the object is saved to file
-    public Disc[][] ConvertToJaggedArray()
+    public void ConvertToJaggedArray()
     {
-        return null;
+        SerializableBoard = new Disc[GRID_HEIGHT][];
+        for (int row = 0; row < GRID_HEIGHT; row++)
+        {
+            SerializableBoard[i] = new Disc[GRID_WIDTH];
+            for (int col = 0; col < GRID_WIDTH; col++)
+            {
+                SerializableBoard[row][col] = Board[row, col];
+            }
+        }
+        
     }
 
     // This method sets Board when the object is being de-serialized.

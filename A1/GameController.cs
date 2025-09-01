@@ -425,20 +425,24 @@ public class GameController
         }
 
         // File Serialization Testing
-        if (false)
+        if (true)
         {
             OrdinaryDisc disc = new OrdinaryDisc(true);
             Grid grid = new Grid();
             Grid.AddDisc(1, disc);
+            Grid.AddDisc(1, disc);
+            Grid.AddDisc(1, disc);
+            Grid.AddDisc(1, disc);
+            Grid.DrawGrid();
             FileController.GridSerialization(grid);
-            Grid loadGrid = FileController.GridDeserialization("Objects/grid.json");
-            loadGrid.AddDisc(1, disc);
-            loadGrid.DrawGrid();
+            // Grid loadGrid = FileController.GridDeserialization("Objects/grid.json");
+            // loadGrid.AddDisc(1, disc);
+            // loadGrid.DrawGrid();
 
         }
 
         // From start test
-        if (true)
+        if (false)
         {
                 MenuStart();
             }
