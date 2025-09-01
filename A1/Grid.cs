@@ -57,10 +57,23 @@ public class Grid
     }
 
     // This method sets Board when the object is being de-serialized.
-    public Disc[,] ConvertTo2DArray()
+    public void ConvertTo2DArray()
     {
-        // Call SetGridSize at the end
-        return null;
+        if (SerializableBoard == null)
+        {
+            Console.WriteLine("Null");
+        }
+        int rows = SerializableBoard.Length;
+        int cols = SerializableBoard[0].Length;
+        Board = new Disc[rows, cols];
+        for (int row = 0; row < rows; row++)
+        {
+            for (int col = 0; col < cols; col++)
+            {
+                Board[row, col] = SerializableBoard[row][col];
+            }
+        }
+
     }
 
     public bool AddDisc(int col, Disc disc)

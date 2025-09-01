@@ -18,6 +18,7 @@ public class FileController
     {
         string jsonStringRead = File.ReadAllText(path);
         Grid newGrid = JsonSerializer.Deserialize<Grid>(jsonStringRead);
+        //newGrid.ConvertTo2DArray();
         return newGrid;
     }
 
