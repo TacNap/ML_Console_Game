@@ -6,18 +6,6 @@ public class FileController
 
     }
 
-    // JSON Serializer doesn't support 2D arrays,
-    // So i'll have to convert it first
-    public Disc[][] ConvertToJaggedArray(Disc[,] gridData)
-    {
-        return null;
-    }
-
-    public Disc[,] ConvertTo2DArray(Disc[][] gridData)
-    {
-        return null;
-    }
-
     public void GridSerialization(Grid data)
     {
         string jsonString = JsonSerializer.Serialize(data);

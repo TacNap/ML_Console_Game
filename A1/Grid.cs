@@ -7,12 +7,14 @@ public class Grid
     public int GRID_HEIGHT { get; private set; }
 
 
-    [JsonIgnore] // will be removed once Convert functions are implemented.
+    [JsonIgnore]
     public Disc[,] Board { get; private set; }
+
+    public Disc[][] SerializableBoard { get; private set; } // This is required for serializing the object
 
     public int WinLength { get; private set; }
 
-    [JsonIgnore] // Looks like it ignores private fields anyway
+    [JsonIgnore]
     private IOHandler IOHandler;
 
 
@@ -36,6 +38,20 @@ public class Grid
         GRID_HEIGHT = height;
         GRID_WIDTH = width;
         WinLength = (int)Math.Floor(GRID_HEIGHT * GRID_WIDTH * 0.1);
+    }
+
+    // JSON Serializer doesn't support 2D arrays,
+    // This method sets BoardSerializable before the object is saved to file
+    public Disc[][] ConvertToJaggedArray()
+    {
+        return null;
+    }
+
+    // This method sets Board when the object is being de-serialized.
+    public Disc[,] ConvertTo2DArray()
+    {
+        // Call SetGridSize at the end
+        return null;
     }
 
     public bool AddDisc(int col, Disc disc)
