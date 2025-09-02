@@ -436,10 +436,10 @@ public class GameController
             grid.DrawGrid();
             FileController.GridSerialization(grid);
 
-            Grid loadGrid = FileController.GridDeserialization("Objects/grid.json");
-            loadGrid.ConvertTo2DArray();
-            loadGrid.AddDisc(1, disc);
-            loadGrid.DrawGrid();
+            // Grid loadGrid = FileController.GridDeserialization("Objects/grid.json");
+            // loadGrid.ConvertTo2DArray();
+            // loadGrid.AddDisc(1, disc);
+            // loadGrid.DrawGrid();
 
         }
 

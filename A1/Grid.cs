@@ -10,7 +10,7 @@ public class Grid
     [JsonIgnore]
     public Disc[,] Board { get; private set; }
 
-    public Disc[][] SerializableBoard { get; private set; } // This is required for serializing the object
+    public Disc[][] SerializableBoard { get; set; } // This is required for serializing the object
 
     public int WinLength { get; private set; }
 
@@ -27,6 +27,14 @@ public class Grid
         this.WinLength = (int)Math.Floor(GRID_HEIGHT * GRID_WIDTH * 0.1);
         Board = new Disc[GRID_HEIGHT, GRID_WIDTH];
         this.IOHandler = new IOHandler();
+        // TEMPORARY
+        SerializableBoard = new Disc[GRID_HEIGHT][];
+        for (int row = 0; row < GRID_HEIGHT; row++)
+        {
+            SerializableBoard[row] = new Disc[GRID_WIDTH];
+        }
+        
+        
     }
 
     // Methods
