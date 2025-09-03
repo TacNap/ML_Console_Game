@@ -424,7 +424,7 @@ public class GameController
             GameLoop();
         }
 
-        // File Serialization Testing
+        // File Operations Testing
         if (true)
         {
             OrdinaryDisc disc = new OrdinaryDisc(true);
@@ -434,7 +434,7 @@ public class GameController
             grid.AddDisc(1, disc);
             grid.AddDisc(1, disc);
             grid.DrawGrid();
-            FileController.GridSerialization(grid);
+            FileController.SaveGrid("Objects/grid.csv", grid);
 
             // Grid loadGrid = FileController.GridDeserialization("Objects/grid.json");
             // loadGrid.ConvertTo2DArray();
@@ -447,6 +447,6 @@ public class GameController
         if (false)
         {
                 MenuStart();
-            }
+        }
     }
 }

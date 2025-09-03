@@ -1,20 +1,15 @@
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
+
 public class Grid
 {
     // Fields
     public int GRID_WIDTH { get; private set; }
     public int GRID_HEIGHT { get; private set; }
-
-
-    [JsonIgnore]
+    
     public Disc[,] Board { get; private set; }
-
-    public Disc[][] SerializableBoard { get; set; } // This is required for serializing the object
 
     public int WinLength { get; private set; }
 
-    [JsonIgnore]
     private IOHandler IOHandler;
 
 
@@ -27,14 +22,9 @@ public class Grid
         this.WinLength = (int)Math.Floor(GRID_HEIGHT * GRID_WIDTH * 0.1);
         Board = new Disc[GRID_HEIGHT, GRID_WIDTH];
         this.IOHandler = new IOHandler();
-        // TEMPORARY
-        SerializableBoard = new Disc[GRID_HEIGHT][];
-        for (int row = 0; row < GRID_HEIGHT; row++)
-        {
-            SerializableBoard[row] = new Disc[GRID_WIDTH];
-        }
         
-        
+
+
     }
 
     // Methods
@@ -46,42 +36,6 @@ public class Grid
         GRID_HEIGHT = height;
         GRID_WIDTH = width;
         WinLength = (int)Math.Floor(GRID_HEIGHT * GRID_WIDTH * 0.1);
-    }
-
-    // JSON Serializer doesn't support 2D arrays,
-    // This method sets BoardSerializable before the object is saved to file
-    public void ConvertToJaggedArray()
-    {
-        SerializableBoard = new Disc[GRID_HEIGHT][];
-        for (int row = 0; row < GRID_HEIGHT; row++)
-        {
-            SerializableBoard[row] = new Disc[GRID_WIDTH];
-            for (int col = 0; col < GRID_WIDTH; col++)
-            {
-                SerializableBoard[row][col] = Board[row, col];
-            }
-        }
-        
-    }
-
-    // This method sets Board when the object is being de-serialized.
-    public void ConvertTo2DArray()
-    {
-        if (SerializableBoard == null)
-        {
-            Console.WriteLine("Null");
-        }
-        int rows = SerializableBoard.Length;
-        int cols = SerializableBoard[0].Length;
-        Board = new Disc[rows, cols];
-        for (int row = 0; row < rows; row++)
-        {
-            for (int col = 0; col < cols; col++)
-            {
-                Board[row, col] = SerializableBoard[row][col];
-            }
-        }
-
     }
 
     public bool AddDisc(int col, Disc disc)
@@ -177,13 +131,6 @@ public class Grid
                 ApplyGravity(col + rcol);
             }
         }
-
-        // then, you'll need to check if there's any discs above the 3x3 radius that were affected
-        // and pull them down accordingly.
-        // might be easier to keep tabs on them in an array
-        // then set to null and just add them in order?
-
-        // THIS WOULD BE WAY EASIER TO IMPLEMENT IF EVERY COLUMN WAS A STACK, NOT JUST AN ARRAY. 
     }
 
     // Boring Disc Behaviour Logic

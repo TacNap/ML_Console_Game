@@ -75,6 +75,7 @@ public class IOHandler
     public void PrintGameHelp()
     {
         PrintGreen("To be implemented...\n");
+        Console.WriteLine("");
     }
 
     public void PrintWinner(bool IsPlayerOne)
