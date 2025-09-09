@@ -212,6 +212,48 @@ public class GameController
         
     }
 
+    private void AIMakeMove()
+    {
+        Disc disc; // Disc to be placed
+        int discType;
+        Random rand = new Random();
+
+        // Determine Disc Type
+        int roll = rand.Next(1, 11);
+        if (roll < 7)
+        {
+            disc = new OrdinaryDisc(false);
+            discType = 1;
+        }
+        else if (roll == 7 || roll == 8)
+        {
+            disc = new BoringDisc(false);
+            discType = 2;
+        }
+        else
+        {
+            disc = new ExplosiveDisc(false);
+            discType = 3;
+        }
+
+        // Determine Column Placement
+        int col;
+        while (true)
+        {
+            col = rand.Next(1, Grid.GRID_WIDTH);
+            if (Grid.AddDisc(col, disc))
+            {
+                break;
+            }
+        }
+
+        // Apply Effects and Render Grid
+        Console.Clear();
+        Grid.IncrementTurnCounter();
+        Grid.RenderGrid(col, disc);
+        WithdrawDisc(discType, false);
+        
+    }
     // Load game state from file
     private void Load()
     {
@@ -334,7 +376,7 @@ public class GameController
         while (IsGameActive)
         {
             // Console Printing
-            if (IsPlayerTurn)
+            if (IsPlayerTurn) // Player 1 turn
             {
                 Console.WriteLine($"Turn: {Grid.TurnCounter}");
                 Console.WriteLine("# Player 1 Turn #");
@@ -342,7 +384,7 @@ public class GameController
                 Console.WriteLine($"Boring Discs: {P1Discs["Boring"]}");
                 Console.WriteLine($"Explosive Discs: {P1Discs["Explosive"]}");
             }
-            else if (!IsAgainstAI)
+            else if (!IsAgainstAI) // Player 2 HvH turn
             {
                 Console.WriteLine($"Turn: {Grid.TurnCounter}");
                 Console.WriteLine("# Player 2 Turn #");
@@ -350,11 +392,20 @@ public class GameController
                 Console.WriteLine($"Boring Discs: {P2Discs["Boring"]}");
                 Console.WriteLine($"Explosive Discs: {P2Discs["Explosive"]}");
             }
-            else // This will be deleted later
+            else // AI Turn
             {
                 Console.WriteLine("! AI Turn - Testing !");
+                AIMakeMove();
+                if (Grid.CheckWinCondition())
+                {
+                    IsGameActive = false;
+                }
+                IsPlayerTurn = !IsPlayerTurn;
+                continue;
             }
 
+
+            // Get Player Input and Process Move 
             input = IOHandler.GetPlayerInput();
             if (input.StartsWith("/"))
             {
