@@ -66,6 +66,10 @@ public class GameController
             Console.Clear();
             ChangeGridSize();
         }
+        else if (input == "/testing")
+        {
+            Testing();
+        }
         else if (input == "/quit") // Quit program
         {
             Console.WriteLine("Bye bye!");
@@ -293,6 +297,11 @@ public class GameController
         }
     }
 
+    // Allow the user to input a sequence of moves and render the result
+    private void Testing()
+    {
+        IOHandler.PrintError("Not implemented yet...");
+    }
     // Alters the size of the playable grid
     private void ChangeGridSize()
     {

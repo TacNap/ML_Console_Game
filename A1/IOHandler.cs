@@ -49,6 +49,7 @@ public class IOHandler
         PrintHeading("/load\n");
         PrintHeading("/help\n");
         PrintHeading("/grid\n");
+        PrintHeading("/testing\n");
         PrintHeading("/quit\n");
     }
 
@@ -66,6 +67,8 @@ public class IOHandler
         Console.WriteLine("continue a previous game");
         PrintHeading("/grid: ");
         Console.WriteLine("change the dimensions of the playable grid");
+        PrintHeading("/testing: ");
+        Console.WriteLine("input a sequence of moves and render the result");
         PrintHeading("/quit: ");
         Console.WriteLine("guess!");
 
