@@ -212,7 +212,18 @@ public class GameController
     // Load game state from file
     private void Load()
     {
-        IOHandler.PrintGreen("To be implemented...\n");
+        try
+        {
+            Grid = FileController.GridDeserialization("Objects/grid.csv");
+            IsGameActive = true;
+            Console.Clear();
+            IOHandler.PrintGreen("Successfully loaded game");
+            GameLoop(false);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("sumting went wrong");
+        }
     }
 
     // Save gamestate to file
@@ -300,10 +311,13 @@ public class GameController
 
     
     // The main loop that runs during a game
-    public void GameLoop()
+    public void GameLoop(bool IsNewGame = true)
     {
-        Console.Clear();
-        Grid.ClearGrid();
+        if (IsNewGame)
+        {
+            Console.Clear();
+            Grid.ClearGrid();
+        }
         Grid.DrawGrid();
         string input;
 
@@ -427,7 +441,7 @@ public class GameController
         }
 
         // Game Loop Testing
-        if (true)
+        if (false)
         {
             IsGameActive = true;
             GameLoop();
@@ -455,7 +469,7 @@ public class GameController
         }
 
         // From start test
-        if (false)
+        if (true)
         {
                 MenuStart();
         }
