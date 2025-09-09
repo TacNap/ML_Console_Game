@@ -94,7 +94,8 @@ public class GameController
         }
         else if (input == "/quit") // Return to menu
         {
-            IOHandler.PrintGreen("I don't work yet!");
+            IOHandler.PrintGreen("Successfully quit game");
+            IsGameActive = false;
             return;
         }
         else // Error
