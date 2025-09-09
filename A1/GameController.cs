@@ -98,6 +98,7 @@ public class GameController
         }
         else if (input == "/quit") // Return to menu
         {
+            Console.Clear();
             IOHandler.PrintGreen("Successfully quit game");
             IsGameActive = false;
             return;
@@ -300,12 +301,20 @@ public class GameController
     // Allow the user to input a sequence of moves and render the result
     private void Testing()
     {
-        IOHandler.PrintError("Intro...");
-        IOHandler.PrintError("This only works for regular grid size");
+        Console.Clear();
+        IOHandler.PrintGreen("Testing");
+        Console.WriteLine("You can use this feature to input a sequence of moves and render the final result.");
+        Console.WriteLine("Input a single string of moves [disc,column], separated commas (,). For example:");
+        IOHandler.PrintHeading("o1,o2,o3,e2,o1,b1\n");
         // Get Sequence
-        Console.WriteLine("Enter your sequence:");
+        Console.WriteLine("\nEnter your sequence:");
         string input = Console.ReadLine();
         string[] moves = input.Split(',');
+
+        if (moves[0] == "")
+        {
+            IOHandler.PrintError("Error: Sequence must contain atleast one move");
+        }
 
         // Execute Sequence
         Grid.ClearGrid();
@@ -322,6 +331,9 @@ public class GameController
             IsPlayerTurn = !IsPlayerTurn;
         }
         Grid.DrawGrid();
+        Console.WriteLine("Press enter to continue...");
+        Console.ReadLine();
+        Console.Clear();
         // convert input into an array
 
         // for each move in moves

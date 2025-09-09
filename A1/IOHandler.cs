@@ -56,7 +56,6 @@ public class IOHandler
     // Prints help information to the terminal - relevant to menu commands
     public void PrintMenuHelp()
     {
-        PrintGreen("To be implemented...\n");
         Console.WriteLine("Welcome to LineUp!");
         Console.WriteLine("In this game, you'll place discs in an attempt to connect four (or more) consecutive discs, and win the game.");
         Console.WriteLine("Discs can be consecutive vertically, horizontally, or diagonally.");
@@ -179,11 +178,12 @@ public class IOHandler
             if (input != "y" && input != "n")
             {
                 PrintError("Invalid Input - must be [Y] or [N]");
+                continue;
             }
             break;
         }
         
-        return input.ToLower();
+        return input;
     }
 
     // Basic get and validating of terminal input

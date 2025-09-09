@@ -7,7 +7,11 @@ public class FileController
 
     }
 
-    public void GridSerialization(string path, Grid grid, Dictionary<string,int> P1Discs, Dictionary<string, int> P2Discs, bool IsPlayerTurn)
+    // JSON Serialization doesn't support 2D Arrays
+    // It also can't natively differentiate between subclasses
+    // Manual implementation with StreamWriter/Reader has been used instead to circumvent this. 
+
+    public void GridSerialization(string path, Grid grid, Dictionary<string, int> P1Discs, Dictionary<string, int> P2Discs, bool IsPlayerTurn)
     {
         using (StreamWriter writer = new StreamWriter(path))
         {
