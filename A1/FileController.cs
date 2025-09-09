@@ -7,7 +7,7 @@ public class FileController
 
     }
 
-    public void GridSerialization(string path, Grid grid)
+    public void GridSerialization(string path, Grid grid, Dictionary<string,int> P1Discs, Dictionary<string, int> P2Discs, bool IsPlayerTurn)
     {
         using (StreamWriter writer = new StreamWriter(path))
         {
@@ -15,6 +15,17 @@ public class FileController
             writer.WriteLine($"{grid.GRID_HEIGHT}");
             writer.WriteLine($"{grid.GRID_WIDTH}");
             writer.WriteLine($"{grid.TurnCounter}");
+            // player disc amounts
+            writer.WriteLine($"{P1Discs["Ordinary"].ToString()}");
+            writer.WriteLine($"{P1Discs["Boring"].ToString()}");
+            writer.WriteLine($"{P1Discs["Explosive"].ToString()}");
+
+            writer.WriteLine($"{P2Discs["Ordinary"].ToString()}");
+            writer.WriteLine($"{P2Discs["Boring"].ToString()}");
+            writer.WriteLine($"{P2Discs["Explosive"].ToString()}");
+
+            // player turn
+            writer.WriteLine($"{IsPlayerTurn}");
 
 
             // Iterate through Board
@@ -46,7 +57,7 @@ public class FileController
         }
     }
 
-    public Grid GridDeserialization(string path)
+    public Grid GridDeserialization(string path, Dictionary<string,int> P1Discs, Dictionary<string, int> P2Discs, ref bool IsPlayerTurn)
     {
         Grid returnGrid = new Grid();
         using (StreamReader reader = new StreamReader(path))
@@ -63,10 +74,29 @@ public class FileController
             }
             catch (Exception e)
             {
-                Console.WriteLine("Error: File metadata couldn't be read");
+                Console.WriteLine("Error: Grid metadata couldn't be read");
                 rows = -1;
                 cols = -1;
             }
+
+            // Get player disc amounts 
+            try
+            {
+                P1Discs["Ordinary"] = Int32.Parse(reader.ReadLine());
+                P1Discs["Boring"] = Int32.Parse(reader.ReadLine());
+                P1Discs["Explosive"] = Int32.Parse(reader.ReadLine());
+
+                P2Discs["Ordinary"] = Int32.Parse(reader.ReadLine());
+                P2Discs["Boring"] = Int32.Parse(reader.ReadLine());
+                P2Discs["Explosive"] = Int32.Parse(reader.ReadLine());
+
+                IsPlayerTurn = reader.ReadLine() == "True" ? true : false;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error: Player metadata couldn't be read");
+            }
+
 
             string line;
             // Get Discs

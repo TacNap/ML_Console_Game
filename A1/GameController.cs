@@ -40,6 +40,7 @@ public class GameController
     // Methods
 
     // Handles the input provided from the menu
+
     public void ParseMenuInput(string input)
     {
         if (input == "/new") // Start new game
@@ -215,7 +216,14 @@ public class GameController
     {
         try
         {
-            Grid = FileController.GridDeserialization("Objects/grid.csv");
+            // Unable to pass properties by reference.
+            // So, i had to use a local variable here to set it during deserialization:
+            bool playerTurn = IsPlayerTurn;
+
+            // Deserialization
+            Grid = FileController.GridDeserialization("Objects/grid.csv", P1Discs, P2Discs, ref playerTurn);
+            IsPlayerTurn = playerTurn;
+            
             IsGameActive = true;
             Console.Clear();
             IOHandler.PrintGreen("Successfully loaded game");
@@ -233,7 +241,7 @@ public class GameController
         try
         {
             // Add a time stamp to the filename
-            FileController.GridSerialization("Objects/grid.csv", Grid);
+            FileController.GridSerialization("Objects/grid.csv", Grid, P1Discs, P2Discs, IsPlayerTurn);
             IOHandler.PrintGreen("Successfully saved to 'Objects/grid.csv'");
         }
         catch (Exception e)
@@ -462,12 +470,8 @@ public class GameController
             grid.AddDisc(1, disc);
             grid.AddDisc(2, bdisc);
             grid.DrawGrid();
-            FileController.GridSerialization("Objects/grid.csv", grid);
+            FileController.GridSerialization("Objects/grid.csv", grid, P1Discs, P2Discs, IsPlayerTurn);
 
-            Grid loadGrid = FileController.GridDeserialization("Objects/grid.csv");
-            loadGrid.DrawGrid();
-            loadGrid.AddDisc(1, bdisc);
-            loadGrid.DrawGrid();
 
         }
 
