@@ -219,10 +219,6 @@ public class Grid
     {
         int P1HorizontalCounter;
         int P2HorizontalCounter;
-        int P1VerticalCounter;
-        int P2VerticalCounter;
-        int P1DiagonalCounter;
-        int P2DiagonalCounter;
 
         // Check Horizontal
         for (int row = 0; row < GRID_HEIGHT; row++)
@@ -259,6 +255,10 @@ public class Grid
             }
         }
 
+        int P1VerticalCounter;
+        int P2VerticalCounter;
+
+
         // Check Vertical
         for (int col = 0; col < GRID_WIDTH; col++)
         {
@@ -293,13 +293,16 @@ public class Grid
                 }
             }
         }
+        
+        int P1DiagonalCounter;
+        int P2DiagonalCounter;
 
-        // Check Diagonal - North-Eastern
-        for (int row = WinLength; row < GRID_HEIGHT; row++)
+        // Check Diagonal - North-Eastern, left half
+        for (int row = WinLength - 1; row < GRID_HEIGHT; row++)
         {
             P1DiagonalCounter = 0;
             P2DiagonalCounter = 0;
-            for (int delta = 0; row - delta >= 0; delta++) 
+            for (int delta = 0; row - delta >= 0 && delta < GRID_WIDTH; delta++)
             {
                 if (Board[row - delta, delta]?.IsPlayerOne == true)
                 {
@@ -307,6 +310,111 @@ public class Grid
                     P2DiagonalCounter = 0;
                 }
                 else if (Board[row - delta, delta]?.IsPlayerOne == false)
+                {
+                    P1DiagonalCounter = 0;
+                    P2DiagonalCounter++;
+                }
+                else
+                {
+                    P1DiagonalCounter = 0;
+                    P2DiagonalCounter = 0;
+                }
+                if (P1DiagonalCounter == WinLength)
+                {
+                    IOHandler.PrintWinner(true);
+                    return true;
+                }
+                if (P2DiagonalCounter == WinLength)
+                {
+                    IOHandler.PrintWinner(false);
+                    return true;
+                }
+            }
+        }
+
+        // Check Diagonal - North-Eastern, right half
+        for (int col = 1; col < GRID_WIDTH; col++)
+        {
+            P1DiagonalCounter = 0;
+            P2DiagonalCounter = 0;
+            for (int delta = 0; GRID_HEIGHT - 1 - delta >= 0 && col + delta < GRID_WIDTH; delta++) 
+            {
+                if (Board[GRID_HEIGHT - 1 - delta, col + delta]?.IsPlayerOne == true)
+                {
+                    P1DiagonalCounter++;
+                    P2DiagonalCounter = 0;
+                }
+                else if (Board[GRID_HEIGHT - 1 - delta, col + delta]?.IsPlayerOne == false)
+                {
+                    P1DiagonalCounter = 0;
+                    P2DiagonalCounter++;
+                }
+                else
+                {
+                    P1DiagonalCounter = 0;
+                    P2DiagonalCounter = 0;
+                }
+                if (P1DiagonalCounter == WinLength)
+                {
+                    IOHandler.PrintWinner(true);
+                    return true;
+                }
+                if (P2DiagonalCounter == WinLength)
+                {
+                    IOHandler.PrintWinner(false);
+                    return true;
+                }
+            }
+        }
+
+        // Check Diagonal - North-Western, right half 
+        for (int row = WinLength - 1; row < GRID_HEIGHT; row++)
+        {
+            P1DiagonalCounter = 0;
+            P2DiagonalCounter = 0;
+            for (int delta = 0; row - delta >= 0 && GRID_WIDTH - 1 - delta >= 0; delta++) 
+            {
+                if (Board[row - delta, GRID_WIDTH - 1 - delta]?.IsPlayerOne == true)
+                {
+                    P1DiagonalCounter++;
+                    P2DiagonalCounter = 0;
+                }
+                else if (Board[row - delta, GRID_WIDTH - 1 - delta]?.IsPlayerOne == false)
+                {
+                    P1DiagonalCounter = 0;
+                    P2DiagonalCounter++;
+                }
+                else
+                {
+                    P1DiagonalCounter = 0;
+                    P2DiagonalCounter = 0;
+                }
+                if (P1DiagonalCounter == WinLength)
+                {
+                    IOHandler.PrintWinner(true);
+                    return true;
+                }
+                if (P2DiagonalCounter == WinLength)
+                {
+                    IOHandler.PrintWinner(false);
+                    return true;
+                }
+            }
+        }
+
+        // Check Diagonal - North-Western, left half
+        for (int col = GRID_WIDTH - 2; col >= 0; col--)
+        {
+            P1DiagonalCounter = 0;
+            P2DiagonalCounter = 0;
+            for (int delta = 0; GRID_HEIGHT - 1 - delta >= 0 && col - delta >= 0; delta++) 
+            {
+                if (Board[GRID_HEIGHT - 1 - delta, col - delta]?.IsPlayerOne == true)
+                {
+                    P1DiagonalCounter++;
+                    P2DiagonalCounter = 0;
+                }
+                else if (Board[GRID_HEIGHT - 1 - delta, col - delta]?.IsPlayerOne == false)
                 {
                     P1DiagonalCounter = 0;
                     P2DiagonalCounter++;
