@@ -221,6 +221,8 @@ public class Grid
         int P2HorizontalCounter;
         int P1VerticalCounter;
         int P2VerticalCounter;
+        int P1DiagonalCounter;
+        int P2DiagonalCounter;
 
         // Check Horizontal
         for (int row = 0; row < GRID_HEIGHT; row++)
@@ -285,6 +287,41 @@ public class Grid
                     return true;
                 }
                 if (P2VerticalCounter == WinLength)
+                {
+                    IOHandler.PrintWinner(false);
+                    return true;
+                }
+            }
+        }
+
+        // Check Diagonal - North-Eastern
+        for (int row = WinLength; row < GRID_HEIGHT; row++)
+        {
+            P1DiagonalCounter = 0;
+            P2DiagonalCounter = 0;
+            for (int delta = 0; row - delta >= 0; delta++) 
+            {
+                if (Board[row - delta, delta]?.IsPlayerOne == true)
+                {
+                    P1DiagonalCounter++;
+                    P2DiagonalCounter = 0;
+                }
+                else if (Board[row - delta, delta]?.IsPlayerOne == false)
+                {
+                    P1DiagonalCounter = 0;
+                    P2DiagonalCounter++;
+                }
+                else
+                {
+                    P1DiagonalCounter = 0;
+                    P2DiagonalCounter = 0;
+                }
+                if (P1DiagonalCounter == WinLength)
+                {
+                    IOHandler.PrintWinner(true);
+                    return true;
+                }
+                if (P2DiagonalCounter == WinLength)
                 {
                     IOHandler.PrintWinner(false);
                     return true;

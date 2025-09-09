@@ -476,10 +476,36 @@ public class GameController
 
         }
 
-        // From start test
+        // Diagonal Win Testing
         if (true)
         {
-                MenuStart();
+            OrdinaryDisc disc1 = new OrdinaryDisc(true);
+            OrdinaryDisc disc2 = new OrdinaryDisc(false);
+            Grid grid = new Grid();
+            grid.AddDisc(1, disc1);
+            grid.AddDisc(1, disc2);
+            grid.AddDisc(2, disc1);
+            grid.AddDisc(2, disc1);
+            grid.AddDisc(2, disc2);
+            grid.AddDisc(3, disc1);
+            grid.AddDisc(3, disc1);
+            grid.AddDisc(3, disc1);
+            grid.AddDisc(3, disc2);
+            grid.AddDisc(4, disc2);
+            grid.AddDisc(4, disc2);
+            grid.AddDisc(4, disc1);
+            grid.AddDisc(4, disc2);
+            grid.DrawGrid();
+            grid.AddDisc(4, disc2);
+            Console.WriteLine($"[true] : {grid.CheckWinCondition()}");
+            grid.DrawGrid();
+
+        }
+
+        // From start test
+        if (false)
+        {
+            MenuStart();
         }
     }
 }
