@@ -14,6 +14,7 @@ public class FileController
             // grid metadata
             writer.WriteLine($"{grid.GRID_HEIGHT}");
             writer.WriteLine($"{grid.GRID_WIDTH}");
+            writer.WriteLine($"{grid.TurnCounter}");
 
 
             // Iterate through Board
@@ -51,12 +52,14 @@ public class FileController
         using (StreamReader reader = new StreamReader(path))
         {
             // Get Metadata
-            int rows, cols;
+            int rows, cols, turn;
             try
             {
                 rows = Int32.Parse(reader.ReadLine());
                 cols = Int32.Parse(reader.ReadLine());
+                turn = Int32.Parse(reader.ReadLine());
                 returnGrid.SetGridSize(rows, cols);
+                returnGrid.SetTurnCounter(turn);
             }
             catch (Exception e)
             {

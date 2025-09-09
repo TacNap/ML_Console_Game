@@ -10,6 +10,8 @@ public class Grid
 
     public int WinLength { get; private set; }
 
+    public int TurnCounter { get; private set; }
+
     private IOHandler IOHandler;
 
 
@@ -19,12 +21,10 @@ public class Grid
     {
         this.GRID_HEIGHT = 6;
         this.GRID_WIDTH = 7;
-        this.WinLength = (int)Math.Floor(GRID_HEIGHT * GRID_WIDTH * 0.1);
         Board = new Disc[GRID_HEIGHT, GRID_WIDTH];
+        this.WinLength = (int)Math.Floor(GRID_HEIGHT * GRID_WIDTH * 0.1);
+        this.TurnCounter = 1;
         this.IOHandler = new IOHandler();
-        
-
-
     }
 
     // Methods
@@ -36,6 +36,21 @@ public class Grid
         GRID_HEIGHT = height;
         GRID_WIDTH = width;
         WinLength = (int)Math.Floor(GRID_HEIGHT * GRID_WIDTH * 0.1);
+    }
+
+    public void SetTurnCounter(int num)
+    {
+        if (num < 0)
+        {
+            // throw exception
+            return;
+        }
+        TurnCounter = num;
+    }
+
+    public void IncrementTurnCounter()
+    {
+        TurnCounter++;
     }
 
     public bool AddDisc(int col, Disc disc)
@@ -161,7 +176,7 @@ public class Grid
         }
         Console.WriteLine();
 
-        // Print grid barriers and discs
+        // Print grid barriers and disc amounts
         for (int y = 0; y < GRID_HEIGHT; y++)
         {
             for (int x = 0; x < GRID_WIDTH; x++)

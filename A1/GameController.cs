@@ -199,6 +199,7 @@ public class GameController
             {
                 // Successful Placement
                 Console.Clear();
+                Grid.IncrementTurnCounter();
                 Grid.RenderGrid(col, disc);
                 WithdrawDisc(discType, IsPlayerTurn);
                 return true;
@@ -326,6 +327,7 @@ public class GameController
             // Console Printing
             if (IsPlayerTurn)
             {
+                Console.WriteLine($"Turn: {Grid.TurnCounter}");
                 Console.WriteLine("# Player 1 Turn #");
                 Console.WriteLine($"Ordinary Discs: {P1Discs["Ordinary"]}");
                 Console.WriteLine($"Boring Discs: {P1Discs["Boring"]}");
@@ -333,6 +335,7 @@ public class GameController
             }
             else if (!IsAgainstAI)
             {
+                Console.WriteLine($"Turn: {Grid.TurnCounter}");
                 Console.WriteLine("# Player 2 Turn #");
                 Console.WriteLine($"Ordinary Discs: {P2Discs["Ordinary"]}");
                 Console.WriteLine($"Boring Discs: {P2Discs["Boring"]}");
