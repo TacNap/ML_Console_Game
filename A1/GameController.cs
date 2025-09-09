@@ -300,7 +300,41 @@ public class GameController
     // Allow the user to input a sequence of moves and render the result
     private void Testing()
     {
-        IOHandler.PrintError("Not implemented yet...");
+        IOHandler.PrintError("Intro...");
+        IOHandler.PrintError("This only works for regular grid size");
+        // Get Sequence
+        Console.WriteLine("Enter your sequence:");
+        string input = Console.ReadLine();
+        string[] moves = input.Split(',');
+
+        // Execute Sequence
+        Grid.ClearGrid();
+        foreach (string move in moves)
+        {
+            if (!TryParseMove(move.Trim().ToLower()))
+            {
+                break;
+            }
+            if (Grid.CheckWinCondition())
+            {
+                break;
+            }
+            IsPlayerTurn = !IsPlayerTurn;
+        }
+        Grid.DrawGrid();
+        // convert input into an array
+
+        // for each move in moves
+        // addDisc
+        // if fail, break
+        // ApplyEffects
+        // if CheckWin
+        //      break
+
+        // IsGameActive = true
+        // DrawGrid 
+
+
     }
     // Alters the size of the playable grid
     private void ChangeGridSize()
