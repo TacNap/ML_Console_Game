@@ -218,7 +218,16 @@ public class GameController
     // Save gamestate to file
     private void Save()
     {
-        IOHandler.PrintGreen("To be implemented...\n");
+        try
+        {
+            // Add a time stamp to the filename
+            FileController.GridSerialization("Objects/grid.csv", Grid);
+            IOHandler.PrintGreen("Successfully saved to 'Objects/grid.csv'");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("sumting went wrong");
+        }
     }
 
     // Alters the size of the playable grid
@@ -418,14 +427,14 @@ public class GameController
         }
 
         // Game Loop Testing
-        if (false)
+        if (true)
         {
             IsGameActive = true;
             GameLoop();
         }
 
         // File Operations Testing
-        if (true)
+        if (false)
         {
             OrdinaryDisc disc = new OrdinaryDisc(true);
             BoringDisc bdisc = new BoringDisc(false);
@@ -439,6 +448,8 @@ public class GameController
             FileController.GridSerialization("Objects/grid.csv", grid);
 
             Grid loadGrid = FileController.GridDeserialization("Objects/grid.csv");
+            loadGrid.DrawGrid();
+            loadGrid.AddDisc(1, bdisc);
             loadGrid.DrawGrid();
 
         }

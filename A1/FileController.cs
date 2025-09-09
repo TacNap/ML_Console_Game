@@ -1,4 +1,5 @@
-using System.Text.Json;
+
+// make me static bruh 
 public class FileController
 {
     public FileController()
@@ -13,7 +14,7 @@ public class FileController
             // grid metadata
             writer.WriteLine($"{grid.GRID_HEIGHT}");
             writer.WriteLine($"{grid.GRID_WIDTH}");
-            
+
 
             // Iterate through Board
             for (int row = 0; row < grid.GRID_HEIGHT; row++)
@@ -36,7 +37,7 @@ public class FileController
                             writer.Write("b");
                         }
                         // Determine which player it belongs to
-                        writer.Write(grid.Board[row, col].IsPlayerOne ? "1" : "0"); 
+                        writer.Write(grid.Board[row, col].IsPlayerOne ? "1" : "0");
                     }
                     writer.WriteLine();
                 }
@@ -64,9 +65,6 @@ public class FileController
                 cols = -1;
             }
 
-            // Debug
-            Console.WriteLine($"{returnGrid.GRID_HEIGHT}, {returnGrid.GRID_WIDTH}, {returnGrid.WinLength}");
-
             string line;
             // Get Discs
             for (int row = 0; row < returnGrid.GRID_HEIGHT; row++)
@@ -81,6 +79,7 @@ public class FileController
                     }
                     else
                     {
+                        // Determine which player it belongs to
                         bool player = line[1] == '1' ? true : false;
                         if (line[0] == 'o')
                         {
@@ -92,12 +91,13 @@ public class FileController
                         }
                         else
                         {
+                            // unrecognised symbol 
                             // throw exception
                         }
-                        
-                        
+
+
                     }
-                    
+
                 }
             }
 
