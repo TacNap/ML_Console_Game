@@ -68,8 +68,9 @@ public class FileController
             {
                 rows = Int32.Parse(reader.ReadLine());
                 cols = Int32.Parse(reader.ReadLine());
-                turn = Int32.Parse(reader.ReadLine());
+                turn = Int32.Parse(reader.ReadLine());                
                 returnGrid.SetGridSize(rows, cols);
+                returnGrid.ClearGrid();
                 returnGrid.SetTurnCounter(turn);
             }
             catch (Exception e)

@@ -133,7 +133,7 @@ public class GameController
 
         // Validate Input
         // Must be 2 characters
-        if (input.Length != 2)
+        if (input.Length < 2 || input.Length > 3)
         {
             IOHandler.PrintError("Invalid Move");
             return false;
@@ -148,7 +148,7 @@ public class GameController
         }
 
         // Extract disc Column 
-        if (int.TryParse(input[1].ToString(), out col))
+        if (int.TryParse(input.Substring(1), out col))
         {
             if (col < 1 || col > Grid.GRID_WIDTH)
             {
@@ -223,7 +223,7 @@ public class GameController
             // Deserialization
             Grid = FileController.GridDeserialization("Objects/grid.csv", P1Discs, P2Discs, ref playerTurn);
             IsPlayerTurn = playerTurn;
-            
+
             IsGameActive = true;
             Console.Clear();
             IOHandler.PrintGreen("Successfully loaded game");
@@ -231,7 +231,7 @@ public class GameController
         }
         catch (Exception e)
         {
-            Console.WriteLine("sumting went wrong");
+            Console.WriteLine($"sumting went wrong: {e.Message}");
         }
     }
 
@@ -246,7 +246,7 @@ public class GameController
         }
         catch (Exception e)
         {
-            Console.WriteLine("sumting went wrong");
+            Console.WriteLine($"sumting went wrong: {e.Message}");
         }
     }
 
