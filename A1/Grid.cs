@@ -17,8 +17,8 @@ public class Grid
     // Constructor
     public Grid()
     {
-        this.GRID_WIDTH = 7;
         this.GRID_HEIGHT = 6;
+        this.GRID_WIDTH = 7;
         this.WinLength = (int)Math.Floor(GRID_HEIGHT * GRID_WIDTH * 0.1);
         Board = new Disc[GRID_HEIGHT, GRID_WIDTH];
         this.IOHandler = new IOHandler();

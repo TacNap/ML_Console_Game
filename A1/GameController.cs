@@ -428,18 +428,18 @@ public class GameController
         if (true)
         {
             OrdinaryDisc disc = new OrdinaryDisc(true);
+            BoringDisc bdisc = new BoringDisc(false);
             Grid grid = new Grid();
             grid.AddDisc(1, disc);
             grid.AddDisc(1, disc);
             grid.AddDisc(1, disc);
             grid.AddDisc(1, disc);
+            grid.AddDisc(2, bdisc);
             grid.DrawGrid();
-            FileController.SaveGrid("Objects/grid.csv", grid);
+            FileController.GridSerialization("Objects/grid.csv", grid);
 
-            // Grid loadGrid = FileController.GridDeserialization("Objects/grid.json");
-            // loadGrid.ConvertTo2DArray();
-            // loadGrid.AddDisc(1, disc);
-            // loadGrid.DrawGrid();
+            Grid loadGrid = FileController.GridDeserialization("Objects/grid.csv");
+            loadGrid.DrawGrid();
 
         }
 
