@@ -84,28 +84,54 @@ public class Grid
     {
         Disc disc;
         int column;
+        bool win;
         // Establish a 'checkpoint' of the current grid.
         // We'll revert back to this during the function call. 
         Disc[,] Checkpoint = (Disc[,])Board.Clone();
 
-        // for each item in P2Discs
+        // For each disc type
         foreach (var discDict in P2Discs)
         {
+            // Create a disc to test with
+            if (discDict.Key == "Ordinary")
+            {
+                disc = new OrdinaryDisc(false);
+            }
+            else if (discDict.Key == "Boring")
+            {
+                disc = new BoringDisc(false);
+            }
+            else
+            {
+                disc = new ExplosiveDisc(false);
+            }
+
+            // For each column
             for (int col = 0; col < GRID_WIDTH; col++)
             {
-                Board = (Disc[,])Board.Clone();
-                if (discDict.Key == "Ordinary")
+                // Add the disc 
+                if (AddDisc(col, disc))
                 {
-                    disc = new OrdinaryDisc(false);
+                    // Apply its effects
+                    if (disc is BoringDisc b)
+                    {
+                        ApplyEffects(col, b);
+                    }
+                    else if (disc is ExplosiveDisc e)
+                    {
+                        ApplyEffects(col, e);
+                    }
+                    // If this produces a winning move, set flag and break
+                    // At the moment, this would be true even if P1 wins. 
+                    if (CheckWinCondition()) // I'll need to make a separate win check that doesn't print.
+                    {
+                        win = true;
+                        break;
+                    }
                 }
-                else if (discDict.Key == "Boring")
-                {
-                    disc = new BoringDisc(false);
-                }
-                else if (discDict.Key == "Explosive")
-                {
-                    disc = new ExplosiveDisc(false);
-                }
+                
+                // Revert to checkpoint after applying effects.
+                Board = (Disc[,])Checkpoint.Clone();
             }
         }
 
@@ -118,6 +144,7 @@ public class Grid
         // Add the disc to the real grid, 
         // And apply its effects
         // 
+
 
         // if (disc != null)
         // {
@@ -246,14 +273,14 @@ public class Grid
         // if disc is special
         // apply effects
         // and draw grid again
-        if (disc is ExplosiveDisc e)
-        {
-            ApplyEffects(col, e);
-            DrawGrid();
-        }
-        else if (disc is BoringDisc b)
+        if (disc is BoringDisc b)
         {
             ApplyEffects(col, b);
+            DrawGrid();
+        }
+        else if (disc is ExplosiveDisc e)
+        {
+            ApplyEffects(col, e);
             DrawGrid();
         }
 
