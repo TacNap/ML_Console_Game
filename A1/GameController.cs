@@ -217,37 +217,7 @@ public class GameController
         
     }
 
-    private bool AIFindWinningMove()
-    {
-        Disc disc;
-        int column;
-        // for each item in P2Discs
-        foreach (var item in P2Discs)
-        {
-            for (int col = 0; col < Grid.GRID_WIDTH; col++)
-            {
-                Disc[,] Buffer = (Disc[,])Grid.Board.Clone();
-            }
-        }
-
-        // for each column in grid
-
-        // make a copy grid
-        // place the new disc into it
-        // apply effects
-        // if (checkwin) 
-        // Add the disc to the real grid, 
-        // And apply its effects
-        // 
-
-        // if (disc != null)
-        // {
-        //     Grid.AddDisc(column, disc);
-        //     Grid.RenderGrid(column, disc);    
-        // }
-        return false;
-
-    }
+    
 
 
     private void AIMakeMove()
@@ -367,18 +337,6 @@ public class GameController
         Console.WriteLine("Press enter to continue...");
         Console.ReadLine();
         Console.Clear();
-        // convert input into an array
-
-        // for each move in moves
-        // addDisc
-        // if fail, break
-        // ApplyEffects
-        // if CheckWin
-        //      break
-
-        // IsGameActive = true
-        // DrawGrid 
-
 
     }
     // Alters the size of the playable grid
@@ -483,7 +441,7 @@ public class GameController
             else // AI Turn
             {
                 Console.WriteLine("! AI Turn - Testing !");
-                if (!AIFindWinningMove())
+                if (!Grid.AIFindWinningMove(P2Discs))
                 {
                     AIMakeMove();
                 }

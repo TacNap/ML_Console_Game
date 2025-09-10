@@ -80,6 +80,43 @@ public class Grid
         return true;
     }
 
+    public bool AIFindWinningMove(Dictionary<string,int> P2Discs)
+    {
+        Disc disc;
+        int column;
+        // Establish a 'checkpoint' of the current grid.
+        // We'll revert back to this during the function call. 
+        Disc[,] Checkpoint = (Disc[,])Board.Clone();
+
+        // for each item in P2Discs
+        foreach (var item in P2Discs)
+        {
+            for (int col = 0; col < GRID_WIDTH; col++)
+            {
+                Board = (Disc[,])Board.Clone();
+
+            }
+        }
+
+        // for each column in grid
+
+        // make a copy grid
+        // place the new disc into it
+        // apply effects
+        // if (checkwin) 
+        // Add the disc to the real grid, 
+        // And apply its effects
+        // 
+
+        // if (disc != null)
+        // {
+        //     Grid.AddDisc(column, disc);
+        //     Grid.RenderGrid(column, disc);    
+        // }
+        return false;
+
+    }
+
     // Applies gravity to a column.
     // Collects all discs in the column and places into a List
     // Then re-places the discs from bottom up.
