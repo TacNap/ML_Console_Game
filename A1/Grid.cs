@@ -82,9 +82,9 @@ public class Grid
 
     public bool AIFindWinningMove(Dictionary<string,int> P2Discs)
     {
-        Disc disc;
-        int column;
-        bool win;
+        Disc disc = new OrdinaryDisc(false);
+        int column = -1;
+        bool win = false;
         // Establish a 'checkpoint' of the current grid.
         // We'll revert back to this during the function call. 
         Disc[,] Checkpoint = (Disc[,])Board.Clone();
@@ -126,7 +126,8 @@ public class Grid
                     if (CheckWinCondition()) // I'll need to make a separate win check that doesn't print.
                     {
                         win = true;
-                        break;
+                        column = col;
+                        break; // how far will this break?
                     }
                 }
                 
@@ -135,22 +136,20 @@ public class Grid
             }
         }
 
-        // for each column in grid
-
-        // make a copy grid
-        // place the new disc into it
-        // apply effects
-        // if (checkwin) 
-        // Add the disc to the real grid, 
-        // And apply its effects
-        // 
-
-
-        // if (disc != null)
-        // {
-        //     Grid.AddDisc(column, disc);
-        //     Grid.RenderGrid(column, disc);    
-        // }
+        if (win)
+        {
+            Board = (Disc[,])Checkpoint.Clone();
+            AddDisc(column, disc);
+            if (disc is BoringDisc b)
+            {
+                ApplyEffects(column, b);
+            }
+            else if (disc is ExplosiveDisc e)
+            {
+                ApplyEffects(column, e);
+            }
+            return true;
+        }
         return false;
 
     }
