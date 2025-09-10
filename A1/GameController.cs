@@ -217,7 +217,6 @@ public class GameController
         
     }
 
-    
 
 
     private void AIMakeMove()
@@ -306,6 +305,9 @@ public class GameController
     // Allow the user to input a sequence of moves and render the result
     private void Testing()
     {
+        // Temporary Bool 
+        bool IsPlayerOneWin = false;
+
         Console.Clear();
         IOHandler.PrintGreen("Testing");
         Console.WriteLine("You can use this feature to input a sequence of moves and render the final result.");
@@ -329,7 +331,7 @@ public class GameController
             {
                 break;
             }
-            if (Grid.CheckWinCondition())
+            if (Grid.CheckWinCondition(ref IsPlayerOneWin))
             {
                 break;
             }
@@ -413,6 +415,10 @@ public class GameController
     // The main loop that runs during a game
     public void GameLoop(bool IsNewGame = true)
     {
+        // Temporary Bool while i fix other stuff 
+        bool IsPlayerOneWin = false;
+
+
         if (IsNewGame)
         {
             Console.Clear();
@@ -446,13 +452,19 @@ public class GameController
             else // AI Turn
             {
                 Console.WriteLine("! AI Turn - Testing !");
+                // I could make local variables here and pass to Grid?
                 if (!Grid.AIFindWinningMove(P2Discs))
                 {
                     AIMakeMove();
                 }
-                if (Grid.CheckWinCondition())
+                else // If AI finds a Winning Move 
                 {
+                }
+                if (Grid.CheckWinCondition(ref IsPlayerOneWin))
+                {
+                    IOHandler.PrintWinner(IsPlayerOneWin);
                     IsGameActive = false;
+                    continue;
                 }
                 IsPlayerTurn = !IsPlayerTurn;
                 continue;
@@ -469,9 +481,10 @@ public class GameController
             {
                 if (TryParseMove(input))
                 {
-                    if (Grid.CheckWinCondition())
+                    if (Grid.CheckWinCondition(ref IsPlayerOneWin))
                     {
                         IsGameActive = false;
+                        IOHandler.PrintWinner(IsPlayerOneWin);
                     }
                     IsPlayerTurn = !IsPlayerTurn;
                 }

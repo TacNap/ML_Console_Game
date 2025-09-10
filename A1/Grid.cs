@@ -81,7 +81,10 @@ public class Grid
     }
 
     public bool AIFindWinningMove(Dictionary<string,int> P2Discs)
-    {
+    {   
+        // temporary bool 
+        bool IsPlayerOneWin = false;
+
         Disc disc = new OrdinaryDisc(false);
         int column = -1;
         bool win = false;
@@ -123,7 +126,7 @@ public class Grid
                     }
                     // If this produces a winning move, set flag and break
                     // At the moment, this would be true even if P1 wins. 
-                    if (CheckWinCondition()) // I'll need to make a separate win check that doesn't print.
+                    if (CheckWinCondition(ref IsPlayerOneWin)) // I'll need to make a separate win check that doesn't print.
                     {
                         win = true;
                         column = col;
@@ -289,7 +292,7 @@ public class Grid
     // make me a bool later.
     // print using IOHandler if there's a win
     // Needs to account for ties, too 
-    public bool CheckWinCondition()
+    public bool CheckWinCondition(ref bool IsPlayerOneWin)
     {
         int P1HorizontalCounter;
         int P2HorizontalCounter;
@@ -318,12 +321,12 @@ public class Grid
                 }
                 if (P1HorizontalCounter == WinLength)
                 {
-                    IOHandler.PrintWinner(true);
+                    IsPlayerOneWin = true;
                     return true;
                 }
                 if (P2HorizontalCounter == WinLength)
                 {
-                    IOHandler.PrintWinner(false);
+                    IsPlayerOneWin = false;
                     return true;
                 }
             }
@@ -357,12 +360,12 @@ public class Grid
                 }
                 if (P1VerticalCounter == WinLength)
                 {
-                    IOHandler.PrintWinner(true);
+                    IsPlayerOneWin = true;
                     return true;
                 }
                 if (P2VerticalCounter == WinLength)
                 {
-                    IOHandler.PrintWinner(false);
+                    IsPlayerOneWin = false;
                     return true;
                 }
             }
@@ -395,12 +398,12 @@ public class Grid
                 }
                 if (P1DiagonalCounter == WinLength)
                 {
-                    IOHandler.PrintWinner(true);
+                    IsPlayerOneWin = true;
                     return true;
                 }
                 if (P2DiagonalCounter == WinLength)
                 {
-                    IOHandler.PrintWinner(false);
+                    IsPlayerOneWin = false;
                     return true;
                 }
             }
@@ -430,12 +433,12 @@ public class Grid
                 }
                 if (P1DiagonalCounter == WinLength)
                 {
-                    IOHandler.PrintWinner(true);
+                    IsPlayerOneWin = true;
                     return true;
                 }
                 if (P2DiagonalCounter == WinLength)
                 {
-                    IOHandler.PrintWinner(false);
+                    IsPlayerOneWin = false;
                     return true;
                 }
             }
@@ -465,12 +468,12 @@ public class Grid
                 }
                 if (P1DiagonalCounter == WinLength)
                 {
-                    IOHandler.PrintWinner(true);
+                    IsPlayerOneWin = true;
                     return true;
                 }
                 if (P2DiagonalCounter == WinLength)
                 {
-                    IOHandler.PrintWinner(false);
+                    IsPlayerOneWin = false;
                     return true;
                 }
             }
@@ -500,12 +503,12 @@ public class Grid
                 }
                 if (P1DiagonalCounter == WinLength)
                 {
-                    IOHandler.PrintWinner(true);
+                    IsPlayerOneWin = true;
                     return true;
                 }
                 if (P2DiagonalCounter == WinLength)
                 {
-                    IOHandler.PrintWinner(false);
+                    IsPlayerOneWin = false;
                     return true;
                 }
             }
