@@ -270,10 +270,12 @@ public class GameController
             // Unable to pass properties by reference.
             // So, i had to use a local variable here to set it during deserialization:
             bool playerTurn = IsPlayerTurn;
+            bool isAgainstAI = IsAgainstAI;
 
             // Deserialization
-            Grid = FileController.GridDeserialization("Objects/grid.csv", P1Discs, P2Discs, ref playerTurn);
+            Grid = FileController.GridDeserialization("Objects/grid.csv", P1Discs, P2Discs, ref playerTurn, ref isAgainstAI);
             IsPlayerTurn = playerTurn;
+            IsAgainstAI = isAgainstAI;
 
             IsGameActive = true;
             Console.Clear();
@@ -292,7 +294,7 @@ public class GameController
         try
         {
             // Add a time stamp to the filename
-            FileController.GridSerialization("Objects/grid.csv", Grid, P1Discs, P2Discs, IsPlayerTurn);
+            FileController.GridSerialization("Objects/grid.csv", Grid, P1Discs, P2Discs, IsPlayerTurn, IsAgainstAI);
             IOHandler.PrintGreen("Successfully saved to 'Objects/grid.csv'");
         }
         catch (Exception e)
@@ -422,8 +424,10 @@ public class GameController
         while (IsGameActive)
         {
             // Console Printing
+            string mode = IsAgainstAI ? "HvC" : "HvH";
             if (IsPlayerTurn) // Player 1 turn
             {
+                Console.WriteLine($"    {mode}    ");
                 Console.WriteLine($"Turn: {Grid.TurnCounter}");
                 Console.WriteLine("# Player 1 Turn #");
                 Console.WriteLine($"Ordinary Discs: {P1Discs["Ordinary"]}");
@@ -432,6 +436,7 @@ public class GameController
             }
             else if (!IsAgainstAI) // Player 2 HvH turn
             {
+                Console.WriteLine($"    {mode}    ");
                 Console.WriteLine($"Turn: {Grid.TurnCounter}");
                 Console.WriteLine("# Player 2 Turn #");
                 Console.WriteLine($"Ordinary Discs: {P2Discs["Ordinary"]}");
@@ -571,7 +576,7 @@ public class GameController
             grid.AddDisc(1, disc);
             grid.AddDisc(2, bdisc);
             grid.DrawGrid();
-            FileController.GridSerialization("Objects/grid.csv", grid, P1Discs, P2Discs, IsPlayerTurn);
+            
 
 
         }

@@ -11,7 +11,7 @@ public class FileController
     // It also can't natively differentiate between subclasses
     // Manual implementation with StreamWriter/Reader has been used instead to circumvent this. 
 
-    public void GridSerialization(string path, Grid grid, Dictionary<string, int> P1Discs, Dictionary<string, int> P2Discs, bool IsPlayerTurn)
+    public void GridSerialization(string path, Grid grid, Dictionary<string, int> P1Discs, Dictionary<string, int> P2Discs, bool IsPlayerTurn, bool IsAgainstAI)
     {
         using (StreamWriter writer = new StreamWriter(path))
         {
@@ -28,8 +28,9 @@ public class FileController
             writer.WriteLine($"{P2Discs["Boring"].ToString()}");
             writer.WriteLine($"{P2Discs["Explosive"].ToString()}");
 
-            // player turn
+            // player turn and mode
             writer.WriteLine($"{IsPlayerTurn}");
+            writer.WriteLine($"{IsAgainstAI}");
 
 
             // Iterate through Board
@@ -61,7 +62,7 @@ public class FileController
         }
     }
 
-    public Grid GridDeserialization(string path, Dictionary<string,int> P1Discs, Dictionary<string, int> P2Discs, ref bool IsPlayerTurn)
+    public Grid GridDeserialization(string path, Dictionary<string,int> P1Discs, Dictionary<string, int> P2Discs, ref bool IsPlayerTurn, ref bool IsAgainstAI)
     {
         Grid returnGrid = new Grid();
         using (StreamReader reader = new StreamReader(path))
@@ -76,6 +77,7 @@ public class FileController
                 returnGrid.SetGridSize(rows, cols);
                 returnGrid.ClearGrid();
                 returnGrid.SetTurnCounter(turn);
+                
             }
             catch (Exception e)
             {
@@ -96,6 +98,7 @@ public class FileController
                 P2Discs["Explosive"] = Int32.Parse(reader.ReadLine());
 
                 IsPlayerTurn = reader.ReadLine() == "True" ? true : false;
+                IsAgainstAI = reader.ReadLine() == "True" ? true : false;
             }
             catch (Exception e)
             {
