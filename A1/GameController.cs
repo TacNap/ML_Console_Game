@@ -220,13 +220,13 @@ public class GameController
     private bool AIFindWinningMove()
     {
         Disc disc;
-        int col;
+        int column;
         // for each item in P2Discs
         foreach (var item in P2Discs)
         {
             for (int col = 0; col < Grid.GRID_WIDTH; col++)
             {
-                
+                Disc[,] Buffer = (Disc[,])Grid.Board.Clone();
             }
         }
 
@@ -240,9 +240,11 @@ public class GameController
         // And apply its effects
         // 
 
-
-        Grid.AddDisc(disc, col);
-        Grid.ApplyEffects(col, disc);
+        // if (disc != null)
+        // {
+        //     Grid.AddDisc(column, disc);
+        //     Grid.RenderGrid(column, disc);    
+        // }
         return false;
 
     }
