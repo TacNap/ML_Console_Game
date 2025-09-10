@@ -89,12 +89,23 @@ public class Grid
         Disc[,] Checkpoint = (Disc[,])Board.Clone();
 
         // for each item in P2Discs
-        foreach (var item in P2Discs)
+        foreach (var discDict in P2Discs)
         {
             for (int col = 0; col < GRID_WIDTH; col++)
             {
                 Board = (Disc[,])Board.Clone();
-
+                if (discDict.Key == "Ordinary")
+                {
+                    disc = new OrdinaryDisc(false);
+                }
+                else if (discDict.Key == "Boring")
+                {
+                    disc = new BoringDisc(false);
+                }
+                else if (discDict.Key == "Explosive")
+                {
+                    disc = new ExplosiveDisc(false);
+                }
             }
         }
 
