@@ -293,8 +293,24 @@ public class GameController
         try
         {
             // Add a time stamp to the filename
-            FileController.GridSerialization("Objects/grid.csv", Grid, P1Discs, P2Discs, IsPlayerTurn, IsAgainstAI);
-            IOHandler.PrintGreen("Successfully saved to 'Objects/grid.csv'");
+            string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+            string folder = "Saves";
+            string fileName = "Game " + timestamp + ".csv";
+            // string fileName = timestamp
+            // if !exists folder, make it 
+            if (!Path.Exists(folder))
+            {
+                try
+                {
+                    Directory.CreateDirectory(folder);
+                }
+                catch (Exception e)
+                {
+                    IOHandler.PrintError($"Error: unable to make new directory, {e.Message}");
+                }
+            }
+            FileController.GridSerialization(Path.Combine(folder, fileName), Grid, P1Discs, P2Discs, IsPlayerTurn, IsAgainstAI);
+            IOHandler.PrintGreen($"Successfully saved to {Path.Combine(folder, fileName)}");
         }
         catch (Exception e)
         {
@@ -569,7 +585,7 @@ public class GameController
         }
 
         // Game Loop Testing
-        if (false)
+        if (true)
         {
             IsGameActive = true;
             GameLoop();
@@ -593,7 +609,7 @@ public class GameController
         }
 
         // From start test
-        if (true)
+        if (false)
         {
             MenuStart();
         }
