@@ -217,8 +217,6 @@ public class GameController
         
     }
 
-
-
     private void AIMakeMove()
     {
         Disc disc; // Disc to be placed
@@ -227,12 +225,12 @@ public class GameController
 
         // Determine Disc Type
         int roll = rand.Next(1, 11);
-        if (roll < 7)
+        if (roll < 9)
         {
             disc = new OrdinaryDisc(false);
             discType = 1;
         }
-        else if (roll == 7 || roll == 8)
+        else if (roll == 9)
         {
             disc = new BoringDisc(false);
             discType = 2;
@@ -247,7 +245,7 @@ public class GameController
         int col;
         while (true)
         {
-            col = rand.Next(1, Grid.GRID_WIDTH);
+            col = rand.Next(0, Grid.GRID_WIDTH);
             if (Grid.AddDisc(col, disc))
             {
                 break;
