@@ -392,6 +392,7 @@ public class GameController
             }
             if (Grid.CheckWinCondition(ref IsPlayerOneWin))
             {
+                IOHandler.PrintWinner(IsPlayerOneWin);
                 break;
             }
             IsPlayerTurn = !IsPlayerTurn;
