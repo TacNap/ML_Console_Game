@@ -410,8 +410,24 @@ public class GameController
         // Change disc amount for each player 
         P1Discs["Ordinary"] = (height * width / 2) - 4;
         P2Discs["Ordinary"] = (height * width / 2) - 4;
+        P1Discs["Boring"] = 2;
+        P2Discs["Boring"] = 2;
+        P1Discs["Explosive"] = 2;
+        P2Discs["Explosive"] = 2;
     }
 
+
+    private void ResetGame()
+    {
+        Grid.ClearGrid();
+        Grid.SetTurnCounter(1);
+        P1Discs["Ordinary"] = (Grid.GRID_HEIGHT * Grid.GRID_WIDTH / 2) - 4;
+        P2Discs["Ordinary"] = (Grid.GRID_HEIGHT * Grid.GRID_WIDTH / 2) - 4;
+        P1Discs["Boring"] = 2;
+        P2Discs["Boring"] = 2;
+        P1Discs["Explosive"] = 2;
+        P2Discs["Explosive"] = 2;
+    }
     // Checks the player's disc balance for the given type.
     // Returns true if they have atleast 1 disc of that type remaining
     private bool HasDiscRemaining(int discType, bool IsPlayerTurn)
@@ -481,7 +497,7 @@ public class GameController
         if (IsNewGame)
         {
             Console.Clear();
-            Grid.ClearGrid();
+            ResetGame();
         }
         Grid.DrawGrid();
         string input;
@@ -646,8 +662,6 @@ public class GameController
             grid.AddDisc(1, disc);
             grid.AddDisc(2, bdisc);
             grid.DrawGrid();
-            
-
 
         }
 
