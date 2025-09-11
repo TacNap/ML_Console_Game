@@ -459,10 +459,8 @@ public class GameController
                 }
                 else // If AI finds a Winning Move 
                 {
-                }
-                if (Grid.CheckWinCondition(ref IsPlayerOneWin))
-                {
-                    IOHandler.PrintWinner(IsPlayerOneWin);
+                    Grid.DrawGrid();
+                    IOHandler.PrintWinner(false);
                     IsGameActive = false;
                     continue;
                 }
