@@ -271,8 +271,51 @@ public class GameController
             bool playerTurn = IsPlayerTurn;
             bool isAgainstAI = IsAgainstAI;
 
+            string[] saveFiles;
+            string path;
+            
+            try
+            {
+                saveFiles = Directory.GetFiles("Saves");
+
+            }
+            catch (DirectoryNotFoundException e)
+            {
+                IOHandler.PrintError($"You're missing a Saves folder! {e.Message}");
+                return;
+            }
+            catch (Exception e)
+            {
+                IOHandler.PrintError($"Error: {e.Message}");
+                return;
+            }
+
+            Console.WriteLine("Please input the number of the file you'd like to load:");
+            for (int i = 0; i < saveFiles.Length; i++)
+            {
+                Console.WriteLine($"{i + 1}. {Path.GetFileName(saveFiles[i])}");
+            }
+            string input = Console.ReadLine();
+            try
+            {
+                int num = Int32.Parse(input);
+                if (num < 1 || num > saveFiles.Length)
+                {
+                    IOHandler.PrintError($"Error: Must be between 1 and {saveFiles.Length}");
+                    return;
+                }
+                path = saveFiles[num - 1];
+
+            }
+            catch (Exception e)
+            {
+                IOHandler.PrintError($"Error: {e.Message}");
+                return;
+            }
+            
+            // Get input to determine which one to load
             // Deserialization
-            Grid = FileController.GridDeserialization("Objects/grid.csv", P1Discs, P2Discs, ref playerTurn, ref isAgainstAI);
+            Grid = FileController.GridDeserialization(path, P1Discs, P2Discs, ref playerTurn, ref isAgainstAI);
             IsPlayerTurn = playerTurn;
             IsAgainstAI = isAgainstAI;
 
@@ -585,7 +628,7 @@ public class GameController
         }
 
         // Game Loop Testing
-        if (true)
+        if (false)
         {
             IsGameActive = true;
             GameLoop();
@@ -609,7 +652,7 @@ public class GameController
         }
 
         // From start test
-        if (false)
+        if (true)
         {
             MenuStart();
         }
