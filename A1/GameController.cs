@@ -109,6 +109,29 @@ public class GameController
         }
     }
 
+    private void PrintPlayerData()
+    {
+        string mode = IsAgainstAI ? "HvC" : "HvH";
+        Dictionary<string, int> PlayerDiscs = IsPlayerTurn ? P1Discs : P2Discs; // Holds reference to relevent dictionary
+
+        // Printing
+        Console.WriteLine($"    {mode}    ");
+        Console.WriteLine($"Turn: {Grid.TurnCounter}");
+        if (IsPlayerTurn)
+        {
+            Console.WriteLine("# Player 1 Turn #");
+            Console.WriteLine($"Ordinary Discs: {P1Discs["Ordinary"]}");
+            Console.WriteLine($"Boring Discs: {P1Discs["Boring"]}");
+            Console.WriteLine($"Explosive Discs: {P1Discs["Explosive"]}");
+        }
+        else
+        {
+            Console.WriteLine("# Player 2 Turn #");
+            Console.WriteLine($"Ordinary Discs: {P2Discs["Ordinary"]}");
+            Console.WriteLine($"Boring Discs: {P2Discs["Boring"]}");
+            Console.WriteLine($"Explosive Discs: {P2Discs["Explosive"]}");
+        }
+    }
     // Used to create a Disc, depending on which turn is active
     public Disc CreateDisc(int type, bool turn)
     {
@@ -513,26 +536,7 @@ public class GameController
         while (IsGameActive)
         {
             // Console Printing
-            string mode = IsAgainstAI ? "HvC" : "HvH";
-            if (IsPlayerTurn) // Player 1 turn
-            {
-                Console.WriteLine($"    {mode}    ");
-                Console.WriteLine($"Turn: {Grid.TurnCounter}");
-                Console.WriteLine("# Player 1 Turn #");
-                Console.WriteLine($"Ordinary Discs: {P1Discs["Ordinary"]}");
-                Console.WriteLine($"Boring Discs: {P1Discs["Boring"]}");
-                Console.WriteLine($"Explosive Discs: {P1Discs["Explosive"]}");
-            }
-            else if (!IsAgainstAI) // Player 2 HvH turn
-            {
-                Console.WriteLine($"    {mode}    ");
-                Console.WriteLine($"Turn: {Grid.TurnCounter}");
-                Console.WriteLine("# Player 2 Turn #");
-                Console.WriteLine($"Ordinary Discs: {P2Discs["Ordinary"]}");
-                Console.WriteLine($"Boring Discs: {P2Discs["Boring"]}");
-                Console.WriteLine($"Explosive Discs: {P2Discs["Explosive"]}");
-            }
-            else // AI Turn
+            if (IsAgainstAI && !IsPlayerTurn)
             {
                 Console.WriteLine("! AI Turn - Testing !");
                 // I could make local variables here and pass to Grid?
@@ -550,6 +554,10 @@ public class GameController
                 }
                 IsPlayerTurn = !IsPlayerTurn;
                 continue;
+            }
+            else
+            {
+                PrintPlayerData();
             }
 
 
