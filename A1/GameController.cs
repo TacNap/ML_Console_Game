@@ -533,10 +533,11 @@ public class GameController
                 }
                 else // If AI finds a Winning Move 
                 {
-                    Grid.DrawGrid();
-                    IOHandler.PrintWinner(false);
+                    Grid.CheckWinCondition(ref IsPlayerOneWin);
                     IsGameActive = false;
-                    continue;
+                    Grid.DrawGrid();
+                    IOHandler.PrintWinner(IsPlayerOneWin);
+                    break;
                 }
                 IsPlayerTurn = !IsPlayerTurn;
                 continue;
@@ -568,7 +569,7 @@ public class GameController
     // Provides initial menu before launching into a game 
     public void MenuStart()
     {
-        Console.Clear();
+        Console.Clear(); 
         while (!IsGameActive)
         {
             IOHandler.PrintMenuCommands();

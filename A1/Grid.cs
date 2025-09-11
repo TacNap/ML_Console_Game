@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System;
 
 public class Grid
 {
@@ -86,21 +87,26 @@ public class Grid
         bool IsPlayerOneWin = false;
 
         Disc disc = new OrdinaryDisc(false);
-        int column = -1;
-        bool win = false;
+        int winningColumn = -1;
+        bool IsWinFound = false;
         // Establish a 'checkpoint' of the current grid.
         // We'll revert back to this during the function call. 
         Disc[,] Checkpoint = (Disc[,])Board.Clone();
 
         // For each disc type
-        foreach (var discDict in P2Discs)
+        foreach (var discEntry in P2Discs)
         {
+            // Skip checking if AI doesn't have any of these discs remaining
+            if (discEntry.Value < 1)
+            {
+                continue;
+            }
             // Create a disc to test with
-            if (discDict.Key == "Ordinary")
+            if (discEntry.Key == "Ordinary")
             {
                 disc = new OrdinaryDisc(false);
             }
-            else if (discDict.Key == "Boring")
+            else if (discEntry.Key == "Boring")
             {
                 disc = new BoringDisc(false);
             }
@@ -128,28 +134,33 @@ public class Grid
                     // At the moment, this would be true even if P1 wins. 
                     if (CheckWinCondition(ref IsPlayerOneWin)) // I'll need to make a separate win check that doesn't print.
                     {
-                        win = true;
-                        column = col;
-                        break; // how far will this break?
+                        IsWinFound = true;
+                        winningColumn = col;
+                        Board = (Disc[,])Checkpoint.Clone();
+                        break;
                     }
                 }
-                
+
                 // Revert to checkpoint after applying effects.
                 Board = (Disc[,])Checkpoint.Clone();
             }
+            if (IsWinFound) // Must break an additional time, in order to exit both loops
+            {
+                break;
+            }
         }
 
-        if (win)
+        if (IsWinFound)
         {
             Board = (Disc[,])Checkpoint.Clone();
-            AddDisc(column, disc);
+            AddDisc(winningColumn, disc);
             if (disc is BoringDisc b)
             {
-                ApplyEffects(column, b);
+                ApplyEffects(winningColumn, b);
             }
             else if (disc is ExplosiveDisc e)
             {
-                ApplyEffects(column, e);
+                ApplyEffects(winningColumn, e);
             }
             return true;
         }
