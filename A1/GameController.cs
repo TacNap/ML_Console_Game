@@ -271,8 +271,51 @@ public class GameController
             bool playerTurn = IsPlayerTurn;
             bool isAgainstAI = IsAgainstAI;
 
+            string[] saveFiles;
+            string path;
+            
+            try
+            {
+                saveFiles = Directory.GetFiles("Saves");
+
+            }
+            catch (DirectoryNotFoundException e)
+            {
+                IOHandler.PrintError($"You're missing a Saves folder! {e.Message}");
+                return;
+            }
+            catch (Exception e)
+            {
+                IOHandler.PrintError($"Error: {e.Message}");
+                return;
+            }
+
+            Console.WriteLine("Please input the number of the file you'd like to load:");
+            for (int i = 0; i < saveFiles.Length; i++)
+            {
+                Console.WriteLine($"{i + 1}. {Path.GetFileName(saveFiles[i])}");
+            }
+            string input = Console.ReadLine();
+            try
+            {
+                int num = Int32.Parse(input);
+                if (num < 1 || num > saveFiles.Length)
+                {
+                    IOHandler.PrintError($"Error: Must be between 1 and {saveFiles.Length}");
+                    return;
+                }
+                path = saveFiles[num - 1];
+
+            }
+            catch (Exception e)
+            {
+                IOHandler.PrintError($"Error: {e.Message}");
+                return;
+            }
+            
+            // Get input to determine which one to load
             // Deserialization
-            Grid = FileController.GridDeserialization("Objects/grid.csv", P1Discs, P2Discs, ref playerTurn, ref isAgainstAI);
+            Grid = FileController.GridDeserialization(path, P1Discs, P2Discs, ref playerTurn, ref isAgainstAI);
             IsPlayerTurn = playerTurn;
             IsAgainstAI = isAgainstAI;
 
@@ -367,8 +410,24 @@ public class GameController
         // Change disc amount for each player 
         P1Discs["Ordinary"] = (height * width / 2) - 4;
         P2Discs["Ordinary"] = (height * width / 2) - 4;
+        P1Discs["Boring"] = 2;
+        P2Discs["Boring"] = 2;
+        P1Discs["Explosive"] = 2;
+        P2Discs["Explosive"] = 2;
     }
 
+
+    private void ResetGame()
+    {
+        Grid.ClearGrid();
+        Grid.SetTurnCounter(1);
+        P1Discs["Ordinary"] = (Grid.GRID_HEIGHT * Grid.GRID_WIDTH / 2) - 4;
+        P2Discs["Ordinary"] = (Grid.GRID_HEIGHT * Grid.GRID_WIDTH / 2) - 4;
+        P1Discs["Boring"] = 2;
+        P2Discs["Boring"] = 2;
+        P1Discs["Explosive"] = 2;
+        P2Discs["Explosive"] = 2;
+    }
     // Checks the player's disc balance for the given type.
     // Returns true if they have atleast 1 disc of that type remaining
     private bool HasDiscRemaining(int discType, bool IsPlayerTurn)
@@ -438,7 +497,7 @@ public class GameController
         if (IsNewGame)
         {
             Console.Clear();
-            Grid.ClearGrid();
+            ResetGame();
         }
         Grid.DrawGrid();
         string input;
@@ -585,7 +644,7 @@ public class GameController
         }
 
         // Game Loop Testing
-        if (true)
+        if (false)
         {
             IsGameActive = true;
             GameLoop();
@@ -603,13 +662,11 @@ public class GameController
             grid.AddDisc(1, disc);
             grid.AddDisc(2, bdisc);
             grid.DrawGrid();
-            
-
 
         }
 
         // From start test
-        if (false)
+        if (true)
         {
             MenuStart();
         }
