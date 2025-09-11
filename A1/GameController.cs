@@ -416,10 +416,19 @@ public class GameController
     }
 
 
+    /// <summary>
+    /// Resets the game, for use before starting a second game in a single session
+    /// </summary>
     private void ResetGame()
     {
+        // Reset turn
+        IsPlayerTurn = true;
+
+        // Empty all discs, reset turn counter
         Grid.ClearGrid();
         Grid.SetTurnCounter(1);
+
+        // Reset disc amounts
         P1Discs["Ordinary"] = (Grid.GRID_HEIGHT * Grid.GRID_WIDTH / 2) - 4;
         P2Discs["Ordinary"] = (Grid.GRID_HEIGHT * Grid.GRID_WIDTH / 2) - 4;
         P1Discs["Boring"] = 2;
