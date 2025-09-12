@@ -323,26 +323,35 @@ public class GameController
 
             string[] saveFiles;
             string path;
-            
+
             // Check if there's a "Saves" folder
             try
             {
                 saveFiles = Directory.GetFiles("Saves");
+                if (saveFiles.Length == 0)
+                {
+                    Console.Clear();
+                    IOHandler.PrintError("Error: No files found in Saves folder!");
+                    return;
+                }
 
             }
             catch (DirectoryNotFoundException e)
             {
+                Console.Clear();
                 IOHandler.PrintError($"You're missing a Saves folder! {e.Message}");
                 return;
             }
             catch (Exception e)
             {
+                Console.Clear();
                 IOHandler.PrintError($"Error: {e.Message}");
                 return;
             }
 
             // Get input 
             IOHandler.PrintLoadBanner();
+            
             Console.WriteLine("Please input the number of the file you'd like to load:");
             for (int i = 0; i < saveFiles.Length; i++)
             {
@@ -384,7 +393,7 @@ public class GameController
         catch (Exception e)
         {
             Console.Clear();
-            IOHandler.PrintError($"Error: {e.Message}");
+            IOHandler.PrintError($"Error: This file could not be read. {e.Message}");
         }
     }
 
@@ -417,7 +426,7 @@ public class GameController
         catch (Exception e)
         {
             Console.Clear();
-            IOHandler.PrintError($"Error: {e.Message}");
+            IOHandler.PrintError($"Error: This file couldn't be read. {e.Message}");
         }
     }
 
