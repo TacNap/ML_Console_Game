@@ -135,11 +135,23 @@ public class IOHandler
 
     }
 
-    public void PrintWinner(bool IsPlayerOne)
+    public void PrintWinner(bool PlayerOneWin, bool PlayerTwoWin) // take two parameters
     {
-        string winner = IsPlayerOne ? "Player One" : "Player Two";
+        string winner;
+        if (PlayerOneWin && PlayerTwoWin)
+        {
+            winner = "It's a Tie !";
+        }
+        else if (PlayerOneWin)
+        {
+            winner = "Player One Wins !";
+        }
+        else
+        {
+            winner = "Player Two Wins !";
+        }
         PrintHeading("╔═══════════════════════════════════════╗\n");
-        PrintHeading($"║           {winner} Wins !           ║\n");
+        PrintHeading($"║           {winner, 17}           ║\n");
         PrintHeading("╚═══════════════════════════════════════╝\n");
         PrintHeading("Press Enter to exit...\n");
         Console.Write("> ");

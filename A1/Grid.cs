@@ -81,7 +81,7 @@ public class Grid
         return true;
     }
 
-    public bool AIFindWinningMove(Dictionary<string,int> P2Discs)
+    public bool AIFindWinningMove(Dictionary<string,int> P2Discs, ref bool PlayerOneWin, ref bool PlayerTwoWin)
     {   
         // temporary bool 
         bool IsPlayerOneWin = false;
@@ -132,7 +132,7 @@ public class Grid
                     }
                     // If this produces a winning move, set flag and break
                     // At the moment, this would be true even if P1 wins. 
-                    if (CheckWinCondition(ref IsPlayerOneWin)) // I'll need to make a separate win check that doesn't print.
+                    if (CheckWinCondition(ref PlayerOneWin, ref PlayerTwoWin)) // I'll need to make a separate win check that doesn't print.
                     {
                         IsWinFound = true;
                         winningColumn = col;
@@ -150,9 +150,10 @@ public class Grid
             }
         }
 
+        // If there's a winning move available, play it
         if (IsWinFound)
         {
-            Board = (Disc[,])Checkpoint.Clone();
+            Board = (Disc[,])Checkpoint.Clone(); // Ensure Board has been reverted
             AddDisc(winningColumn, disc);
             if (disc is BoringDisc b)
             {
@@ -313,7 +314,7 @@ public class Grid
     // make me a bool later.
     // print using IOHandler if there's a win
     // Needs to account for ties, too 
-    public bool CheckWinCondition(ref bool IsPlayerOneWin)
+    public bool CheckWinCondition(ref bool PlayerOneWin, ref bool PlayerTwoWin)
     {
         int P1HorizontalCounter;
         int P2HorizontalCounter;
@@ -342,12 +343,12 @@ public class Grid
                 }
                 if (P1HorizontalCounter == WinLength)
                 {
-                    IsPlayerOneWin = true;
+                    PlayerOneWin = true;
                     return true;
                 }
                 if (P2HorizontalCounter == WinLength)
                 {
-                    IsPlayerOneWin = false;
+                    PlayerTwoWin = true;
                     return true;
                 }
             }
@@ -381,12 +382,12 @@ public class Grid
                 }
                 if (P1VerticalCounter == WinLength)
                 {
-                    IsPlayerOneWin = true;
+                    PlayerOneWin = true;
                     return true;
                 }
                 if (P2VerticalCounter == WinLength)
                 {
-                    IsPlayerOneWin = false;
+                    PlayerTwoWin = true;
                     return true;
                 }
             }
@@ -419,12 +420,12 @@ public class Grid
                 }
                 if (P1DiagonalCounter == WinLength)
                 {
-                    IsPlayerOneWin = true;
+                    PlayerOneWin = true;
                     return true;
                 }
                 if (P2DiagonalCounter == WinLength)
                 {
-                    IsPlayerOneWin = false;
+                    PlayerTwoWin = true;
                     return true;
                 }
             }
@@ -454,12 +455,12 @@ public class Grid
                 }
                 if (P1DiagonalCounter == WinLength)
                 {
-                    IsPlayerOneWin = true;
+                    PlayerOneWin = true;
                     return true;
                 }
                 if (P2DiagonalCounter == WinLength)
                 {
-                    IsPlayerOneWin = false;
+                    PlayerTwoWin = true;
                     return true;
                 }
             }
@@ -489,12 +490,12 @@ public class Grid
                 }
                 if (P1DiagonalCounter == WinLength)
                 {
-                    IsPlayerOneWin = true;
+                    PlayerOneWin = true;
                     return true;
                 }
                 if (P2DiagonalCounter == WinLength)
                 {
-                    IsPlayerOneWin = false;
+                    PlayerTwoWin = true;
                     return true;
                 }
             }
@@ -524,12 +525,12 @@ public class Grid
                 }
                 if (P1DiagonalCounter == WinLength)
                 {
-                    IsPlayerOneWin = true;
+                    PlayerOneWin = true;
                     return true;
                 }
                 if (P2DiagonalCounter == WinLength)
                 {
-                    IsPlayerOneWin = false;
+                    PlayerTwoWin = true;
                     return true;
                 }
             }

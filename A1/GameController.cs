@@ -8,6 +8,9 @@ public class GameController
 
     private bool IsPlayerTurn { get; set; } = true; // used to alternate player turns
 
+    public bool PlayerOneWin = false;
+    public bool PlayerTwoWin = false;
+
    Dictionary<string, int> P1Discs = new Dictionary<string, int>
     {
         ["Ordinary"] = 17,
@@ -419,8 +422,6 @@ public class GameController
     // Allow the user to input a sequence of moves and render the result
     private void Testing()
     {
-        // Temporary Bool 
-        bool IsPlayerOneWin = false;
         IOHandler.PrintTestingMode();
         // Get Sequence
         Console.WriteLine("\nEnter your sequence:");
@@ -443,9 +444,9 @@ public class GameController
                 break;
             }
                 PrintPlayerData();
-            if (Grid.CheckWinCondition(ref IsPlayerOneWin))
+            if (Grid.CheckWinCondition(ref PlayerOneWin, ref PlayerTwoWin))
             {
-                IOHandler.PrintWinner(IsPlayerOneWin);
+                IOHandler.PrintWinner(PlayerOneWin, PlayerTwoWin);
                 break;
             }
             IsPlayerTurn = !IsPlayerTurn;
@@ -551,12 +552,28 @@ public class GameController
         }
     }
 
-    
+    // If both players have 0 discs remaining, this will return true;
+    private bool IsTieGame()
+    {
+        if (
+            !HasDiscRemaining(1, true) &&
+            !HasDiscRemaining(2, true) &&
+            !HasDiscRemaining(3, true) &&
+            !HasDiscRemaining(1, false) &&
+            !HasDiscRemaining(2, false) &&
+            !HasDiscRemaining(3, false)
+            )
+        {
+            PlayerOneWin = true;
+            PlayerTwoWin = true;
+            return true;
+        }
+        return false;
+    }
+
     // The main loop that runs during a game
     public void GameLoop(bool IsNewGame = true)
     {
-        // Temporary Bool while i fix other stuff 
-        bool IsPlayerOneWin = false;
 
         // Fresh start
         if (IsNewGame)
@@ -569,10 +586,16 @@ public class GameController
         // Main loop
         while (IsGameActive)
         {
+            if (IsTieGame())
+            {
+                IsGameActive = false;
+                IOHandler.PrintWinner(PlayerOneWin, PlayerTwoWin);
+                break;
+            }
             // AI logic 
             if (IsAgainstAI && !IsPlayerTurn)
             {
-                if (!Grid.AIFindWinningMove(P2Discs))
+                if (!Grid.AIFindWinningMove(P2Discs, ref PlayerOneWin, ref PlayerTwoWin))
                 {
                     AIMakeMove();
                 }
@@ -580,9 +603,9 @@ public class GameController
                 {
                     Console.Clear();
                     Grid.DrawGrid();
-                    Grid.CheckWinCondition(ref IsPlayerOneWin);
+                    Grid.CheckWinCondition(ref PlayerOneWin, ref PlayerTwoWin);
                     IsGameActive = false;
-                    IOHandler.PrintWinner(IsPlayerOneWin);
+                    IOHandler.PrintWinner(PlayerOneWin, PlayerTwoWin);
                     break;
                 }
                 IsPlayerTurn = !IsPlayerTurn;
@@ -605,10 +628,10 @@ public class GameController
             {
                 if (TryParseMove(input))
                 {
-                    if (Grid.CheckWinCondition(ref IsPlayerOneWin))
+                    if (Grid.CheckWinCondition(ref PlayerOneWin, ref PlayerTwoWin))
                     {
                         IsGameActive = false;
-                        IOHandler.PrintWinner(IsPlayerOneWin);
+                        IOHandler.PrintWinner(PlayerOneWin, PlayerTwoWin);
                     }
                     IsPlayerTurn = !IsPlayerTurn;
                 }
