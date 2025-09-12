@@ -188,6 +188,7 @@ public class GameController
         // Must be 2 characters
         if (input.Length < 2 || input.Length > 3)
         {
+            Console.Clear();
             IOHandler.PrintError("Invalid Move");
             return false;
         }
@@ -196,6 +197,7 @@ public class GameController
         string discStr = input[0].ToString();
         if (!DiscTypes.Contains(discStr))
         {
+            Console.Clear();
             IOHandler.PrintError("Invalid Move - Invalid Disc");
             return false;
         }
@@ -205,12 +207,14 @@ public class GameController
         {
             if (col < 1 || col > Grid.GRID_WIDTH)
             {
+                Console.Clear();
                 IOHandler.PrintError("Invalid Move - Invalid Column");
                 return false;
             }
         }
         else
         {
+            Console.Clear();
             IOHandler.PrintError("Invalid Move - Invalid Column");
             return false;
         }
@@ -236,7 +240,6 @@ public class GameController
         if (!HasDiscRemaining(discType, IsPlayerTurn))
         {
             Console.Clear();
-            Grid.RenderGrid(); // Call without parameters, so effects aren't rendered
             IOHandler.PrintError("Invalid Move - No discs of that type remaining");
             return false;
         }
@@ -245,7 +248,6 @@ public class GameController
             if (!Grid.AddDisc(col, disc))
             {
                 Console.Clear();
-                Grid.RenderGrid(); // Call without parameters, so effects aren't rendered
                 IOHandler.PrintError("Invalid Move - Column is full");
                 return false;
             }
@@ -606,6 +608,10 @@ public class GameController
                         IOHandler.PrintWinner(IsPlayerOneWin);
                     }
                     IsPlayerTurn = !IsPlayerTurn;
+                }
+                else
+                {
+                    Grid.DrawGrid();
                 }
             }
         }
