@@ -114,38 +114,39 @@ public class GameController
         string mode = IsAgainstAI ? "HvC" : "HvH";
         Dictionary<string, int> PlayerDiscs = IsPlayerTurn ? P1Discs : P2Discs; // Holds reference to relevent dictionary
         string player = IsPlayerTurn ? "Player 1 Turn" : "Player 2 Turn";
+        // holds strings that contain ◉ characters, depending on discs remaining
+        string ordinary = new string('◉', Math.Min(PlayerDiscs["Ordinary"], 15)); // max out at 15 
+        string boring = new string('◉', PlayerDiscs["Boring"]);
+        string explosive = new string('◉', PlayerDiscs["Explosive"]);
 
         // Printing
+        // I apologise to whoever has to read this:
         Console.WriteLine("╔═══════════════════════════════════════╗");
-        Console.WriteLine($"║   Turn {Grid.TurnCounter}                        {mode}   ║");
+        Console.WriteLine($"║   Turn{Grid.TurnCounter, 3}                      {mode}    ║");
         Console.WriteLine($"║              {player}            ║");
         Console.WriteLine("╚═══════════════════════════════════════╝");
+
+        // Print Ordinary - only print 15, the add a "+ x" for remaining discs
         Console.Write($"║ Ordinary : ");
-        for (int num = 0; num < PlayerDiscs["Ordinary"] && num < 15 ; num++)
+        Console.Write($"{ordinary, -15}");
+        if (PlayerDiscs["Ordinary"] > 15) 
         {
-            Console.Write("◉");
-        }
-        if (PlayerDiscs["Ordinary"] > 15)
-        {
-            Console.Write($" +{PlayerDiscs["Ordinary"] - 15}         ║");
+            Console.Write($" +{PlayerDiscs["Ordinary"] - 15,2}        ║");
         }
         else
         {
-            Console.Write("            ║");
+            Console.Write($"            ║");
         }
         Console.WriteLine();
 
+        // Print Boring
         Console.Write($"║ Boring   : ");
-        for (int num = 0; num < PlayerDiscs["Boring"]; num++)
-        {
-            Console.Write("◉");
-        }
+        Console.Write($"{boring, -2}");
         Console.Write("                         ║\n");
+
+        // Print Explosive
         Console.Write($"║ Explosive: ");
-        for (int num = 0; num < PlayerDiscs["Explosive"]; num++)
-        {
-            Console.Write("◉");
-        }
+        Console.Write($"{explosive, -2}");
         Console.Write("                         ║\n");
         Console.WriteLine("╚═══════════════════════════════════════╝");
     }
@@ -677,7 +678,7 @@ public class GameController
         }
 
         // Game Loop Testing
-        if (true)
+        if (false)
         {
             IsGameActive = true;
             GameLoop();
@@ -699,7 +700,7 @@ public class GameController
         }
 
         // From start test
-        if (false)
+        if (true)
         {
             MenuStart();
         }
