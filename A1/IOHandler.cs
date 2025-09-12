@@ -43,20 +43,28 @@ public class IOHandler
         PrintHeading("║               LineUp                  ║\n");
         PrintHeading("╚═══════════════════════════════════════╝\n");
     }
+
+    public void PrintLoadBanner()
+    {
+        PrintHeading("╔═══════════════════════════════════════╗\n");
+        PrintHeading("║              Loading                  ║\n");
+        PrintHeading("╚═══════════════════════════════════════╝\n");
+    }
     // List commands available from the main menu
     // This could be re-factored to use a dictionary, so each command has a matching desc?
     public void PrintMenuCommands()
     {
+
         PrintHeading("╔═══════════════════════════════════════╗\n");
         PrintHeading("║           Welcome to LineUp           ║\n");
         PrintHeading("╚═══════════════════════════════════════╝\n");
         PrintHeading("Please enter one of the following commands:\n");
-        PrintHeading("/new\n");
-        PrintHeading("/load\n");
-        PrintHeading("/help\n");
-        PrintHeading("/grid\n");
-        PrintHeading("/testing\n");
-        PrintHeading("/quit\n");
+        PrintHeading("  /new\n");
+        PrintHeading("  /load\n");
+        PrintHeading("  /help\n");
+        PrintHeading("  /grid\n");
+        PrintHeading("  /testing\n");
+        PrintHeading("  /quit\n");
     }
 
     // Prints help information to the terminal - relevant to menu commands

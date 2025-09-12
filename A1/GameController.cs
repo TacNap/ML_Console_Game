@@ -91,10 +91,13 @@ public class GameController
         if (input == "/save") // Save to file
         {
             Save();
+            Grid.DrawGrid();
         }
         else if (input == "/help") // Print game information
         {
-            IOHandler.PrintGreen("To be implemented...\n");
+            Console.Clear();
+            IOHandler.PrintGreen("To be implemented...");
+            Grid.DrawGrid();
         }
         else if (input == "/quit") // Return to menu
         {
@@ -105,7 +108,9 @@ public class GameController
         }
         else // Error
         {
-            IOHandler.PrintError("Unrecognised command. Try again...\n");
+            Console.Clear();
+            IOHandler.PrintError("Unrecognised command. Try again...");
+            Grid.DrawGrid();
         }
     }
 
@@ -313,6 +318,7 @@ public class GameController
             string[] saveFiles;
             string path;
             
+            // Check if there's a "Saves" folder
             try
             {
                 saveFiles = Directory.GetFiles("Saves");
@@ -329,6 +335,8 @@ public class GameController
                 return;
             }
 
+            // Get input 
+            IOHandler.PrintLoadBanner();
             Console.WriteLine("Please input the number of the file you'd like to load:");
             for (int i = 0; i < saveFiles.Length; i++)
             {
@@ -340,7 +348,8 @@ public class GameController
                 int num = Int32.Parse(input);
                 if (num < 1 || num > saveFiles.Length)
                 {
-                    IOHandler.PrintError($"Error: Must be between 1 and {saveFiles.Length}");
+                    Console.Clear();
+                    IOHandler.PrintError($"Error: Input must be between 1 and {saveFiles.Length}\n");
                     return;
                 }
                 path = saveFiles[num - 1];
@@ -348,7 +357,8 @@ public class GameController
             }
             catch (Exception e)
             {
-                IOHandler.PrintError($"Error: {e.Message}");
+                Console.Clear();
+                IOHandler.PrintError($"Error: {e.Message}\n");
                 return;
             }
             
@@ -360,7 +370,7 @@ public class GameController
 
             IsGameActive = true;
             Console.Clear();
-            IOHandler.PrintGreen("Successfully loaded game");
+            IOHandler.PrintGreen("Game Loaded!");
             GameLoop(false);
         }
         catch (Exception e)
@@ -392,11 +402,13 @@ public class GameController
                 }
             }
             FileController.GridSerialization(Path.Combine(folder, fileName), Grid, P1Discs, P2Discs, IsPlayerTurn, IsAgainstAI);
-            IOHandler.PrintGreen($"Successfully saved to {Path.Combine(folder, fileName)}");
+            Console.Clear();
+            IOHandler.PrintGreen($"Game saved to '{Path.Combine(folder, fileName)}'");
         }
         catch (Exception e)
         {
-            Console.WriteLine($"sumting went wrong: {e.Message}");
+            Console.Clear();
+            IOHandler.PrintError($"Error: {e.Message}");
         }
     }
 
