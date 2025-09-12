@@ -113,24 +113,32 @@ public class GameController
     {
         string mode = IsAgainstAI ? "HvC" : "HvH";
         Dictionary<string, int> PlayerDiscs = IsPlayerTurn ? P1Discs : P2Discs; // Holds reference to relevent dictionary
+        string player = IsPlayerTurn ? "Player 1 Turn" : "Player 2 Turn";
 
-        // Printing
-        Console.WriteLine($"    {mode}    ");
-        Console.WriteLine($"Turn: {Grid.TurnCounter}");
-        if (IsPlayerTurn)
+        // Printing ◉
+        Console.WriteLine("╔═══════════════════════════════════════╗");
+        Console.WriteLine($"║   Turn {Grid.TurnCounter}                        {mode}   ║");
+        Console.WriteLine($"║              {player}            ║");
+        Console.WriteLine("╚═══════════════════════════════════════╝");
+        Console.Write($"║ Ordinary : ");
+        for (int num = 0; num < PlayerDiscs["Ordinary"]; num++)
         {
-            Console.WriteLine("# Player 1 Turn #");
-            Console.WriteLine($"Ordinary Discs: {P1Discs["Ordinary"]}");
-            Console.WriteLine($"Boring Discs: {P1Discs["Boring"]}");
-            Console.WriteLine($"Explosive Discs: {P1Discs["Explosive"]}");
+            Console.Write("◉");
         }
-        else
+        Console.WriteLine();
+
+        Console.Write($"║ Boring   : ");
+        for (int num = 0; num < PlayerDiscs["Boring"]; num++)
         {
-            Console.WriteLine("# Player 2 Turn #");
-            Console.WriteLine($"Ordinary Discs: {P2Discs["Ordinary"]}");
-            Console.WriteLine($"Boring Discs: {P2Discs["Boring"]}");
-            Console.WriteLine($"Explosive Discs: {P2Discs["Explosive"]}");
+            Console.Write("◉");
         }
+        Console.WriteLine();
+        Console.Write($"║ Explosive: ");
+        for (int num = 0; num < PlayerDiscs["Explosive"]; num++)
+        {
+            Console.Write("◉");
+        }
+        Console.WriteLine();
     }
     // Used to create a Disc, depending on which turn is active
     public Disc CreateDisc(int type, bool turn)
@@ -524,22 +532,20 @@ public class GameController
         // Temporary Bool while i fix other stuff 
         bool IsPlayerOneWin = false;
 
-
+        // Fresh start
         if (IsNewGame)
         {
             Console.Clear();
             ResetGame();
         }
         Grid.DrawGrid();
-        string input;
 
+        // Main loop
         while (IsGameActive)
         {
-            // Console Printing
+            // AI logic 
             if (IsAgainstAI && !IsPlayerTurn)
             {
-                Console.WriteLine("! AI Turn - Testing !");
-                // I could make local variables here and pass to Grid?
                 if (!Grid.AIFindWinningMove(P2Discs))
                 {
                     AIMakeMove();
@@ -557,17 +563,18 @@ public class GameController
             }
             else
             {
+                // Printing for console for human players
                 PrintPlayerData();
             }
 
 
             // Get Player Input and Process Move 
-            input = IOHandler.GetPlayerInput();
-            if (input.StartsWith("/"))
+            string input = IOHandler.GetPlayerInput();
+            if (input.StartsWith("/")) // Process command
             {
                 ParseCommand(input);
             }
-            else
+            else // Process move
             {
                 if (TryParseMove(input))
                 {
@@ -661,7 +668,7 @@ public class GameController
         }
 
         // Game Loop Testing
-        if (false)
+        if (true)
         {
             IsGameActive = true;
             GameLoop();
@@ -683,7 +690,7 @@ public class GameController
         }
 
         // From start test
-        if (true)
+        if (false)
         {
             MenuStart();
         }
