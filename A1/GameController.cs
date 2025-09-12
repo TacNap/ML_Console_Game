@@ -277,20 +277,24 @@ public class GameController
 
         // Determine Disc Type
         int roll = rand.Next(1, 11);
-        if (roll < 9)
+        if (roll < 9 && HasDiscRemaining(1, false))
         {
             disc = new OrdinaryDisc(false);
             discType = 1;
         }
-        else if (roll == 9)
+        else if (HasDiscRemaining(2, false))
         {
             disc = new BoringDisc(false);
             discType = 2;
         }
-        else
+        else if (HasDiscRemaining(3, false))
         {
             disc = new ExplosiveDisc(false);
             discType = 3;
+        }
+        else
+        {
+            return;
         }
 
         // Determine Column Placement

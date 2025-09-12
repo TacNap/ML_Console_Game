@@ -132,8 +132,7 @@ public class FileController
                         }
                         else
                         {
-                            // unrecognised symbol 
-                            // throw exception
+                            throw new Exception();
                         }
 
 
