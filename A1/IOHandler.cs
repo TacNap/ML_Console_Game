@@ -70,7 +70,9 @@ public class IOHandler
     // Prints help information to the terminal - relevant to menu commands
     public void PrintMenuHelp()
     {
-        Console.WriteLine("Welcome to LineUp!");
+        PrintHeading("╔═══════════════════════════════════════╗\n");
+        PrintHeading("║                Help                   ║\n");
+        PrintHeading("╚═══════════════════════════════════════╝\n");
         Console.WriteLine("In this game, you'll place discs in an attempt to connect four (or more) consecutive discs, and win the game.");
         Console.WriteLine("Discs can be consecutive vertically, horizontally, or diagonally.");
         Console.WriteLine("You can use the following commands from the menu:");
@@ -84,14 +86,49 @@ public class IOHandler
         Console.WriteLine("input a sequence of moves and render the result");
         PrintHeading("/quit: ");
         Console.WriteLine("guess!");
+        PrintHeading("Press Enter to return...\n");
+        Console.Write("> ");
+        Console.Read();
 
     }
 
     // Prints help information to the terminal - relevant to core game loop
     public void PrintGameHelp()
     {
-        PrintGreen("To be implemented...\n");
-        Console.WriteLine("");
+        Console.Clear();
+        PrintHeading("╔═══════════════════════════════════════╗\n");
+        PrintHeading("║                Help                   ║\n");
+        PrintHeading("╚═══════════════════════════════════════╝\n");
+        Console.WriteLine("To place a disc, enter the disc type followed by the column number, for example:");
+        PrintHeading("o1 ");
+        Console.WriteLine("will place an Ordinary disc in the first column");
+        PrintHeading("b7 ");
+        Console.WriteLine("will place a Boring disc in the seventh column");
+        Console.WriteLine("\nYou can also make use of the following commands during gameplay:");
+        PrintHeading("/help ");
+        Console.WriteLine("to access this menu");
+        PrintHeading("/save ");
+        Console.WriteLine("to save the game in its current state");
+        PrintHeading("/quit ");
+        Console.WriteLine("to return to the menu, without saving");
+        PrintHeading("\nPress Enter to return...\n");
+        Console.Write("> ");
+        Console.ReadLine();
+        Console.Clear();
+    }
+
+    public void PrintTestingMode()
+    {
+        Console.Clear();
+        PrintHeading("╔═══════════════════════════════════════╗\n");
+        PrintHeading("║               Testing                 ║\n");
+        PrintHeading("╚═══════════════════════════════════════╝\n");
+        Console.WriteLine("You can use this feature to input a sequence of moves and render the final result.");
+        Console.WriteLine("Input a single string of moves [disc,column], separated commas (,). For example:");
+        PrintHeading("o1,o2,o3,e2,o1,b1\n");
+        Console.WriteLine("To test with uniquely sized grids, use the '/grid' command before using Testing mode");
+        // Get Sequence
+
     }
 
     public void PrintWinner(bool IsPlayerOne)

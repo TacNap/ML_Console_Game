@@ -1,3 +1,5 @@
+using System.ComponentModel.Design;
+
 public class GameController
 {
     // Fields
@@ -95,8 +97,7 @@ public class GameController
         }
         else if (input == "/help") // Print game information
         {
-            Console.Clear();
-            IOHandler.PrintGreen("To be implemented...");
+            IOHandler.PrintGameHelp();
             Grid.DrawGrid();
         }
         else if (input == "/quit") // Return to menu
@@ -417,14 +418,10 @@ public class GameController
     {
         // Temporary Bool 
         bool IsPlayerOneWin = false;
-
-        Console.Clear();
-        IOHandler.PrintGreen("Testing");
-        Console.WriteLine("You can use this feature to input a sequence of moves and render the final result.");
-        Console.WriteLine("Input a single string of moves [disc,column], separated commas (,). For example:");
-        IOHandler.PrintHeading("o1,o2,o3,e2,o1,b1\n");
+        IOHandler.PrintTestingMode();
         // Get Sequence
         Console.WriteLine("\nEnter your sequence:");
+        Console.Write("> ");
         string input = Console.ReadLine();
         string[] moves = input.Split(',');
 
@@ -434,21 +431,24 @@ public class GameController
         }
 
         // Execute Sequence
-        Grid.ClearGrid();
+        ResetGame();
         foreach (string move in moves)
         {
+            Console.Clear();
             if (!TryParseMove(move.Trim().ToLower()))
             {
                 break;
             }
+                PrintPlayerData();
             if (Grid.CheckWinCondition(ref IsPlayerOneWin))
             {
                 IOHandler.PrintWinner(IsPlayerOneWin);
                 break;
             }
             IsPlayerTurn = !IsPlayerTurn;
+
         }
-        Grid.DrawGrid();
+        //Grid.DrawGrid();
         Console.WriteLine("Press enter to continue...");
         Console.ReadLine();
         Console.Clear();
