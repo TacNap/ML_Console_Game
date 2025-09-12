@@ -368,9 +368,10 @@ public class GameController
                 IOHandler.PrintError($"Error: {e.Message}\n");
                 return;
             }
-            
+
             // Get input to determine which one to load
             // Deserialization
+            ResetGame();
             Grid = FileController.GridDeserialization(path, P1Discs, P2Discs, ref playerTurn, ref isAgainstAI);
             IsPlayerTurn = playerTurn;
             IsAgainstAI = isAgainstAI;
@@ -382,7 +383,8 @@ public class GameController
         }
         catch (Exception e)
         {
-            Console.WriteLine($"sumting went wrong: {e.Message}");
+            Console.Clear();
+            IOHandler.PrintError($"Error: {e.Message}");
         }
     }
 
@@ -481,6 +483,8 @@ public class GameController
     {
         // Reset turn
         IsPlayerTurn = true;
+        PlayerOneWin = false;
+        PlayerTwoWin = false;
 
         // Empty all discs, reset turn counter
         Grid.ClearGrid();
