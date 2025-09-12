@@ -37,26 +37,42 @@ public class IOHandler
         Console.WriteLine();
     }
 
+    public void PrintBanner()
+    {
+        PrintHeading("╔═══════════════════════════════════════╗\n");
+        PrintHeading("║               LineUp                  ║\n");
+        PrintHeading("╚═══════════════════════════════════════╝\n");
+    }
+
+    public void PrintLoadBanner()
+    {
+        PrintHeading("╔═══════════════════════════════════════╗\n");
+        PrintHeading("║              Loading                  ║\n");
+        PrintHeading("╚═══════════════════════════════════════╝\n");
+    }
     // List commands available from the main menu
     // This could be re-factored to use a dictionary, so each command has a matching desc?
     public void PrintMenuCommands()
     {
-        PrintHeading("┌───────────────────────────┐\n");
-        PrintHeading("|     Welcome to LineUp     |\n");
-        PrintHeading("└───────────────────────────┘\n");
+
+        PrintHeading("╔═══════════════════════════════════════╗\n");
+        PrintHeading("║           Welcome to LineUp           ║\n");
+        PrintHeading("╚═══════════════════════════════════════╝\n");
         PrintHeading("Please enter one of the following commands:\n");
-        PrintHeading("/new\n");
-        PrintHeading("/load\n");
-        PrintHeading("/help\n");
-        PrintHeading("/grid\n");
-        PrintHeading("/testing\n");
-        PrintHeading("/quit\n");
+        PrintHeading("  /new\n");
+        PrintHeading("  /load\n");
+        PrintHeading("  /help\n");
+        PrintHeading("  /grid\n");
+        PrintHeading("  /testing\n");
+        PrintHeading("  /quit\n");
     }
 
     // Prints help information to the terminal - relevant to menu commands
     public void PrintMenuHelp()
     {
-        Console.WriteLine("Welcome to LineUp!");
+        PrintHeading("╔═══════════════════════════════════════╗\n");
+        PrintHeading("║                Help                   ║\n");
+        PrintHeading("╚═══════════════════════════════════════╝\n");
         Console.WriteLine("In this game, you'll place discs in an attempt to connect four (or more) consecutive discs, and win the game.");
         Console.WriteLine("Discs can be consecutive vertically, horizontally, or diagonally.");
         Console.WriteLine("You can use the following commands from the menu:");
@@ -70,34 +86,83 @@ public class IOHandler
         Console.WriteLine("input a sequence of moves and render the result");
         PrintHeading("/quit: ");
         Console.WriteLine("guess!");
+        PrintHeading("Press Enter to return...\n");
+        Console.Write("> ");
+        Console.ReadLine();
+        Console.Clear();
 
     }
 
     // Prints help information to the terminal - relevant to core game loop
-    public void PrintGameHelp()
+    public void PrintGameHelp(int WinLength)
     {
-        PrintGreen("To be implemented...\n");
-        Console.WriteLine("");
+        Console.Clear();
+        PrintHeading("╔═══════════════════════════════════════╗\n");
+        PrintHeading("║                Help                   ║\n");
+        PrintHeading("╚═══════════════════════════════════════╝\n");
+        Console.Write("In order to win, you'll need to align ");
+        PrintHeading($"{WinLength}");
+        Console.Write(" discs in a row vertically, horizontally or diagonally.\n");
+        Console.WriteLine("To place a disc, enter the disc type followed by the column number, for example:");
+        PrintHeading("o1 ");
+        Console.WriteLine("will place an Ordinary disc in the first column");
+        PrintHeading("b7 ");
+        Console.WriteLine("will place a Boring disc in the seventh column");
+        Console.WriteLine("\nYou can also make use of the following commands during gameplay:");
+        PrintHeading("/help ");
+        Console.WriteLine("to access this menu");
+        PrintHeading("/save ");
+        Console.WriteLine("to save the game in its current state");
+        PrintHeading("/quit ");
+        Console.WriteLine("to return to the menu, without saving");
+        PrintHeading("\nPress Enter to return...\n");
+        Console.Write("> ");
+        Console.ReadLine();
+        Console.Clear();
+    }
+
+    public void PrintTestingMode()
+    {
+        Console.Clear();
+        PrintHeading("╔═══════════════════════════════════════╗\n");
+        PrintHeading("║               Testing                 ║\n");
+        PrintHeading("╚═══════════════════════════════════════╝\n");
+        Console.WriteLine("You can use this feature to input a sequence of moves and render the final result.");
+        Console.WriteLine("Input a single string of moves [disc,column], separated commas (,). For example:");
+        PrintHeading("o1,o2,o3,e2,o1,b1\n");
+        Console.WriteLine("To test with uniquely sized grids, use the '/grid' command before using Testing mode");
+        // Get Sequence
+
     }
 
     public void PrintWinner(bool IsPlayerOne)
     {
         string winner = IsPlayerOne ? "Player One" : "Player Two";
-        PrintHeading("┌───────────────────────────┐\n");
-        PrintHeading($"|      {winner} Wins !    |\n");
-        PrintHeading("└───────────────────────────┘\n");
-        PrintHeading("Press any key to exit...\n");
+        PrintHeading("╔═══════════════════════════════════════╗\n");
+        PrintHeading($"║           {winner} Wins !           ║\n");
+        PrintHeading("╚═══════════════════════════════════════╝\n");
+        PrintHeading("Press Enter to exit...\n");
         Console.Write("> ");
-        Console.Read();
+        Console.ReadLine();
+        Console.Clear();
     }
 
     public (int width, int height) GetInputGridSize()
     {
         string input;
         int rows, cols;
+        PrintHeading("╔═══════════════════════════════════════╗\n");
+        PrintHeading("║                 Grid                  ║\n");
+        PrintHeading("╚═══════════════════════════════════════╝\n");
         Console.WriteLine("You are now changing the size of the grid.");
-        Console.WriteLine("The grid may not be smaller than 6 rows by 7 columns,");
-        Console.WriteLine("and may not have more rows than columns");
+        Console.WriteLine("A grid may be square, but cannot have more rows than columns.");
+        Console.Write("The smallest grid is ");
+        PrintHeading("6x7");
+        Console.Write(" Rows x Columns.\n");
+        Console.Write("The largest grid is ");
+        PrintHeading("40x40");
+        Console.Write(" Rows x Columns.\n\n");
+
 
         // Determine the number of columns
         while (true)
@@ -108,20 +173,20 @@ public class IOHandler
             try
             {
                 cols = Int32.Parse(input);
-                if (cols < 7)
+                if (cols < 7 || cols > 40)
                 {
-                    Console.WriteLine("Must have 7 or more columns");
+                    PrintError("Must be between 7 and 40 (inclusive)");
                     continue;
                 }
                 break;
             }
             catch (FormatException)
             {
-                Console.WriteLine("Must be a number between [..]");
+                PrintError("Must be a number between 7 and 40 (inclusive)");
             }
             catch (OverflowException)
             {
-                Console.WriteLine("Must be a number between [..]");
+                PrintError("Must be a number between 7 and 40 (inclusive)");
             }
         }
 
@@ -136,18 +201,18 @@ public class IOHandler
                 rows = Int32.Parse(input);
                 if (rows < 6 || rows > cols)
                 {
-                    Console.WriteLine($"Must have between 6 and {cols} rows");
+                    PrintError($"Must have between 6 and {cols} rows");
                     continue;
                 }
                 break;
             }
             catch (FormatException)
             {
-                Console.WriteLine("Must be a number between [..]");
+                PrintError($"Must be a number between 6 and {cols}");
             }
             catch (OverflowException)
             {
-                Console.WriteLine("Must be a number between [..]");
+                PrintError($"Must be a number between 6 and {cols}");
             }
         }
 
