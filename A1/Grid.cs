@@ -290,8 +290,7 @@ public class Grid
 
     // Applies disc effects and draws grid respectively
     // Takes the last-placed disc as reference
-    // I provide defaults here in case "AddDisc" fails, in which case we don't want to render any effects.
-    public void RenderGrid(int col = 1, Disc disc = null)
+    public void RenderGrid(int col, Disc disc)
     {
         DrawGrid();
         // if disc is special
