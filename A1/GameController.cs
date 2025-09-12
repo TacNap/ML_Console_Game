@@ -115,15 +115,23 @@ public class GameController
         Dictionary<string, int> PlayerDiscs = IsPlayerTurn ? P1Discs : P2Discs; // Holds reference to relevent dictionary
         string player = IsPlayerTurn ? "Player 1 Turn" : "Player 2 Turn";
 
-        // Printing ◉
+        // Printing
         Console.WriteLine("╔═══════════════════════════════════════╗");
         Console.WriteLine($"║   Turn {Grid.TurnCounter}                        {mode}   ║");
         Console.WriteLine($"║              {player}            ║");
         Console.WriteLine("╚═══════════════════════════════════════╝");
         Console.Write($"║ Ordinary : ");
-        for (int num = 0; num < PlayerDiscs["Ordinary"]; num++)
+        for (int num = 0; num < PlayerDiscs["Ordinary"] && num < 15 ; num++)
         {
             Console.Write("◉");
+        }
+        if (PlayerDiscs["Ordinary"] > 15)
+        {
+            Console.Write($" +{PlayerDiscs["Ordinary"] - 15}         ║");
+        }
+        else
+        {
+            Console.Write("            ║");
         }
         Console.WriteLine();
 
@@ -132,13 +140,14 @@ public class GameController
         {
             Console.Write("◉");
         }
-        Console.WriteLine();
+        Console.Write("                         ║\n");
         Console.Write($"║ Explosive: ");
         for (int num = 0; num < PlayerDiscs["Explosive"]; num++)
         {
             Console.Write("◉");
         }
-        Console.WriteLine();
+        Console.Write("                         ║\n");
+        Console.WriteLine("╚═══════════════════════════════════════╝");
     }
     // Used to create a Disc, depending on which turn is active
     public Disc CreateDisc(int type, bool turn)

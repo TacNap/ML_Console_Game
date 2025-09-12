@@ -258,6 +258,7 @@ public class Grid
     public void DrawGrid()
     {
         // Print Column Numbers
+        Console.Write(" ");
         for (int col = 1; col <= GRID_WIDTH; col++)
         {
             Console.Write($"  {col} ");
@@ -265,12 +266,13 @@ public class Grid
         Console.WriteLine();
 
         // Print grid barriers and disc amounts
-        for (int y = 0; y < GRID_HEIGHT; y++)
+        for (int row = 0; row < GRID_HEIGHT; row++)
         {
-            for (int x = 0; x < GRID_WIDTH; x++)
+            Console.Write($"{GRID_HEIGHT - row}");
+            for (int col = 0; col < GRID_WIDTH; col++)
             {
                 // If there's no disc here, print whitespace
-                string symbol = Board[y, x] == null ? " " : Board[y, x].Symbol;
+                string symbol = Board[row, col] == null ? " " : Board[row, col].Symbol;
                 Console.Write($"| {symbol} ");
             }
             Console.WriteLine("|");
