@@ -261,14 +261,14 @@ public class Grid
         Console.Write(" ");
         for (int col = 1; col <= GRID_WIDTH; col++)
         {
-            Console.Write($"  {col} ");
+            Console.Write($"{col, 4}");
         }
         Console.WriteLine();
 
         // Print grid barriers and disc amounts
         for (int row = 0; row < GRID_HEIGHT; row++)
         {
-            Console.Write($"{GRID_HEIGHT - row}");
+            Console.Write($"{GRID_HEIGHT - row, 2}");
             for (int col = 0; col < GRID_WIDTH; col++)
             {
                 // If there's no disc here, print whitespace
