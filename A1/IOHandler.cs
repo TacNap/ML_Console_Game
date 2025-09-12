@@ -88,17 +88,21 @@ public class IOHandler
         Console.WriteLine("guess!");
         PrintHeading("Press Enter to return...\n");
         Console.Write("> ");
-        Console.Read();
+        Console.ReadLine();
+        Console.Clear();
 
     }
 
     // Prints help information to the terminal - relevant to core game loop
-    public void PrintGameHelp()
+    public void PrintGameHelp(int WinLength)
     {
         Console.Clear();
         PrintHeading("╔═══════════════════════════════════════╗\n");
         PrintHeading("║                Help                   ║\n");
         PrintHeading("╚═══════════════════════════════════════╝\n");
+        Console.Write("In order to win, you'll need to align ");
+        PrintHeading($"{WinLength}");
+        Console.Write(" discs in a row vertically, horizontally or diagonally.\n");
         Console.WriteLine("To place a disc, enter the disc type followed by the column number, for example:");
         PrintHeading("o1 ");
         Console.WriteLine("will place an Ordinary disc in the first column");
@@ -139,16 +143,26 @@ public class IOHandler
         PrintHeading("╚═══════════════════════════════════════╝\n");
         PrintHeading("Press Enter to exit...\n");
         Console.Write("> ");
-        Console.Read();
+        Console.ReadLine();
+        Console.Clear();
     }
 
     public (int width, int height) GetInputGridSize()
     {
         string input;
         int rows, cols;
+        PrintHeading("╔═══════════════════════════════════════╗\n");
+        PrintHeading("║                 Grid                  ║\n");
+        PrintHeading("╚═══════════════════════════════════════╝\n");
         Console.WriteLine("You are now changing the size of the grid.");
-        Console.WriteLine("The grid may not be smaller than 6 rows by 7 columns,");
-        Console.WriteLine("and may not have more rows than columns");
+        Console.WriteLine("A grid may be square, but cannot have more rows than columns.");
+        Console.Write("The smallest grid is ");
+        PrintHeading("6x7");
+        Console.Write(" Rows x Columns.\n");
+        Console.Write("The largest grid is ");
+        PrintHeading("40x40");
+        Console.Write(" Rows x Columns.\n\n");
+
 
         // Determine the number of columns
         while (true)
@@ -159,20 +173,20 @@ public class IOHandler
             try
             {
                 cols = Int32.Parse(input);
-                if (cols < 7)
+                if (cols < 7 || cols > 40)
                 {
-                    Console.WriteLine("Must have 7 or more columns");
+                    PrintError("Must be between 7 and 40 (inclusive)");
                     continue;
                 }
                 break;
             }
             catch (FormatException)
             {
-                Console.WriteLine("Must be a number between [..]");
+                PrintError("Must be a number between 7 and 40 (inclusive)");
             }
             catch (OverflowException)
             {
-                Console.WriteLine("Must be a number between [..]");
+                PrintError("Must be a number between 7 and 40 (inclusive)");
             }
         }
 
@@ -187,18 +201,18 @@ public class IOHandler
                 rows = Int32.Parse(input);
                 if (rows < 6 || rows > cols)
                 {
-                    Console.WriteLine($"Must have between 6 and {cols} rows");
+                    PrintError($"Must have between 6 and {cols} rows");
                     continue;
                 }
                 break;
             }
             catch (FormatException)
             {
-                Console.WriteLine("Must be a number between [..]");
+                PrintError($"Must be a number between 6 and {cols}");
             }
             catch (OverflowException)
             {
-                Console.WriteLine("Must be a number between [..]");
+                PrintError($"Must be a number between 6 and {cols}");
             }
         }
 

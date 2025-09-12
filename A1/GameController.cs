@@ -97,13 +97,13 @@ public class GameController
         }
         else if (input == "/help") // Print game information
         {
-            IOHandler.PrintGameHelp();
+            IOHandler.PrintGameHelp(Grid.WinLength);
             Grid.DrawGrid();
         }
         else if (input == "/quit") // Return to menu
         {
             Console.Clear();
-            IOHandler.PrintGreen("Successfully quit game");
+            IOHandler.PrintGreen("Quit Game!");
             IsGameActive = false;
             return;
         }
@@ -121,7 +121,7 @@ public class GameController
         Dictionary<string, int> PlayerDiscs = IsPlayerTurn ? P1Discs : P2Discs; // Holds reference to relevent dictionary
         string player = IsPlayerTurn ? "Player 1 Turn" : "Player 2 Turn";
         // holds strings that contain ◉ characters, depending on discs remaining
-        string ordinary = new string('◉', Math.Min(PlayerDiscs["Ordinary"], 15)); // max out at 15 
+        string ordinary = new string('◉', Math.Min(PlayerDiscs["Ordinary"], 17)); // max out at 15 
         string boring = new string('◉', PlayerDiscs["Boring"]);
         string explosive = new string('◉', PlayerDiscs["Explosive"]);
 
@@ -134,14 +134,14 @@ public class GameController
 
         // Print Ordinary - only print 15, the add a "+ x" for remaining discs
         Console.Write($"║ Ordinary : ");
-        Console.Write($"{ordinary, -15}");
-        if (PlayerDiscs["Ordinary"] > 15) 
+        Console.Write($"{ordinary, -17}");
+        if (PlayerDiscs["Ordinary"] > 17) 
         {
-            Console.Write($" +{PlayerDiscs["Ordinary"] - 15,2}        ║");
+            Console.Write($" +{PlayerDiscs["Ordinary"] - 17,3}     ║");
         }
         else
         {
-            Console.Write($"            ║");
+            Console.Write($"          ║");
         }
         Console.WriteLine();
 
@@ -343,7 +343,8 @@ public class GameController
             Console.WriteLine("Please input the number of the file you'd like to load:");
             for (int i = 0; i < saveFiles.Length; i++)
             {
-                Console.WriteLine($"{i + 1}. {Path.GetFileName(saveFiles[i])}");
+                IOHandler.PrintHeading($"{i + 1}. ");
+                Console.WriteLine($"{Path.GetFileName(saveFiles[i])}");
             }
             string input = Console.ReadLine();
             try
@@ -468,6 +469,7 @@ public class GameController
         P2Discs["Boring"] = 2;
         P1Discs["Explosive"] = 2;
         P2Discs["Explosive"] = 2;
+        Console.Clear();
     }
 
 
@@ -576,9 +578,10 @@ public class GameController
                 }
                 else // If AI finds a Winning Move 
                 {
+                    Console.Clear();
+                    Grid.DrawGrid();
                     Grid.CheckWinCondition(ref IsPlayerOneWin);
                     IsGameActive = false;
-                    Grid.DrawGrid();
                     IOHandler.PrintWinner(IsPlayerOneWin);
                     break;
                 }
