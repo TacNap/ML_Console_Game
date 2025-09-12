@@ -123,7 +123,7 @@ public class GameController
         // I apologise to whoever has to read this:
         Console.WriteLine("╔═══════════════════════════════════════╗");
         Console.WriteLine($"║   Turn{Grid.TurnCounter, 3}                      {mode}    ║");
-        Console.WriteLine($"║              {player}            ║");
+        Console.WriteLine($"║             {player, 13}             ║");
         Console.WriteLine("╚═══════════════════════════════════════╝");
 
         // Print Ordinary - only print 15, the add a "+ x" for remaining discs

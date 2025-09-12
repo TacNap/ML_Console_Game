@@ -208,7 +208,7 @@ public class Grid
             }
         }
 
-
+        int killCount = 0;
         // Iterate a 3x3 radius and remove discs from the board
         for (int rrow = -1; rrow < 2; rrow++)
         {
@@ -223,7 +223,12 @@ public class Grid
                     continue; // Out of bounds
                 }
 
-                Board[depth + rrow, col + rcol] = null;
+                if (Board[depth + rrow, col + rcol] != null)
+                {
+                    Board[depth + rrow, col + rcol] = null;
+                    killCount++;
+                }
+
             }
         }
 
@@ -234,6 +239,9 @@ public class Grid
                 ApplyGravity(col + rcol);
             }
         }
+
+        IOHandler.PrintHeading($"Explosive disc destroyed {killCount-1} disc/s!\n");
+        
     }
 
     // Boring Disc Behaviour Logic
@@ -255,8 +263,9 @@ public class Grid
     }
 
     // Simply draws the grid in its current state
-    public void DrawGrid()
+    public void DrawGrid(bool banner = true)
     {
+        if(banner)IOHandler.PrintBanner();
         // Print Column Numbers
         Console.Write(" ");
         for (int col = 1; col <= GRID_WIDTH; col++)
@@ -291,12 +300,12 @@ public class Grid
         if (disc is BoringDisc b)
         {
             ApplyEffects(col, b);
-            DrawGrid();
+            DrawGrid(false);
         }
         else if (disc is ExplosiveDisc e)
         {
             ApplyEffects(col, e);
-            DrawGrid();
+            DrawGrid(false);
         }
 
     }

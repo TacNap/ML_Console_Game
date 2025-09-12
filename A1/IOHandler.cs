@@ -37,13 +37,19 @@ public class IOHandler
         Console.WriteLine();
     }
 
+    public void PrintBanner()
+    {
+        PrintHeading("╔═══════════════════════════════════════╗\n");
+        PrintHeading("║               LineUp                  ║\n");
+        PrintHeading("╚═══════════════════════════════════════╝\n");
+    }
     // List commands available from the main menu
     // This could be re-factored to use a dictionary, so each command has a matching desc?
     public void PrintMenuCommands()
     {
-        PrintHeading("┌───────────────────────────┐\n");
-        PrintHeading("|     Welcome to LineUp     |\n");
-        PrintHeading("└───────────────────────────┘\n");
+        PrintHeading("╔═══════════════════════════════════════╗\n");
+        PrintHeading("║           Welcome to LineUp           ║\n");
+        PrintHeading("╚═══════════════════════════════════════╝\n");
         PrintHeading("Please enter one of the following commands:\n");
         PrintHeading("/new\n");
         PrintHeading("/load\n");
@@ -83,10 +89,10 @@ public class IOHandler
     public void PrintWinner(bool IsPlayerOne)
     {
         string winner = IsPlayerOne ? "Player One" : "Player Two";
-        PrintHeading("┌───────────────────────────┐\n");
-        PrintHeading($"|      {winner} Wins !    |\n");
-        PrintHeading("└───────────────────────────┘\n");
-        PrintHeading("Press any key to exit...\n");
+        PrintHeading("╔═══════════════════════════════════════╗\n");
+        PrintHeading($"║           {winner} Wins !           ║\n");
+        PrintHeading("╚═══════════════════════════════════════╝\n");
+        PrintHeading("Press Enter to exit...\n");
         Console.Write("> ");
         Console.Read();
     }
