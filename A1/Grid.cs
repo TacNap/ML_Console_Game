@@ -4,18 +4,16 @@ using System;
 public class Grid
 {
     // Fields
-    public int GRID_WIDTH { get; private set; }
-    public int GRID_HEIGHT { get; private set; }
+    public int GRID_HEIGHT { get; private set; } // Number of rows
+    public int GRID_WIDTH { get; private set; } // Number of columns
     
-    public Disc[,] Board { get; private set; }
+    public Disc[,] Board { get; private set; } // Holds all Disc objects 
 
-    public int WinLength { get; private set; }
+    public int WinLength { get; private set; } // Number of discs required to align to win
 
-    public int TurnCounter { get; private set; }
+    public int TurnCounter { get; private set; } // Cumulative number of turns for this game
 
-    private IOHandler IOHandler;
-
-
+    private IOHandler IOHandler; // Handles input & output
 
     // Constructor
     public Grid()
@@ -30,8 +28,11 @@ public class Grid
 
     // Methods
 
-    // Add Disc to a chosen column.
-    // Successful if top row of chosen column is empty
+    /// <summary>
+    /// Used to change the grid size from default
+    /// </summary>
+    /// <param name="height">rows</param>
+    /// <param name="width">columns</param>
     public void SetGridSize(int height, int width)
     {
         GRID_HEIGHT = height;
@@ -39,6 +40,9 @@ public class Grid
         WinLength = (int)Math.Floor(GRID_HEIGHT * GRID_WIDTH * 0.1);
     }
 
+    /// <summary>
+    /// Set turnCounter to a specified positive number
+    /// </summary>
     public void SetTurnCounter(int num)
     {
         if (num < 0)
@@ -49,20 +53,31 @@ public class Grid
         TurnCounter = num;
     }
 
+    /// <summary>
+    /// Increment TurnCounter by 1 
+    /// </summary>
     public void IncrementTurnCounter()
     {
         TurnCounter++;
     }
 
+    /// <summary>
+    /// Attempts to add a given disc to a specified column.
+    /// This method will iterate through the column to find the lowest disc,
+    /// If empty, it will place it on the first (bottom) row
+    /// </summary>
+    /// <param name="col">Column number</param>
+    /// <param name="disc">Disc object to reference</param>
+    /// <returns>true if column is not full</returns>
     public bool AddDisc(int col, Disc disc)
     {
-        if (Board[0, col] != null) // if collumn is full
+        // Check if column is full
+        if (Board[0, col] != null)
         {
             return false;
         }
 
-        // This loops through each row in the column to find a disc
-        // Then creates a new disc above it
+        // Find the lowest disc in the column 
         for (int i = 0; i < GRID_HEIGHT; i++)
         {
             if (Board[i, col] == null)
@@ -71,7 +86,7 @@ public class Grid
             }
             else
             {
-                Board[i - 1, col] = disc; // place a disc above the lowest disc
+                Board[i - 1, col] = disc; // place the new disc above the lowest disc
                 return true;
             }
         }
@@ -81,16 +96,27 @@ public class Grid
         return true;
     }
 
-    public bool AIFindWinningMove(Dictionary<string,int> P2Discs, ref bool PlayerOneWin, ref bool PlayerTwoWin)
-    {   
-        Disc disc = new OrdinaryDisc(false);
-        int winningColumn = -1;
-        bool IsWinFound = false;
+    /// <summary>
+    /// Tries to find a winning move with the current gamestate and remaining discs for P2.
+    /// This method works by creating a Clone of the existing Disc[,] Board array,
+    /// for every disc type, and every column, it will place a disc and see if it produces a win for P2
+    /// </summary>
+    /// <param name="P2Discs">Required to check what discs are available to play</param>
+    /// <param name="PlayerOneWin">required to call CheckWinCondition</param>
+    /// <param name="PlayerTwoWin">required to call CheckWinCondition</param>
+    /// <returns>true if a winning move is found</returns>
+    public bool AIFindWinningMove(Dictionary<string, int> P2Discs, ref bool PlayerTwoWin)
+    {
+        Disc disc = new OrdinaryDisc(false); // Disc to test with. Declared here so it can be used at the end of the method
+        int winningColumn = -1;              // column number of the winning move, if found
+        bool IsWinFound = false;             // true if winning move is found 
+        bool PlayerOneWin = false;           // We use a 'fake' P1win flag here to make sure we don't return a winning move for P1 by mistake
+
         // Establish a 'checkpoint' of the current grid.
         // We'll revert back to this during the function call. 
         Disc[,] Checkpoint = (Disc[,])Board.Clone();
 
-        // For each disc type
+        // Cycle through each disc type, and test accordingly
         foreach (var discEntry in P2Discs)
         {
             // Skip checking if AI doesn't have any of these discs remaining
@@ -112,6 +138,7 @@ public class Grid
                 disc = new ExplosiveDisc(false);
             }
 
+            // 'Simulating' starts here
             // For each column
             for (int col = 0; col < GRID_WIDTH; col++)
             {
@@ -128,8 +155,7 @@ public class Grid
                         ApplyEffects(col, e);
                     }
                     // If this produces a winning move, set flag and break
-                    // At the moment, this would be true even if P1 wins. 
-                    if (CheckWinCondition(ref PlayerOneWin, ref PlayerTwoWin)) // I'll need to make a separate win check that doesn't print.
+                    if (CheckWinCondition(ref PlayerOneWin, ref PlayerTwoWin) && PlayerTwoWin)
                     {
                         IsWinFound = true;
                         winningColumn = col;

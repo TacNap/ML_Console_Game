@@ -661,7 +661,7 @@ public class GameController
             {
                 // AI Logic 
                 // Check if there's a winning move, otherwise place a random disc
-                if (!Grid.AIFindWinningMove(P2Discs, ref PlayerOneWin, ref PlayerTwoWin))
+                if (!Grid.AIFindWinningMove(P2Discs, ref PlayerTwoWin))
                 {
                     AIMakeMove();
                 }

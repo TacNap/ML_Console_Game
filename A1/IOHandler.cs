@@ -3,23 +3,21 @@
 /// </summary>
 public class IOHandler
 {
-    // Fields
-    //public string[] Commands { get; }
-
-
-
-    // Constructor
-    public IOHandler()
-    {
-    }
     // Methods
 
+    /// <summary>
+    /// Prints text in a different colour
+    /// </summary>
     public void PrintHeading(string text)
     {
         Console.ForegroundColor = ConsoleColor.Green;
         Console.Write(text);
         Console.ResetColor();
     }
+
+    /// <summary>
+    /// Prints text in a different colour
+    /// </summary>
     public void PrintError(string text)
     {
         Console.BackgroundColor = ConsoleColor.Red;
@@ -29,6 +27,9 @@ public class IOHandler
         Console.WriteLine();
     }
 
+    /// <summary>
+    /// Prints text in a different colour
+    /// </summary>
     public void PrintGreen(string text)
     {
         Console.BackgroundColor = ConsoleColor.Green;
@@ -38,6 +39,9 @@ public class IOHandler
         Console.WriteLine();
     }
 
+    /// <summary>
+    /// Prints banner during gameplay
+    /// </summary>
     public void PrintBanner()
     {
         PrintHeading("╔═══════════════════════════════════════╗\n");
@@ -45,14 +49,19 @@ public class IOHandler
         PrintHeading("╚═══════════════════════════════════════╝\n");
     }
 
+    /// <summary>
+    /// Prints banner when loading 
+    /// </summary>
     public void PrintLoadBanner()
     {
         PrintHeading("╔═══════════════════════════════════════╗\n");
         PrintHeading("║              Loading                  ║\n");
         PrintHeading("╚═══════════════════════════════════════╝\n");
     }
-    // List commands available from the main menu
-    // This could be re-factored to use a dictionary, so each command has a matching desc?
+
+    /// <summary>
+    /// Lists the commands available from the main menu
+    /// </summary>
     public void PrintMenuCommands()
     {
 
@@ -68,7 +77,9 @@ public class IOHandler
         PrintHeading("  /quit\n");
     }
 
-    // Prints help information to the terminal - relevant to menu commands
+    /// <summary>
+    /// Prints help section when /help is called from main menu
+    /// </summary>
     public void PrintMenuHelp()
     {
         PrintHeading("╔═══════════════════════════════════════╗\n");
@@ -94,7 +105,10 @@ public class IOHandler
 
     }
 
-    // Prints help information to the terminal - relevant to core game loop
+    /// <summary>
+    ///  Prints help menu when /help is called during gameplay
+    /// </summary>
+    /// <param name="WinLength">The number of discs that are required to be aligned to get a win</param>
     public void PrintGameHelp(int WinLength)
     {
         Console.Clear();
@@ -122,6 +136,9 @@ public class IOHandler
         Console.Clear();
     }
 
+    /// <summary>
+    /// Prints instructions during Testing mode 
+    /// </summary>
     public void PrintTestingMode()
     {
         Console.Clear();
@@ -136,7 +153,13 @@ public class IOHandler
 
     }
 
-    public void PrintWinner(bool PlayerOneWin, bool PlayerTwoWin) // take two parameters
+    /// <summary>
+    /// Prints the winner of the game.
+    /// If both players are winners, prints 'tie'
+    /// </summary>
+    /// <param name="PlayerOneWin">Does player 1 have a winning sequence?</param>
+    /// <param name="PlayerTwoWin">Does player 2 have a winning sequence?</param>
+    public void PrintWinner(bool PlayerOneWin, bool PlayerTwoWin)
     {
         string winner;
         if (PlayerOneWin && PlayerTwoWin)
@@ -152,7 +175,7 @@ public class IOHandler
             winner = "Player Two Wins !";
         }
         PrintHeading("╔═══════════════════════════════════════╗\n");
-        PrintHeading($"║           {winner, 17}           ║\n");
+        PrintHeading($"║           {winner,17}           ║\n");
         PrintHeading("╚═══════════════════════════════════════╝\n");
         PrintHeading("Press Enter to exit...\n");
         Console.Write("> ");
@@ -160,6 +183,11 @@ public class IOHandler
         Console.Clear();
     }
 
+    /// <summary>
+    /// Get input from the player when using /grid from main menu
+    /// and validate it
+    /// </summary>
+    /// <returns>a tuple containing the new grid width and height</returns>
     public (int width, int height) GetInputGridSize()
     {
         string input;
@@ -177,7 +205,7 @@ public class IOHandler
         Console.Write(" Rows x Columns.\n\n");
 
 
-        // Determine the number of columns
+        // Determine the number of columns - we do this first in order to set an upper boundary for the rows
         while (true)
         {
             Console.WriteLine("Enter the number of columns [7+]:");
@@ -231,6 +259,11 @@ public class IOHandler
 
         return (rows, cols);
     }
+
+    /// <summary>
+    /// Get basic input from the main menu
+    /// </summary>
+    /// <returns>raw string</returns>
     public string GetInputMenu()
     {
         Console.Write("> ");
@@ -238,7 +271,10 @@ public class IOHandler
         return input.ToLower();
     }
 
-    // Used to determine if player will verse another player, or AI
+    /// <summary>
+    /// Used to get input regarding gamemode (HvC or HvH)
+    /// Validates the string
+    /// </summary>
     public string GetPlayerCount()
     {
         string input;
@@ -272,8 +308,4 @@ public class IOHandler
         Console.Write("> ");
         return Console.ReadLine().ToLower().Trim();
     }
-
-    
-
-
 }
