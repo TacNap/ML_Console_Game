@@ -485,6 +485,8 @@ public class GameController
             Console.Clear();
             if (!TryParseMove(move.Trim().ToLower())) // If a move fails, stop here
             {
+                Grid.DrawGrid();
+                PrintPlayerData();
                 break;
             }
                 PrintPlayerData();

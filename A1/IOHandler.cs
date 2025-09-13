@@ -4,7 +4,8 @@
 public class IOHandler
 {
     // Fields
-    public string[] Commands { get; }
+    //public string[] Commands { get; }
+
 
 
     // Constructor
