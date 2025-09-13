@@ -1,23 +1,23 @@
-using System.ComponentModel.Design;
+
 
 public class GameController
 {
     // Fields
     private bool IsGameActive { get; set; } // true if game is currently in progress
-    private bool IsAgainstAI { get; set; } // true if game will be between player and AI
-
+    private bool IsAgainstAI { get; set; } // true when game mode is HvC
     private bool IsPlayerTurn { get; set; } = true; // used to alternate player turns
+    public bool PlayerOneWin = false; // true if CheckWinCondition finds a win for P1
+    public bool PlayerTwoWin = false; // true if CheckWinCondition finds a win for P2
 
-    public bool PlayerOneWin = false;
-    public bool PlayerTwoWin = false;
-
-   Dictionary<string, int> P1Discs = new Dictionary<string, int>
+    // Discs remaining for P1
+    Dictionary<string, int> P1Discs = new Dictionary<string, int>
     {
         ["Ordinary"] = 17,
         ["Boring"] = 2,
         ["Explosive"] = 2
     };
 
+    // Discs remaining for P2
    Dictionary<string, int> P2Discs = new Dictionary<string, int>
     {
         ["Ordinary"] = 17,
@@ -25,12 +25,11 @@ public class GameController
         ["Explosive"] = 2
     };
 
-
     private static readonly string[] DiscTypes = { "o", "b", "e" }; // defines which characters can be used in the terminal
 
-    private Grid Grid { get; set; } // Holds game pieces
+    private Grid Grid { get; set; } // Holds game discs
 
-    private IOHandler IOHandler { get; set; } // Handles input
+    private IOHandler IOHandler { get; set; } // Handles some input and printing to console
 
     private FileController FileController { get; set; } // Handles file operations
 
@@ -44,13 +43,14 @@ public class GameController
 
     // Methods
 
-    // Handles the input provided from the menu
-
+    /// <summary>
+    /// Handles the user input from the main menu
+    /// </summary>
     public void ParseMenuInput(string input)
     {
         if (input == "/new") // Start new game
         {
-            // Determine number of players
+            // Game Mode (HvC or HvH)
             input = IOHandler.GetPlayerCount();
             IsAgainstAI = input == "y" ? true : false;
             IsGameActive = true;
@@ -71,7 +71,7 @@ public class GameController
             Console.Clear();
             ChangeGridSize();
         }
-        else if (input == "/testing")
+        else if (input == "/testing") // Testing mode 
         {
             Testing();
         }
@@ -88,9 +88,11 @@ public class GameController
         }
     }
 
-    // Handles the input provided during a game
-    // Assumes input begins with "/"
-    // Can be similar in functionality to ParseMenuInput
+    /// <summary>
+    /// Handles the user input during the game
+    /// Assumes input starts with "/",
+    /// otherwise this method would not be called
+    /// </summary>
     private void ParseCommand(string input)
     {
         if (input == "/save") // Save to file
@@ -118,6 +120,10 @@ public class GameController
         }
     }
 
+    /// <summary>
+    /// Prints player information during the main game loop:
+    /// Game mode, turn counter, current turn, discs remaining, etc.  
+    /// </summary>
     private void PrintPlayerData()
     {
         string mode = IsAgainstAI ? "HvC" : "HvH";
@@ -131,14 +137,14 @@ public class GameController
         // Printing
         // I apologise to whoever has to read this:
         Console.WriteLine("╔═══════════════════════════════════════╗");
-        Console.WriteLine($"║   Turn{Grid.TurnCounter, 3}                      {mode}    ║");
-        Console.WriteLine($"║             {player, 13}             ║");
+        Console.WriteLine($"║   Turn{Grid.TurnCounter,3}                      {mode}    ║");
+        Console.WriteLine($"║             {player,13}             ║");
         Console.WriteLine("╚═══════════════════════════════════════╝");
 
         // Print Ordinary - only print 15, the add a "+ x" for remaining discs
         Console.Write($"║ Ordinary : ");
-        Console.Write($"{ordinary, -17}");
-        if (PlayerDiscs["Ordinary"] > 17) 
+        Console.Write($"{ordinary,-17}");
+        if (PlayerDiscs["Ordinary"] > 17)
         {
             Console.Write($" +{PlayerDiscs["Ordinary"] - 17,3}     ║");
         }
@@ -150,16 +156,22 @@ public class GameController
 
         // Print Boring
         Console.Write($"║ Boring   : ");
-        Console.Write($"{boring, -2}");
+        Console.Write($"{boring,-2}");
         Console.Write("                         ║\n");
 
         // Print Explosive
         Console.Write($"║ Explosive: ");
-        Console.Write($"{explosive, -2}");
+        Console.Write($"{explosive,-2}");
         Console.Write("                         ║\n");
         Console.WriteLine("╚═══════════════════════════════════════╝");
     }
-    // Used to create a Disc, depending on which turn is active
+
+    /// <summary>
+    /// Used to create new Disc objects during gameplay
+    /// </summary>
+    /// <param name="type">just a number to define which type of disc</param>
+    /// <param name="turn">each Disc belongs to a player, defined by the current turn</param>
+    /// <returns>a Disc object</returns>
     public Disc CreateDisc(int type, bool turn)
     {
         if (type == 1)
@@ -174,21 +186,22 @@ public class GameController
         {
             return new ExplosiveDisc(turn);
         }
-        return new OrdinaryDisc(turn); // Throw error here 
+        return new OrdinaryDisc(turn); // Default to ordinary disc to continue gameplay
     }
 
-    // Responsible for validating input,
-    // adding discs,
-    // rendering their effects,
-    // and drawing the grid
-    // so.. a bit too much at the moment 
+    /// <summary>
+    /// Handles user input from game loop, and tries to place a Disc into the board.
+    /// If this method is called, input is not a command.
+    /// This method is very bloated... 
+    /// </summary>
+    /// <returns>true if a disc was successfully placed on the board</returns>
     private bool TryParseMove(string input)
     {
 
         int col, discType;
 
         // Validate Input
-        // Must be 2 characters
+        // Must be 2 or 3 characters in length
         if (input.Length < 2 || input.Length > 3)
         {
             Console.Clear();
@@ -196,7 +209,7 @@ public class GameController
             return false;
         }
 
-        // Extract disc Type 
+        // Extract disc Type - first character
         string discStr = input[0].ToString();
         if (!DiscTypes.Contains(discStr))
         {
@@ -205,7 +218,7 @@ public class GameController
             return false;
         }
 
-        // Extract disc Column 
+        // Extract disc Column - remaining characters
         if (int.TryParse(input.Substring(1), out col))
         {
             if (col < 1 || col > Grid.GRID_WIDTH)
@@ -222,7 +235,7 @@ public class GameController
             return false;
         }
 
-        // Convert for SelectDisc parameters
+        // Convert first character to a number, so it can be passed to CreateDisc
         if (discStr == "b")
         {
             discType = 2;
@@ -240,6 +253,7 @@ public class GameController
         // Create the Disc
         Disc disc = CreateDisc(discType, IsPlayerTurn);
 
+        // Make sure the player has discs available to place
         if (!HasDiscRemaining(discType, IsPlayerTurn))
         {
             Console.Clear();
@@ -248,7 +262,7 @@ public class GameController
         }
         else
         {
-            if (!Grid.AddDisc(col, disc))
+            if (!Grid.AddDisc(col, disc)) // Attempt to place the disc 
             {
                 Console.Clear();
                 IOHandler.PrintError("Invalid Move - Column is full");
@@ -257,25 +271,28 @@ public class GameController
             else
             {
                 // Successful Placement
+                // Effects are applied and rendered here
                 Console.Clear();
                 Grid.IncrementTurnCounter();
                 Grid.RenderGrid(col, disc);
                 WithdrawDisc(discType, IsPlayerTurn);
                 return true;
             }
-            
         }
-            
-        
     }
 
+    /// <summary>
+    /// This method is called if there's no 'winning move' for the AI to play.
+    /// It will instead place a random disc in random column.
+    /// Weighted to prefer Ordinary discs. 
+    /// </summary>
     private void AIMakeMove()
     {
         Disc disc; // Disc to be placed
         int discType;
         Random rand = new Random();
 
-        // Determine Disc Type
+        // Determine random Disc 
         int roll = rand.Next(1, 11);
         if (roll < 9 && HasDiscRemaining(1, false))
         {
@@ -297,7 +314,7 @@ public class GameController
             return;
         }
 
-        // Determine Column Placement
+        // Determine random Column
         int col;
         while (true)
         {
@@ -315,18 +332,17 @@ public class GameController
         WithdrawDisc(discType, false);
 
     }
-    // Load game state from file
+
+    /// <summary>
+    /// Load game state from file. 
+    /// This method is largely responsible for input handling and output
+    /// </summary>
     private void Load()
     {
         try
         {
-            // Unable to pass properties by reference.
-            // So, i had to use a local variable here to set it during deserialization:
-            bool playerTurn = IsPlayerTurn;
-            bool isAgainstAI = IsAgainstAI;
-
-            string[] saveFiles;
-            string path;
+            string[] saveFiles; // Array of files in 'Saves' folder
+            string path; // Path of chosen file to load 
 
             // Check if there's a "Saves" folder
             try
@@ -353,15 +369,16 @@ public class GameController
                 return;
             }
 
-            // Get input 
+
+            // Print available files to console
             IOHandler.PrintLoadBanner();
-            
             Console.WriteLine("Please input the number of the file you'd like to load:");
             for (int i = 0; i < saveFiles.Length; i++)
             {
                 IOHandler.PrintHeading($"{i + 1}. ");
                 Console.WriteLine($"{Path.GetFileName(saveFiles[i])}");
             }
+            // Get input for chosen file 
             string input = Console.ReadLine();
             try
             {
@@ -382,13 +399,16 @@ public class GameController
                 return;
             }
 
-            // Get input to determine which one to load
+            // Unable to pass properties by reference.
+            // So, i had to use a local variable here to set it during deserialization:
+            bool playerTurn = IsPlayerTurn;
+            bool isAgainstAI = IsAgainstAI;
+
             // Deserialization
             ResetGame();
             Grid = FileController.GridDeserialization(path, P1Discs, P2Discs, ref playerTurn, ref isAgainstAI);
             IsPlayerTurn = playerTurn;
             IsAgainstAI = isAgainstAI;
-
             IsGameActive = true;
             Console.Clear();
             IOHandler.PrintGreen("Game Loaded!");
@@ -401,17 +421,20 @@ public class GameController
         }
     }
 
-    // Save gamestate to file
+    /// <summary>
+    /// Will always attempt to save the file to a folder 'Saves'
+    /// Name is automatic, with a time-stamp appended
+    /// </summary>
     private void Save()
     {
         try
         {
-            // Add a time stamp to the filename
+            // Generate filename
             string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
-            string folder = "Saves";
             string fileName = "Game " + timestamp + ".csv";
-            // string fileName = timestamp
-            // if !exists folder, make it 
+            string folder = "Saves";
+
+            // Check if Saves folder exists, otherwise make it
             if (!Path.Exists(folder))
             {
                 try
@@ -423,6 +446,8 @@ public class GameController
                     IOHandler.PrintError($"Error: unable to make new directory, {e.Message}");
                 }
             }
+
+            // Serialization
             FileController.GridSerialization(Path.Combine(folder, fileName), Grid, P1Discs, P2Discs, IsPlayerTurn, IsAgainstAI);
             Console.Clear();
             IOHandler.PrintGreen($"Game saved to '{Path.Combine(folder, fileName)}'");
@@ -430,14 +455,18 @@ public class GameController
         catch (Exception e)
         {
             Console.Clear();
-            IOHandler.PrintError($"Error: This file couldn't be read. {e.Message}");
+            IOHandler.PrintError($"Error: {e.Message}");
         }
     }
 
-    // Allow the user to input a sequence of moves and render the result
+    /// <summary>
+    /// Allows the user to input a sequence of moves that are played in succession.
+    /// Only the final result is returned - game cannot be played from this point.
+    /// </summary>
     private void Testing()
     {
         IOHandler.PrintTestingMode();
+
         // Get Sequence
         Console.WriteLine("\nEnter your sequence:");
         Console.Write("> ");
@@ -454,12 +483,12 @@ public class GameController
         foreach (string move in moves)
         {
             Console.Clear();
-            if (!TryParseMove(move.Trim().ToLower()))
+            if (!TryParseMove(move.Trim().ToLower())) // If a move fails, stop here
             {
                 break;
             }
                 PrintPlayerData();
-            if (Grid.CheckWinCondition(ref PlayerOneWin, ref PlayerTwoWin))
+            if (Grid.CheckWinCondition(ref PlayerOneWin, ref PlayerTwoWin)) // If there's a win, stop here
             {
                 IOHandler.PrintWinner(PlayerOneWin, PlayerTwoWin);
                 break;
@@ -467,16 +496,20 @@ public class GameController
             IsPlayerTurn = !IsPlayerTurn;
 
         }
-        //Grid.DrawGrid();
         Console.WriteLine("Press enter to continue...");
         Console.ReadLine();
         Console.Clear();
 
     }
-    // Alters the size of the playable grid
+
+    /// <summary>
+    /// Alters the size of the playable grid, and changes WinLength & Disc amounts accordingly
+    /// </summary>
     private void ChangeGridSize()
     {
+        // Get input
         (int height, int width) = IOHandler.GetInputGridSize();
+        // Change the grid
         Grid.SetGridSize(height, width);
         // Change disc amount for each player 
         P1Discs["Ordinary"] = (height * width / 2) - 4;
@@ -485,12 +518,13 @@ public class GameController
         P2Discs["Boring"] = 2;
         P1Discs["Explosive"] = 2;
         P2Discs["Explosive"] = 2;
+
         Console.Clear();
     }
 
 
     /// <summary>
-    /// Resets the game, for use before starting a second game in a single session
+    /// Resets the game, for use before starting a second game in a single session, or when loading 
     /// </summary>
     private void ResetGame()
     {
@@ -511,26 +545,33 @@ public class GameController
         P1Discs["Explosive"] = 2;
         P2Discs["Explosive"] = 2;
     }
-    // Checks the player's disc balance for the given type.
-    // Returns true if they have atleast 1 disc of that type remaining
+
+    /// <summary>
+    /// Checks if the player has discs remaining of the specified type
+    /// </summary>
+    /// <param name="discType">just a number that specifies the disc type</param>
+    /// <param name="IsPlayerTurn">used to specify which Disc Dictionary to check</param>
+    /// <returns>true if there is at least one disc remaining</returns>
     private bool HasDiscRemaining(int discType, bool IsPlayerTurn)
     {
-        if (discType == 1)
+        if (discType == 1) // Ordinary
         {
             return IsPlayerTurn ? P1Discs["Ordinary"] > 0 : P2Discs["Ordinary"] > 0;
         }
-        else if (discType == 2)
+        else if (discType == 2) // Boring
         {
             return IsPlayerTurn ? P1Discs["Boring"] > 0 : P2Discs["Boring"] > 0;
         }
-        else if (discType == 3)
+        else if (discType == 3) // Explosive
         {
             return IsPlayerTurn ? P1Discs["Explosive"] > 0 : P2Discs["Explosive"] > 0;
         }
         return false;
     }
 
-    // Reduces the players disc amount by 1
+    /// <summary>
+    /// Reduces the player's disc amount by 1.
+    /// </summary>
     private void WithdrawDisc(int discType, bool IsPlayerTurn)
     {
         if (discType == 1)
@@ -569,7 +610,10 @@ public class GameController
         }
     }
 
-    // If both players have 0 discs remaining, this will return true;
+    /// <summary>
+    /// Used to check if both players have atlest one disc remaining
+    /// </summary>
+    /// <returns>true if both players have 0 discs</returns>
     private bool IsTieGame()
     {
         if (
@@ -591,7 +635,6 @@ public class GameController
     // The main loop that runs during a game
     public void GameLoop(bool IsNewGame = true)
     {
-
         // Fresh start
         if (IsNewGame)
         {
@@ -603,21 +646,26 @@ public class GameController
         // Main loop
         while (IsGameActive)
         {
+            // Check if players have discs remaining
             if (IsTieGame())
             {
                 IsGameActive = false;
                 IOHandler.PrintWinner(PlayerOneWin, PlayerTwoWin);
                 break;
             }
-            // AI logic 
+
+            // Check if its a player turn or AI turn
             if (IsAgainstAI && !IsPlayerTurn)
             {
+                // AI Logic 
+                // Check if there's a winning move, otherwise place a random disc
                 if (!Grid.AIFindWinningMove(P2Discs, ref PlayerOneWin, ref PlayerTwoWin))
                 {
                     AIMakeMove();
                 }
-                else // If AI finds a Winning Move 
+                else
                 {
+                    // Winning move found. Play it and end game
                     Console.Clear();
                     Grid.DrawGrid();
                     Grid.CheckWinCondition(ref PlayerOneWin, ref PlayerTwoWin);
@@ -630,12 +678,12 @@ public class GameController
             }
             else
             {
-                // Printing for console for human players
+                // Printing to console for human players
                 PrintPlayerData();
             }
 
 
-            // Get Player Input and Process Move 
+            // Get Player Input and Process
             string input = IOHandler.GetPlayerInput();
             if (input.StartsWith("/")) // Process command
             {
@@ -647,6 +695,7 @@ public class GameController
                 {
                     if (Grid.CheckWinCondition(ref PlayerOneWin, ref PlayerTwoWin))
                     {
+                        // Win
                         IsGameActive = false;
                         IOHandler.PrintWinner(PlayerOneWin, PlayerTwoWin);
                     }
@@ -660,8 +709,9 @@ public class GameController
         }
     }
 
-    // Main entry point.
-    // Provides initial menu before launching into a game 
+    /// <summary>
+    /// Main entry point to the program. Brings user to Main Menu 
+    /// </summary>
     public void MenuStart()
     {
         Console.Clear(); 
@@ -669,101 +719,6 @@ public class GameController
         {
             IOHandler.PrintMenuCommands();
             ParseMenuInput(IOHandler.GetInputMenu());
-        }
-
-    }
-
-    // Only used to test parts of the program.
-    // Not intended to be examined 
-    public void GameTest()
-    {
-        // Add Disc testing
-        if (false)
-        {
-            Disc pDisc = CreateDisc(1, true);
-            Disc cDisc = CreateDisc(1, false);
-            Disc sDisc = CreateDisc(2, true);
-
-            Console.WriteLine("Initial Grid");
-            Grid.DrawGrid();
-            Console.WriteLine("Fill Column 2");
-            Grid.AddDisc(1, pDisc);
-            Grid.AddDisc(1, cDisc);
-            Grid.AddDisc(1, pDisc);
-            Grid.AddDisc(1, cDisc);
-            Grid.AddDisc(1, pDisc);
-            Grid.AddDisc(1, cDisc);
-            Grid.DrawGrid();
-
-            Console.WriteLine($"Add to full column [False] : {Grid.AddDisc(1, pDisc)}");
-            Grid.DrawGrid();
-
-            Console.WriteLine($"Add special to full column [False] : {Grid.AddDisc(1, sDisc)}");
-            Grid.DrawGrid();
-        }
-
-        // Explosive Disc Testing
-        if (false)
-        {
-            Disc oDisc = CreateDisc(1, true);
-            Disc eDisc = CreateDisc(3, true);
-
-            Console.WriteLine("Fill will Ordinary Discs");
-
-            
-            
-            Grid.AddDisc(1, oDisc);
-            Grid.AddDisc(1, oDisc);
-            Grid.AddDisc(1, oDisc);
-            Grid.AddDisc(1, oDisc);
-            Grid.AddDisc(1, oDisc);
-            Grid.AddDisc(1, oDisc);
-
-            Grid.AddDisc(2, oDisc);
-            Grid.AddDisc(2, oDisc);
-            Grid.AddDisc(2, oDisc);
-            Grid.AddDisc(2, oDisc);
-            Grid.AddDisc(2, oDisc);
-
-            
-            Grid.DrawGrid();
-
-            Console.WriteLine($"Add explosive disc to column 3 [True] : {Grid.AddDisc(0, eDisc)}");
-            Console.WriteLine("Render Effects");
-            Grid.RenderGrid(0, eDisc);
-        }
-
-        // Get Move Input Testing
-        if (false)
-        {
-        }
-
-        // Game Loop Testing
-        if (false)
-        {
-            IsGameActive = true;
-            GameLoop();
-        }
-
-        // File Operations Testing
-        if (false)
-        {
-            OrdinaryDisc disc = new OrdinaryDisc(true);
-            BoringDisc bdisc = new BoringDisc(false);
-            Grid grid = new Grid();
-            grid.AddDisc(1, disc);
-            grid.AddDisc(1, disc);
-            grid.AddDisc(1, disc);
-            grid.AddDisc(1, disc);
-            grid.AddDisc(2, bdisc);
-            grid.DrawGrid();
-
-        }
-
-        // From start test
-        if (true)
-        {
-            MenuStart();
         }
     }
 }

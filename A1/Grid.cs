@@ -83,9 +83,6 @@ public class Grid
 
     public bool AIFindWinningMove(Dictionary<string,int> P2Discs, ref bool PlayerOneWin, ref bool PlayerTwoWin)
     {   
-        // temporary bool 
-        bool IsPlayerOneWin = false;
-
         Disc disc = new OrdinaryDisc(false);
         int winningColumn = -1;
         bool IsWinFound = false;
