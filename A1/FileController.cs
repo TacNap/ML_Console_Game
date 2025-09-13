@@ -1,16 +1,19 @@
-
-// make me static bruh 
 public class FileController
 {
-    public FileController()
-    {
-
-    }
 
     // JSON Serialization doesn't support 2D Arrays
-    // It also can't natively differentiate between subclasses
+    // It also can't natively differentiate between subclasses (Disc vs OrdinaryDisc)
     // Manual implementation with StreamWriter/Reader has been used instead to circumvent this. 
 
+    /// <summary>
+    /// Save the Grid and some GameController variables to file
+    /// </summary>
+    /// <param name="path">path to save to</param>
+    /// <param name="grid">grid to save</param>
+    /// <param name="P1Discs">discs remaining for p1</param>
+    /// <param name="P2Discs">discs remaining for p2</param>
+    /// <param name="IsPlayerTurn">current player's turn</param>
+    /// <param name="IsAgainstAI">game mode</param>
     public void GridSerialization(string path, Grid grid, Dictionary<string, int> P1Discs, Dictionary<string, int> P2Discs, bool IsPlayerTurn, bool IsAgainstAI)
     {
         using (StreamWriter writer = new StreamWriter(path))
@@ -53,6 +56,7 @@ public class FileController
                         {
                             writer.Write("b");
                         }
+                        // Explosive disc can't be written, so no need to manage this case
                         // Determine which player it belongs to
                         writer.Write(grid.Board[row, col].IsPlayerOne ? "1" : "0");
                     }
@@ -62,9 +66,18 @@ public class FileController
         }
     }
 
-    public Grid GridDeserialization(string path, Dictionary<string,int> P1Discs, Dictionary<string, int> P2Discs, ref bool IsPlayerTurn, ref bool IsAgainstAI)
+    /// <summary>
+    /// Load game from file
+    /// </summary>
+    /// <param name="path">path to file</param>
+    /// <param name="P1Discs">passes dictionary as a reference</param>
+    /// <param name="P2Discs">passes dictionary as a reference</param>
+    /// <param name="IsPlayerTurn">pass reference to set turn</param>
+    /// <param name="IsAgainstAI">pass reference to set game mode</param>
+    /// <returns>a new grid object</returns>
+    public Grid GridDeserialization(string path, Dictionary<string, int> P1Discs, Dictionary<string, int> P2Discs, ref bool IsPlayerTurn, ref bool IsAgainstAI)
     {
-        Grid returnGrid = new Grid();
+        Grid returnGrid = new Grid(); // Declare new grid
         using (StreamReader reader = new StreamReader(path))
         {
             // Get Metadata
@@ -73,11 +86,11 @@ public class FileController
             {
                 rows = Int32.Parse(reader.ReadLine());
                 cols = Int32.Parse(reader.ReadLine());
-                turn = Int32.Parse(reader.ReadLine());                
+                turn = Int32.Parse(reader.ReadLine());
                 returnGrid.SetGridSize(rows, cols);
                 returnGrid.ClearGrid();
                 returnGrid.SetTurnCounter(turn);
-                
+
             }
             catch (Exception e)
             {
@@ -97,8 +110,8 @@ public class FileController
                 P2Discs["Boring"] = Int32.Parse(reader.ReadLine());
                 P2Discs["Explosive"] = Int32.Parse(reader.ReadLine());
 
-                IsPlayerTurn = reader.ReadLine() == "True" ? true : false;
-                IsAgainstAI = reader.ReadLine() == "True" ? true : false;
+                IsPlayerTurn = reader.ReadLine() == "True" ? true : false; // game turn
+                IsAgainstAI = reader.ReadLine() == "True" ? true : false;  // game mode
             }
             catch (Exception e)
             {
@@ -107,7 +120,7 @@ public class FileController
 
 
             string line;
-            // Get Discs
+            // Populate discs 
             for (int row = 0; row < returnGrid.GRID_HEIGHT; row++)
             {
                 for (int col = 0; col < returnGrid.GRID_WIDTH; col++)
@@ -134,15 +147,10 @@ public class FileController
                         {
                             throw new Exception();
                         }
-
-
                     }
 
                 }
             }
-
-
-
         }
 
         return returnGrid;

@@ -67,6 +67,7 @@ public class IOHandler
 
         PrintHeading("╔═══════════════════════════════════════╗\n");
         PrintHeading("║           Welcome to LineUp           ║\n");
+        PrintHeading("║       Written by Matthew Little       ║\n");
         PrintHeading("╚═══════════════════════════════════════╝\n");
         PrintHeading("Please enter one of the following commands:\n");
         PrintHeading("  /new\n");

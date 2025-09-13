@@ -99,11 +99,11 @@ public class Grid
     /// <summary>
     /// Tries to find a winning move with the current gamestate and remaining discs for P2.
     /// This method works by creating a Clone of the existing Disc[,] Board array,
-    /// for every disc type, and every column, it will place a disc and see if it produces a win for P2
+    /// for every disc type, and every column, it will place a disc and see if it produces a win for P2.
+    /// This includes moves that produce a TIE.
     /// </summary>
     /// <param name="P2Discs">Required to check what discs are available to play</param>
-    /// <param name="PlayerOneWin">required to call CheckWinCondition</param>
-    /// <param name="PlayerTwoWin">required to call CheckWinCondition</param>
+    /// <param name="PlayerTwoWin">This flag will be set and passed to other methods if a win is found</param>
     /// <returns>true if a winning move is found</returns>
     public bool AIFindWinningMove(Dictionary<string, int> P2Discs, ref bool PlayerTwoWin)
     {
@@ -154,7 +154,7 @@ public class Grid
                     {
                         ApplyEffects(col, e);
                     }
-                    // If this produces a winning move, set flag and break
+                    // If this produces a winning move for P2, set flag and break
                     if (CheckWinCondition(ref PlayerOneWin, ref PlayerTwoWin) && PlayerTwoWin)
                     {
                         IsWinFound = true;
@@ -163,7 +163,6 @@ public class Grid
                         break;
                     }
                 }
-
                 // Revert to checkpoint after applying effects.
                 Board = (Disc[,])Checkpoint.Clone();
             }
@@ -177,8 +176,8 @@ public class Grid
         if (IsWinFound)
         {
             Board = (Disc[,])Checkpoint.Clone(); // Ensure Board has been reverted
-            AddDisc(winningColumn, disc);
-            if (disc is BoringDisc b)
+            AddDisc(winningColumn, disc);        // Add the disc
+            if (disc is BoringDisc b)            // Apply its effects
             {
                 ApplyEffects(winningColumn, b);
             }
@@ -192,15 +191,18 @@ public class Grid
 
     }
 
-    // Applies gravity to a column.
-    // Collects all discs in the column and places into a List
-    // Then re-places the discs from bottom up.
-    // Intended for use with Explosive Discs.
+    /// <summary>
+    /// Applies gravity to a given column.
+    /// Collects all discs in the column, and places them into a list
+    /// Then re-places the discs from the bottom up.
+    /// Intended for use with Explosive Discs.
+    /// </summary>
+    /// <param name="col">Column to apply gravity to</param>
     public void ApplyGravity(int col)
     {
-        // Make a list of all discs in the column
-        List<Disc> discs = new List<Disc>();
+        List<Disc> discs = new List<Disc>(); // Will hold all the discs in the column
 
+        // Add all discs to the List 
         for (int row = GRID_HEIGHT - 1; row >= 0; row--)
         {
             if (Board[row, col] != null)
@@ -210,18 +212,23 @@ public class Grid
             }
         }
 
-        // Re-place discs, bottom up
+        // Re-place discs, from first (bottom) row
         for (int i = 0; i < discs.Count; i++)
         {
             Board[GRID_HEIGHT - 1 - i, col] = discs[i];
         }
     }
 
-
-    // Explosive Disc Behaviour Logic
+    /// <summary>
+    /// Special behaviour for Explosive Discs.
+    /// This method works by locating the provided disc, and producing a 3x3 radius around it
+    /// All discs within this radius are set to null, then 'ApplyGravity' is called on all 3 columns.
+    /// </summary>
+    /// <param name="col">column to use as 'anchor' for radius</param>
+    /// <param name="disc">disc to use as 'anchor' for radius</param>
     public void ApplyEffects(int col, ExplosiveDisc disc)
     {
-        // Find the row number of the explosive disc
+        // Find the row number of the provided explosive disc
         int depth = -1;
         for (int row = 0; row < GRID_HEIGHT; row++)
         {
@@ -232,7 +239,8 @@ public class Grid
             }
         }
 
-        int killCount = 0;
+        int killCount = 0; // Number of discs affected - not including the explosive disc itself 
+
         // Iterate a 3x3 radius and remove discs from the board
         for (int rrow = -1; rrow < 2; rrow++)
         {
@@ -252,10 +260,10 @@ public class Grid
                     Board[depth + rrow, col + rcol] = null;
                     killCount++;
                 }
-
             }
         }
 
+        // Apply gravity to affected columns
         for (int rcol = -1; rcol < 2; rcol++)
         {
             if (col + rcol >= 0 && col + rcol < GRID_WIDTH)
@@ -265,14 +273,17 @@ public class Grid
         }
 
         IOHandler.PrintHeading($"Explosive disc destroyed {killCount-1} disc/s!\n");
-        
     }
 
-    // Boring Disc Behaviour Logic
+    /// <summary>
+    /// Special behaviour for Explosive Discs.
+    /// Removes all discs in the column, then places a boring disc at the first row
+    /// </summary>
     public void ApplyEffects(int col, BoringDisc disc)
     {
-        int killCount = 0;
+        int killCount = 0; // Number of discs affected
 
+        // Remove discs from the column
         for (int row = 0; row < GRID_HEIGHT - 1; row++)
         {
             if (Board[row, col] != null)
@@ -282,11 +293,16 @@ public class Grid
             }
 
         }
+
+        // i dont know why i made a new disc here but im too scared to change it
         Board[GRID_HEIGHT - 1, col] = new BoringDisc(disc.IsPlayerOne);
         IOHandler.PrintHeading($"Boring disc destroyed {killCount} disc/s!\n");
     }
 
-    // Simply draws the grid in its current state
+    /// <summary>
+    /// Draws the grid in its current state
+    /// </summary>
+    /// <param name="banner">true if the LineUp banner should also be printed</param>
     public void DrawGrid(bool banner = true)
     {
         if(banner)IOHandler.PrintBanner();
@@ -301,7 +317,7 @@ public class Grid
         // Print grid barriers and disc amounts
         for (int row = 0; row < GRID_HEIGHT; row++)
         {
-            Console.Write($"{GRID_HEIGHT - row, 2}");
+            Console.Write($"{GRID_HEIGHT - row, 2}"); // Print row numbers
             for (int col = 0; col < GRID_WIDTH; col++)
             {
                 // If there's no disc here, print whitespace
@@ -314,6 +330,12 @@ public class Grid
 
     // Applies disc effects and draws grid respectively
     // Takes the last-placed disc as reference
+    /// <summary>
+    /// Draws the grid after disc placement.
+    /// If the disc is special, apply effects and render again.
+    /// </summary>
+    /// <param name="col">column of the most recent disc played</param>
+    /// <param name="disc">The most recent disc played</param>
     public void RenderGrid(int col, Disc disc)
     {
         DrawGrid();
@@ -330,13 +352,16 @@ public class Grid
             ApplyEffects(col, e);
             DrawGrid(false);
         }
-
     }
 
-    // Determines if either player has won in the current grid state
-    // make me a bool later.
-    // print using IOHandler if there's a win
-    // Needs to account for ties, too 
+    /// <summary>
+    /// Checks if either - or both - players have won in the current gamestate
+    /// This method works by iterating the board horizontally, vertically and diagonally.
+    /// It will count consecutive discs for a player, and reset to 0 if it encounters an empty space, or an opposing player's disc
+    /// </summary>
+    /// <param name="PlayerOneWin">set true if player one has a win sequence</param>
+    /// <param name="PlayerTwoWin">set true if player two has a win sequence</param>
+    /// <returns>true if there's a win</returns>
     public bool CheckWinCondition(ref bool PlayerOneWin, ref bool PlayerTwoWin)
     {
         int P1HorizontalCounter;
@@ -377,11 +402,10 @@ public class Grid
             }
         }
 
-        int P1VerticalCounter;
-        int P2VerticalCounter;
-
 
         // Check Vertical
+        int P1VerticalCounter;
+        int P2VerticalCounter;
         for (int col = 0; col < GRID_WIDTH; col++)
         {
             P1VerticalCounter = 0;
@@ -416,10 +440,10 @@ public class Grid
             }
         }
         
-        int P1DiagonalCounter;
-        int P2DiagonalCounter;
 
         // Check Diagonal - North-Eastern, left half
+        int P1DiagonalCounter;
+        int P2DiagonalCounter;
         for (int row = WinLength - 1; row < GRID_HEIGHT; row++)
         {
             P1DiagonalCounter = 0;
@@ -561,6 +585,9 @@ public class Grid
         return false;
     }
 
+    /// <summary>
+    /// Removes all discs from the board
+    /// </summary>
     public void ClearGrid()
     {
         Board = new Disc[GRID_HEIGHT, GRID_WIDTH];
