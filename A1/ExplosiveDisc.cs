@@ -6,8 +6,6 @@ public class ExplosiveDisc : Disc
 
     public override string P2 { get; } = "e";
 
-    public int Radius { get; } = 3;
-
     public ExplosiveDisc(bool isPlayerOne = true)
     {
         this.IsPlayerOne = isPlayerOne;
